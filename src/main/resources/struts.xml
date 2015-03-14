@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<constant name="struts.ui.theme" value="simple" />
+	<constant name="struts.objectFactory" value="spring" />
+	<constant name="struts.custom.i18n.resources" value="ApplicationResources,errors" />
+	<constant name="struts.url.includeParams" value="none" />
+	<constant name="struts.i18n.encoding" value="UTF-8" />
+	<constant name="struts.devMode" value="false" />
+	<constant name="struts.convention.default.parent.package"
+		value="default" />
+	<constant name="struts.action.extension" value="," />
+
+	<package name="default" extends="struts-default">
+		<interceptors>
+			<interceptor name="customInterceptor" class="sample.view.utils.CustomInterceptor"></interceptor>
+
+			<interceptor-stack name="defaultStack">
+				<!-- <interceptor-ref name="exception" /> -->
+				<interceptor-ref name="alias" />
+				<interceptor-ref name="servletConfig" />
+				<interceptor-ref name="i18n" />
+				<interceptor-ref name="prepare" />
+				<interceptor-ref name="chain" />
+				<interceptor-ref name="scopedModelDriven" />
+				<interceptor-ref name="modelDriven" />
+				<interceptor-ref name="fileUpload" />
+				<interceptor-ref name="checkbox" />
+				<!-- <interceptor-ref name="datetime" /> -->
+				<interceptor-ref name="multiselect" />
+				<interceptor-ref name="staticParams" />
+				<interceptor-ref name="actionMappingParams" />
+				<interceptor-ref name="params">
+					<param name="excludeParams">^action:.*,^method:.*</param>
+				</interceptor-ref>
+				<interceptor-ref name="conversionError" />
+				<interceptor-ref name="customInterceptor" />
+				<interceptor-ref name="validation">
+					<param name="includeMethods">save</param>
+				</interceptor-ref>
+				<interceptor-ref name="workflow">
+					<param name="includeMethods">save</param>
+				</interceptor-ref>
+				<interceptor-ref name="debugging" />
+				<interceptor-ref name="deprecation" />
+			</interceptor-stack>
+		</interceptors>
+
+		<global-exception-mappings>
+			<exception-mapping result="error" exception="java.lang.Exception" />
+		</global-exception-mappings>
+	</package>
+</struts>
+
