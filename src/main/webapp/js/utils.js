@@ -37,19 +37,20 @@
 		opts.url = $._url(opts.url);
 		opts.data = opts.params;
 		opts.dataType = "json";
-		opts.success = function(result) {
-			if (result.success) {
-				opts.success(result);
-			} else {
-				if (result.error) {
-					$._notify({
-						message : result.error
-					});
+
+		$.ajax(jQuery.extend({}, opts, {
+			success : function(result) {
+				if (result.success) {
+					opts.success(result);
+				} else {
+					if (result.error) {
+						$._notify({
+							message : result.error
+						});
+					}
 				}
 			}
-		};
-
-		$.ajax(opts);
+		}));
 	};
 
 	$._ajax.defaults = {
@@ -74,20 +75,21 @@
 		opts.url = $._url(opts.url);
 		opts.data = opts.params;
 		opts.dataType = "json";
-		opts.beforeSubmit = function(arr, $form, options) {
-			return $form.valid();
-		};
-		opts.success = function(result) {
-			if (result.success) {
-				opts.success(result);
-			} else {
-				$._notify({
-					message : result.error
-				});
-			}
-		};
 
-		$this.ajaxSubmit(opts);
+		$this.ajaxSubmit(jQuery.extend({}, opts, {
+			beforeSubmit : function(arr, $form, options) {
+				return $form.valid();
+			},
+			success : function(result) {
+				if (result.success) {
+					opts.success(result);
+				} else {
+					$._notify({
+						message : result.error
+					});
+				}
+			}
+		}));
 	};
 
 	$.fn._ajaxSubmit.defaults = {

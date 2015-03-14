@@ -133,8 +133,8 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 
 		Query query = getSession().createQuery(
 				Utilities.format(HQL_UPDATE, qb.getColumn(), qb.getWhere()));
-		setWhereParams(query, qb);
 		setColumnParams(query, qb);
+		setWhereParams(query, qb);
 		return query.executeUpdate();
 	}
 

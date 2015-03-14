@@ -48,10 +48,9 @@ public class QueryUtils {
 	}
 
 	public static QueryBuilder addWhereNotDeleted(QueryBuilder qb) {
-		qb.addWhere("and t.deleted = {0}", DictUtils.NO);
-		return qb;
+		return qb.addWhere("and t.deleted = {0}", DictUtils.NO);
 	}
-	
+
 	public static QueryBuilder addOrder(QueryBuilder qb, String str) {
 		return qb.addOrder(str);
 	}
