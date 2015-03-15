@@ -72,14 +72,14 @@
 			var $this = $(this);
 			var opts = jQuery.extend({}, $.fn._sidebar.defaults, options);
 
-			$._ajax({
-				url : opts.url,
-				params : opts.url,
+			$._ajax(jQuery.extend({}, opts, {
 				success : function(result) {
-					$this.hide().html(template(result.data)).fadeIn(opts.dual);
+					$this.hide().html(template({
+						data : $._tree(result.data.rows)
+					})).fadeIn(opts.dual);
 					$('#side-menu').metisMenu();
 				}
-			});
+			}));
 		};
 
 		$.fn._sidebar.defaults = {

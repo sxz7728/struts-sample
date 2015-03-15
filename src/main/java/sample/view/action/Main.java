@@ -27,7 +27,7 @@ public class Main extends BaseAction {
 		QueryBuilder qb = QueryUtils.addWhereNotDeleted(new QueryBuilder());
 		QueryUtils.addWhereWithDefault(qb, "and t.id in {0}", getUserInfo()
 				.getModuleIds(), -1);
-		QueryUtils.addOrder(qb, "sequence");
+		QueryUtils.addOrder(qb, "t.sequence");
 		sysModules = systemService.findModule(qb);
 		return INPUT;
 	}
@@ -35,11 +35,13 @@ public class Main extends BaseAction {
 	@Action("sidebar")
 	public void sidebar() {
 		QueryBuilder qb = QueryUtils.addWhereNotDeleted(new QueryBuilder());
+		QueryUtils.addColumn(qb, "t.parentId");
+		QueryUtils.addColumn(qb, "t.name");		
 		QueryUtils.addWhere(qb, "and t.sysModule.id = {0}", moduleId);
 		QueryUtils.addWhereWithDefault(qb, "and t.id in {0}", getUserInfo()
 				.getMenuIds(), -1);
-		QueryUtils.addOrder(qb, "sequence");
-		writeJson(systemService.findMenu(qb));
+		QueryUtils.addOrder(qb, "t.sequence");
+		writeJson(systemService.datagridMenu(qb));
 	}
 
 	public List<SysModule> getSysModules() {

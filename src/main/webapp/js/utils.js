@@ -64,6 +64,33 @@
 
 	};
 
+	$._tree = function(rows, options) {
+		var opts = jQuery.extend({}, $._tree.defaults, options);
+		var tree = [];
+		var map = {};
+
+		$.each(rows, function(i, e) {
+			map[e[opts.id]] = e;
+			e[opts.children] = [];
+		});
+
+		$.each(rows, function(i, e) {
+			if (e[opts.parentId] != null && map[e[opts.parentId]] != null) {
+				e[opts.children].push(map[e[opts.parentId]]);
+			} else {
+				tree.push(e);
+			}
+		});
+
+		return tree;
+	};
+
+	$._tree.defaults = {
+		id : "id",
+		parentId : "parentId",
+		children : "children"
+	};
+
 	$.fn._data = function() {
 		return {};
 	};

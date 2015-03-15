@@ -7,13 +7,16 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <s:head />
-<%@ include file="/include/sidebar.html" %>
+<%@ include file="/include/sidebar.html"%>
 
-<script
-	type="text/javascript">
+<script type="text/javascript">
 	$(function() {
-		$("#sidebar")._sidebar();
-		
+		$("#sidebar")._sidebar({
+			params : {
+				moduleId : 1
+			}
+		});
+
 		$("#logout").click(function() {
 			$._ajax({
 				url : "logout",
@@ -39,7 +42,7 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="main">web-sample</a>
+				<a class="navbar-brand" href="main">struts-sample</a>
 			</div>
 			<!-- /.navbar-header -->
 

@@ -33,23 +33,40 @@ public class QueryBuilder {
 		this.length = length;
 	}
 
-	public QueryBuilder addColumn(String str) {
+	public QueryBuilder addColumn(String str, Object... params) {
 		if (column.length() > 0) {
 			column.append(",");
 		}
 
-		column.append(str);
-		return this;
-	}
+		if (params.length == 0) {
+			column.append(str);
+		} else if (params.length == 1) {
+			columnParams.add(params[0]);
 
-	public QueryBuilder addColumn(String str, Object param) {
-		if (column.length() > 0) {
-			column.append(",");
+			if (params[0] instanceof Collection) {
+				column.append(Utilities.format(str, "(:" + PREFIX_COLUMN_PARAMS
+						+ columnParams.size() + ")"));
+			} else {
+				column.append(Utilities.format(str, ":" + PREFIX_COLUMN_PARAMS
+						+ columnParams.size()));
+			}
+		} else {
+			List<String> args = Lists.newArrayList();
+
+			for (Object param : params) {
+				columnParams.add(param);
+
+				if (params[0] instanceof Collection) {
+					args.add("(:" + PREFIX_COLUMN_PARAMS + columnParams.size()
+							+ ")");
+				} else {
+					args.add(":" + PREFIX_COLUMN_PARAMS + columnParams.size());
+				}
+			}
+
+			column.append(Utilities.format(str, args.toArray()));
 		}
 
-		columnParams.add(param);
-		column.append(Utilities.format(str, ":" + PREFIX_COLUMN_PARAMS
-				+ columnParams.size()));
 		return this;
 	}
 

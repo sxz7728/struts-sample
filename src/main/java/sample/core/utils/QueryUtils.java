@@ -8,6 +8,20 @@ import org.apache.commons.lang.StringUtils;
 import com.google.common.collect.Lists;
 
 public class QueryUtils {
+	public static QueryBuilder addColumn(QueryBuilder qb, String str,
+			Object... params) {
+		return qb.addColumn(str, params);
+	}
+
+	public static QueryBuilder addColumn(QueryBuilder qb, String name) {
+		return qb.addColumn(ColumnUtils.column(name));
+	}
+
+	public static QueryBuilder addColumn(QueryBuilder qb, String name,
+			String alias) {
+		return qb.addColumn(ColumnUtils.column(name, alias));
+	}
+
 	public static QueryBuilder addWhere(QueryBuilder qb, String str,
 			Object... params) {
 		return qb.addWhere(str, params);
