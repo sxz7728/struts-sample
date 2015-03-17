@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `sample` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `sample`;
--- MySQL dump 10.13  Distrib 5.6.17, for Win32 (x86)
+-- MySQL dump 10.13  Distrib 5.5.16, for Win32 (x86)
 --
 -- Host: 127.0.0.1    Database: sample
 -- ------------------------------------------------------
--- Server version	5.6.21
+-- Server version	5.5.25a
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -130,7 +130,7 @@ CREATE TABLE `sys_menu` (
   PRIMARY KEY (`id`),
   KEY `fk_sys_menu1_idx` (`module_id`),
   CONSTRAINT `fk_sys_menu1` FOREIGN KEY (`module_id`) REFERENCES `sys_module` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -139,7 +139,7 @@ CREATE TABLE `sys_menu` (
 
 LOCK TABLES `sys_menu` WRITE;
 /*!40000 ALTER TABLE `sys_menu` DISABLE KEYS */;
-INSERT INTO `sys_menu` VALUES (1,1,NULL,'测试1','test/helloWorld',1,NULL,'0',NULL,NULL),(2,1,NULL,'测试2',NULL,2,NULL,'0',NULL,NULL),(3,1,2,'测试3',NULL,1,NULL,'0',NULL,NULL),(4,1,2,'测试3',NULL,2,NULL,'0',NULL,NULL),(5,1,3,'测试4','test/helloWorld',1,NULL,'0',NULL,NULL);
+INSERT INTO `sys_menu` VALUES (1,1,NULL,'测试1','test/helloWorld',100,'fa fa-sitemap fa-fw','0',NULL,NULL),(2,1,NULL,'测试2',NULL,200,'fa fa-bar-chart-o fa-fw','0',NULL,NULL),(3,1,2,'测试3',NULL,100,'','0',NULL,NULL),(4,1,2,'测试3',NULL,200,NULL,'0',NULL,NULL),(5,1,3,'测试4','test/helloWorld',100,NULL,'0',NULL,NULL),(6,1,NULL,'字典维护',NULL,10,NULL,'0',NULL,NULL);
 /*!40000 ALTER TABLE `sys_menu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -305,4 +305,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-03-17 17:04:03
+-- Dump completed on 2015-03-17 22:45:41

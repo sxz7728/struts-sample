@@ -19,7 +19,7 @@
 			</li>
 			{{~ it.rows : row1}}
 				{{var url = row1.url != null ? row1.url : "javascript:void(0);";}}
-				<li><a href="{{=url}}" target="main"><i class="fa fa-fw"></i>{{=row1.name}}
+				<li><a href="{{=url}}" target="main"><i class="{{=row1.cssClass||''}}"></i> {{=row1.name}}
 				{{? row1.children.length > 0}}<span class="fa arrow"></span>{{?}}</a>
 				{{? row1.children.length > 0}}
 					<ul class="nav nav-second-level">
