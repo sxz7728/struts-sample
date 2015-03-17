@@ -102,7 +102,7 @@
 		</nav>
 
 		<div id="page-wrapper">
-			<iframe></iframe>
+			<iframe id="main" name="main"></iframe>
 		</div>
 		<!-- /#page-wrapper -->
 

@@ -64,19 +64,19 @@
 
 	};
 
-	$._tree = function(rows, options) {
+	$._tree = function(options) {
 		var opts = jQuery.extend({}, $._tree.defaults, options);
 		var tree = [];
 		var map = {};
 
-		$.each(rows, function(i, e) {
+		$.each(opts.rows, function(i, e) {
 			map[e[opts.id]] = e;
 			e[opts.children] = [];
 		});
 
-		$.each(rows, function(i, e) {
+		$.each(opts.rows, function(i, e) {
 			if (e[opts.parentId] != null && map[e[opts.parentId]] != null) {
-				e[opts.children].push(map[e[opts.parentId]]);
+				map[e[opts.parentId]][opts.children].push(e);
 			} else {
 				tree.push(e);
 			}

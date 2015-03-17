@@ -24,6 +24,9 @@ public class SysMenu extends BaseModel {
 
 	private Integer sequence;
 
+	@Column(name = "css_class")
+	private String cssClass;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "module_id")
 	@Expose(serialize = false, deserialize = false)
@@ -63,6 +66,14 @@ public class SysMenu extends BaseModel {
 
 	public void setSequence(Integer sequence) {
 		this.sequence = sequence;
+	}
+
+	public String getCssClass() {
+		return cssClass;
+	}
+
+	public void setCssClass(String cssClass) {
+		this.cssClass = cssClass;
 	}
 
 	public SysModule getSysModule() {

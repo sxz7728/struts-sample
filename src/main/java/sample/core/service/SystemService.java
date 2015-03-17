@@ -39,10 +39,10 @@ public interface SystemService {
 	public Datagrid datagridMenu(QueryBuilder qb);
 
 	public SysMenu saveMenu(Integer moduleId, Integer parentId, String name,
-			String url, Integer sequence, UserInfo userInfo);
+			String url, Integer sequence, String cssClass, UserInfo userInfo);
 
 	public SysMenu updateMenu(Integer id, Integer parentId, String name,
-			String url, Integer sequence, UserInfo userInfo);
+			String url, Integer sequence, String cssClass, UserInfo userInfo);
 
 	// Role
 	public SysRole loadRole(Integer id);

@@ -121,13 +121,14 @@ public class SystemServiceImpl implements SystemService {
 
 	@Transactional(propagation = Propagation.REQUIRED)
 	public SysMenu saveMenu(Integer moduleId, Integer parentId, String name,
-			String url, Integer sequence, UserInfo userInfo) {
+			String url, Integer sequence, String cssClass, UserInfo userInfo) {
 		SysMenu sysMenu = new SysMenu();
 		sysMenu.setSysModule(sysModuleDao.load(moduleId));
 		sysMenu.setParentId(parentId);
 		sysMenu.setName(name);
 		sysMenu.setUrl(url);
 		sysMenu.setSequence(sequence);
+		sysMenu.setCssClass(cssClass);
 		sysMenu.setDeleted(DictUtils.NO);
 		ModelUtils.setOperator(sysMenu, userInfo);
 		return sysMenuDao.save(sysMenu);
@@ -135,12 +136,13 @@ public class SystemServiceImpl implements SystemService {
 
 	@Transactional(propagation = Propagation.REQUIRED)
 	public SysMenu updateMenu(Integer id, Integer parentId, String name,
-			String url, Integer sequence, UserInfo userInfo) {
+			String url, Integer sequence, String cssClass, UserInfo userInfo) {
 		SysMenu sysMenu = sysMenuDao.load(id);
 		sysMenu.setParentId(parentId);
 		sysMenu.setName(name);
 		sysMenu.setUrl(url);
 		sysMenu.setSequence(sequence);
+		sysMenu.setCssClass(cssClass);
 		ModelUtils.setOperator(sysMenu, userInfo);
 		return sysMenuDao.update(sysMenu);
 	}
