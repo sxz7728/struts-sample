@@ -8,13 +8,18 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <s:head />
 <%@ include file="/include/sidebar.html"%>
-
+<script src="js/sb-admin-2.js" type="text/javascript"></script>
 <script type="text/javascript">
 	$(function() {
 		$("#sidebar")._sidebar({
 			params : {
 				moduleId : 1
 			}
+		});
+
+		$(window).bind("load resize", function() {
+			var frame = $("#mainFrame");
+			frame.height(frame.parent().height() - 5);
 		});
 
 		$("#logout").click(function() {
@@ -27,6 +32,7 @@
 				}
 			});
 		});
+
 	});
 </script>
 </head>
@@ -100,12 +106,10 @@
 			<!-- /.navbar-top-links -->
 			<div id="sidebar"></div>
 		</nav>
-
 		<div id="page-wrapper">
-			<iframe id="main" name="main"></iframe>
+			<iframe id="mainFrame" name="mainFrame"></iframe>
 		</div>
 		<!-- /#page-wrapper -->
-
 	</div>
 </body>
 </html>
