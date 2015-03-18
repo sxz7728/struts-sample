@@ -7,10 +7,11 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <s:head />
-<script type="text/javascript">
-	
-</script>
 </head>
-<body>hello world
+<body>
+	<div id="wrapper">
+		hello world
+	</div>
+	<!-- /#wrapper -->
 </body>
 </html>
