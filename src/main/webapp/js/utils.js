@@ -43,11 +43,9 @@
 				if (result.success) {
 					opts.success(result);
 				} else {
-					if (result.error) {
-						$._notify({
-							message : result.error
-						});
-					}
+					$._notify({
+						message : result.error
+					});
 				}
 			}
 		}));
@@ -160,4 +158,33 @@
 	};
 
 	$.fn._ajaxSelect.defaults = {};
+
+	$.fn._bootgrid = function(options) {
+		var opts = jQuery.extend({}, $.fn._bootgrid.defaults, options);
+		opts.url = $._url(opts.url);
+		$(this).bootgrid(opts);
+	};
+
+	$.fn._bootgrid.defaults = {
+		ajax : true,
+		responseHandler : function(response) {
+			if (response.success) {
+				return {
+					current : 1,
+					rowCount : 10,
+					rows : response.data.rows,
+					total : response.data.count
+				};
+			} else {
+				$._notify({
+					message : response.error
+				});
+				return {
+					rows : [],
+					total : 0
+				};
+			}
+
+		}
+	};
 })(jQuery);

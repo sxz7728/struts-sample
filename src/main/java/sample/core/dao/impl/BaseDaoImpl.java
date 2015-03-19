@@ -50,7 +50,7 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 		HQL_FIND = " from " + modelClass.getSimpleName()
 				+ " t where 1 = 1 {0} {1} ";
 
-		HQL_COUNT = " select count(*) from " + modelClass.getSimpleName()
+		HQL_COUNT = " select cast(count(*) as int) from " + modelClass.getSimpleName()
 				+ " t where 1 = 1 {0} ";
 
 		HQL_DATAGRID = " select " + ColumnUtils.column("t.id") + " {0} from "

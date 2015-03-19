@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `sample` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `sample`;
--- MySQL dump 10.13  Distrib 5.5.16, for Win32 (x86)
+-- MySQL dump 10.13  Distrib 5.6.17, for Win32 (x86)
 --
 -- Host: 127.0.0.1    Database: sample
 -- ------------------------------------------------------
--- Server version	5.5.25a
+-- Server version	5.6.21
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -64,7 +64,7 @@ CREATE TABLE `sys_dict` (
   `operator_id` int(11) DEFAULT NULL,
   `operate_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -73,6 +73,7 @@ CREATE TABLE `sys_dict` (
 
 LOCK TABLES `sys_dict` WRITE;
 /*!40000 ALTER TABLE `sys_dict` DISABLE KEYS */;
+INSERT INTO `sys_dict` VALUES (1,'test','01','测试1',NULL,10,'0',NULL,NULL);
 /*!40000 ALTER TABLE `sys_dict` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -139,7 +140,7 @@ CREATE TABLE `sys_menu` (
 
 LOCK TABLES `sys_menu` WRITE;
 /*!40000 ALTER TABLE `sys_menu` DISABLE KEYS */;
-INSERT INTO `sys_menu` VALUES (1,1,NULL,'测试1','test/helloWorld',100,'fa fa-sitemap fa-fw','0',NULL,NULL),(2,1,NULL,'测试2',NULL,200,'fa fa-bar-chart-o fa-fw','0',NULL,NULL),(3,1,2,'测试3',NULL,100,'','0',NULL,NULL),(4,1,2,'测试3',NULL,200,NULL,'0',NULL,NULL),(5,1,3,'测试4','test/helloWorld',100,NULL,'0',NULL,NULL),(6,1,NULL,'字典维护',NULL,10,NULL,'0',NULL,NULL);
+INSERT INTO `sys_menu` VALUES (1,1,NULL,'测试1','test/helloWorld',100,'fa fa-sitemap fa-fw','0',NULL,NULL),(2,1,NULL,'测试2',NULL,200,'fa fa-bar-chart-o fa-fw','0',NULL,NULL),(3,1,2,'测试3',NULL,100,'','0',NULL,NULL),(4,1,2,'测试3',NULL,200,NULL,'0',NULL,NULL),(5,1,3,'测试4','test/helloWorld',100,NULL,'0',NULL,NULL),(6,1,NULL,'字典维护','system/dictList',10,NULL,'0',NULL,NULL);
 /*!40000 ALTER TABLE `sys_menu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -305,4 +306,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-03-17 22:45:41
+-- Dump completed on 2015-03-19 19:42:56

@@ -16,19 +16,26 @@ public class DictList extends BaseAction {
 
 	private String dictType;
 
-	@Action("listDict")
+	private Integer current;
+
+	private Integer rowCount;
+
+	@Action("dictList")
 	public String execute() {
 		return INPUT;
 	}
 
-	@Action("datagridDict")
+	@Action("dictDatagrid")
 	public void datagrid() {
-		QueryBuilder qb = QueryUtils.addWhereNotDeleted(new QueryBuilder());
-		QueryUtils.addWhere(qb, "and t.dictType = {0}", dictType);
+		QueryBuilder qb = QueryUtils.addWhereNotDeleted(new QueryBuilder(
+				current - 1, rowCount));
+		QueryUtils.addColumn(qb, "t.dictKey");
+		QueryUtils.addColumn(qb, "t.dictValue");
+		// QueryUtils.addWhere(qb, "and t.dictType = {0}", dictType);
 		writeJson(systemService.datagridDict(qb));
 	}
 
-	@Action("dictionaryDict")
+	@Action("dictDictionary")
 	public void dictionary() {
 		QueryBuilder qb = QueryUtils.addWhereNotDeleted(new QueryBuilder());
 		QueryUtils.addWhere(qb, "and t.dictType = {0}", dictType);
@@ -42,4 +49,21 @@ public class DictList extends BaseAction {
 	public void setDictType(String dictType) {
 		this.dictType = dictType;
 	}
+
+	public Integer getCurrent() {
+		return current;
+	}
+
+	public void setCurrent(Integer current) {
+		this.current = current;
+	}
+
+	public Integer getRowCount() {
+		return rowCount;
+	}
+
+	public void setRowCount(Integer rowCount) {
+		this.rowCount = rowCount;
+	}
+
 }

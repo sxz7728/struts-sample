@@ -1,6 +1,6 @@
 $(function() {
 
-    $('#side-menu').metisMenu();
+    //$('#side-menu').metisMenu();
 
 });
 
@@ -23,6 +23,7 @@ $(function() {
         if (height < 1) height = 1;
         if (height > topOffset) {
             $("#page-wrapper").css("min-height", (height - 1) + "px");
+            $("#mainFrame").height(height - 6);
         }
     });
 });

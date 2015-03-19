@@ -17,11 +17,6 @@
 			}
 		});
 
-		$(window).bind("load resize", function() {
-			var frame = $("#mainFrame");
-			frame.height(frame.parent().height() - 5);
-		});
-
 		$("#logout").click(function() {
 			$._ajax({
 				url : "logout",

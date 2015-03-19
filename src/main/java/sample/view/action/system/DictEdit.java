@@ -18,7 +18,7 @@ public class DictEdit extends BaseAction {
 
 	private SysDict sysDict;
 
-	@Action("editDict")
+	@Action("dictEdit")
 	public String execute() {
 		if (Utilities.isValidId(id)) {
 			sysDict = systemService.loadDict(id);
@@ -27,7 +27,7 @@ public class DictEdit extends BaseAction {
 		return INPUT;
 	}
 
-	@Action("saveDict")
+	@Action("dictSave")
 	public void save() {
 		if (!Utilities.isValidId(id)) {
 			sysDict = systemService.saveDict(sysDict.getType(),
