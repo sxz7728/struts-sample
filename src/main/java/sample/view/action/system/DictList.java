@@ -16,9 +16,7 @@ public class DictList extends BaseAction {
 
 	private String dictType;
 
-	private Integer current;
-
-	private Integer rowCount;
+	private String parentKey;
 
 	@Action("dictList")
 	public String execute() {
@@ -28,10 +26,13 @@ public class DictList extends BaseAction {
 	@Action("dictDatagrid")
 	public void datagrid() {
 		QueryBuilder qb = QueryUtils.addWhereNotDeleted(new QueryBuilder(
-				current - 1, rowCount));
+				getStart(), getLength()));
 		QueryUtils.addColumn(qb, "t.dictKey");
 		QueryUtils.addColumn(qb, "t.dictValue");
+		QueryUtils.addColumn(qb, "t.sequence");
 		// QueryUtils.addWhere(qb, "and t.dictType = {0}", dictType);
+		QueryUtils.addOrder(qb, "t.sequence");
+		QueryUtils.addOrder(qb, "t.id");
 		writeJson(systemService.datagridDict(qb));
 	}
 
@@ -39,6 +40,9 @@ public class DictList extends BaseAction {
 	public void dictionary() {
 		QueryBuilder qb = QueryUtils.addWhereNotDeleted(new QueryBuilder());
 		QueryUtils.addWhere(qb, "and t.dictType = {0}", dictType);
+		QueryUtils.addWhereIfNotEmpty(qb, "and t.parentKey = {0}", parentKey);
+		QueryUtils.addOrder(qb, "t.sequence");
+		QueryUtils.addOrder(qb, "t.id");
 		writeJson(systemService.dictionaryDict(qb));
 	}
 
@@ -50,20 +54,12 @@ public class DictList extends BaseAction {
 		this.dictType = dictType;
 	}
 
-	public Integer getCurrent() {
-		return current;
+	public String getParentKey() {
+		return parentKey;
 	}
 
-	public void setCurrent(Integer current) {
-		this.current = current;
-	}
-
-	public Integer getRowCount() {
-		return rowCount;
-	}
-
-	public void setRowCount(Integer rowCount) {
-		this.rowCount = rowCount;
+	public void setParentKey(String parentKey) {
+		this.parentKey = parentKey;
 	}
 
 }

@@ -64,7 +64,7 @@ CREATE TABLE `sys_dict` (
   `operator_id` int(11) DEFAULT NULL,
   `operate_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -73,7 +73,7 @@ CREATE TABLE `sys_dict` (
 
 LOCK TABLES `sys_dict` WRITE;
 /*!40000 ALTER TABLE `sys_dict` DISABLE KEYS */;
-INSERT INTO `sys_dict` VALUES (1,'test','01','测试1',NULL,10,'0',NULL,NULL);
+INSERT INTO `sys_dict` VALUES (1,'99','01','测试1',NULL,10,'0',NULL,NULL),(2,'99','02','测试2',NULL,20,'0',NULL,NULL),(3,'99','03','测试2',NULL,10,'0',NULL,NULL),(4,'99','04','测试2',NULL,10,'0',NULL,NULL),(5,'99','05','测试2',NULL,10,'0',NULL,NULL),(6,'99','06','测试2',NULL,10,'0',NULL,NULL),(7,'99','07','测试2',NULL,10,'0',NULL,NULL),(8,'99','08','测试2',NULL,10,'0',NULL,NULL),(9,'99','09','测试2',NULL,10,'0',NULL,NULL),(10,'99','10','测试2',NULL,10,'0',NULL,NULL),(11,'99','11','测试2',NULL,10,'0',NULL,NULL),(12,'99','12','测试2',NULL,10,'0',NULL,NULL),(13,'99','13','测试2',NULL,10,'0',NULL,NULL),(14,'99','14','测试2',NULL,10,'0',NULL,NULL),(15,'99','15','测试2',NULL,10,'0',NULL,NULL),(16,'99','16','测试2',NULL,10,'0',NULL,NULL),(17,'99','17','测试2',NULL,10,'0',NULL,NULL),(18,'99','18','测试2',NULL,10,'0',NULL,NULL);
 /*!40000 ALTER TABLE `sys_dict` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -306,4 +306,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-03-19 19:42:56
+-- Dump completed on 2015-03-20 17:30:10

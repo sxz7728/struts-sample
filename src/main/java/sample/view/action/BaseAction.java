@@ -37,6 +37,10 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 	private static final String SESSION_USER_INFO = "user_info";
 
 	private final boolean needAuth;
+	
+	private int start;
+	
+	private int length;
 
 	private HttpServletRequest servletRequest;
 
@@ -101,6 +105,22 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 
 			userInfo.setOperateDate(new Date());
 		}
+	}
+	
+	public int getStart() {
+		return start;
+	}
+
+	public void setStart(int start) {
+		this.start = start;
+	}
+
+	public int getLength() {
+		return length;
+	}
+
+	public void setLength(int length) {
+		this.length = length;
 	}
 
 	public UserInfo getUserInfo() {

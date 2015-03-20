@@ -35,12 +35,11 @@
 								<thead>
 									<tr>
 										<th data-column-id="id" data-sortable="false"
-											data-visible="false"></th>
+											data-visible="false" data-identifier="true"></th>
 										<th data-column-id="dictKey" data-sortable="false">字典键</th>
 										<th data-column-id="dictValue" data-sortable="false">字典值</th>
 										<th data-column-id="sequence" data-sortable="false">顺序</th>
-										<th data-column-id="commands" data-formatter="commands"
-											data-sortable="false">操作</th>
+										<th data-column-id="commands" data-sortable="false">操作</th>
 									</tr>
 								</thead>
 							</table>

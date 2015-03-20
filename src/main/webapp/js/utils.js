@@ -130,8 +130,8 @@
 
 		$this.find("option[value != '']").remove();
 
-		$.each(opts.data, function(i, val) {
-			$this.append("<option value='" + val.key + "'>" + val.value
+		$.each(opts.data, function(i, e) {
+			$this.append("<option value='" + e.key + "'>" + e.value
 					+ "</option>");
 		});
 
@@ -167,11 +167,16 @@
 
 	$.fn._bootgrid.defaults = {
 		ajax : true,
+		rowCount : 15,
+		requestHandler : function(request) {
+			return jQuery.extend({}, request, {
+				start : (request.current - 1) * request.rowCount,
+				length : request.rowCount
+			});
+		},
 		responseHandler : function(response) {
 			if (response.success) {
 				return {
-					current : 1,
-					rowCount : 10,
 					rows : response.data.rows,
 					total : response.data.count
 				};
@@ -184,7 +189,6 @@
 					total : 0
 				};
 			}
-
 		}
 	};
 })(jQuery);
