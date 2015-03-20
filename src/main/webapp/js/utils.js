@@ -162,24 +162,43 @@
 	$.fn._bootgrid = function(options) {
 		var opts = jQuery.extend({}, $.fn._bootgrid.defaults, options);
 		opts.url = $._url(opts.url);
-		$(this).bootgrid(opts);
+		opts.formatters.seq = function(column, row) {
+			return ++this.options.start;
+		};
+		opts.formatters.commands = function(column, row) {
+			if (this.options.commandsTemplate) {
+				return this.options.commandsTemplate({
+					row : row
+				});
+			}
+
+			return "";
+		};
+
+		return $(this).bootgrid(opts);
 	};
 
 	$.fn._bootgrid.defaults = {
 		ajax : true,
-		rowCount : 15,
+		rowCount : [ 10, 25, 50 ],
 		requestHandler : function(request) {
-			return jQuery.extend({}, request, {
-				start : (request.current - 1) * request.rowCount,
-				length : request.rowCount
-			});
+			var current = request.current;
+			var rowCount = request.rowCount;
+			var start = (current - 1) * rowCount;
+
+			this.current = current;
+			this.start = start;
+			request.start = start;
+			request.length = rowCount;
+
+			return request;
 		},
 		responseHandler : function(response) {
 			if (response.success) {
-				return {
-					rows : response.data.rows,
-					total : response.data.count
-				};
+				var data = response.data;
+				data.current = this.current;
+				data.total = data.count;
+				return data;
 			} else {
 				$._notify({
 					message : response.error
@@ -189,6 +208,7 @@
 					total : 0
 				};
 			}
-		}
+		},
+		formatters : {}
 	};
 })(jQuery);

@@ -1,0 +1,13 @@
+<%@ page language="java" pageEncoding="UTF-8"%>
+<script id="commandsTemplate" type="text/template">
+<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="{{=it.row.id}}">
+	<span class="fa fa-pencil"></span>
+</button> 
+<button type="button" class="btn btn-xs btn-default command-delete" data-row-id="{{=it.row.id}}">
+	<span class="fa fa-trash-o"></span>
+</button>
+</script>
+
+<script type="text/javascript">
+	var commandsTemplate = doT.template($("#commandsTemplate").html());
+</script>

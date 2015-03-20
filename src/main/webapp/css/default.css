@@ -4,3 +4,12 @@ iframe {
 	overflow-y: auto;
 	overflow-x: hidden;
 }
+
+.row {
+	margin-right: 0px;
+	margin-left: 0px;
+}
+
+#page-wrapper {
+	padding: 0 0;
+}

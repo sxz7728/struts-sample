@@ -220,8 +220,8 @@
                 }
 
                 response = that.options.responseHandler(response);
-                // shen		
-                //that.current = response.current;
+
+                that.current = response.current;
                 update(response.rows, response.total);
             }).fail(function (jqXHR, textStatus, errorThrown)
             {
