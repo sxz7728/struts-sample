@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import sample.core.model.SysModule;
 import sample.core.service.SystemService;
+import sample.core.utils.DictUtils;
 import sample.core.utils.QueryBuilder;
 import sample.core.utils.QueryUtils;
 
@@ -24,7 +25,8 @@ public class Main extends BaseAction {
 
 	@Action("main")
 	public String execute() {
-		QueryBuilder qb = QueryUtils.addWhereNotDeleted(new QueryBuilder());
+		QueryBuilder qb = new QueryBuilder();
+		QueryUtils.addWhere(qb, "and t.deleted = {0}", DictUtils.NO);
 		QueryUtils.addWhereWithDefault(qb, "and t.id in {0}", getUserInfo()
 				.getModuleIds(), -1);
 		QueryUtils.addOrder(qb, "t.sequence");
@@ -34,11 +36,12 @@ public class Main extends BaseAction {
 
 	@Action("sidebar")
 	public void sidebar() {
-		QueryBuilder qb = QueryUtils.addWhereNotDeleted(new QueryBuilder());
+		QueryBuilder qb = new QueryBuilder();
 		QueryUtils.addColumn(qb, "t.parentId");
-		QueryUtils.addColumn(qb, "t.name");		
-		QueryUtils.addColumn(qb, "t.url");	
+		QueryUtils.addColumn(qb, "t.name");
+		QueryUtils.addColumn(qb, "t.url");
 		QueryUtils.addColumn(qb, "t.cssClass");
+		QueryUtils.addWhere(qb, "and t.deleted = {0}", DictUtils.NO);
 		QueryUtils.addWhere(qb, "and t.sysModule.id = {0}", moduleId);
 		QueryUtils.addWhereWithDefault(qb, "and t.id in {0}", getUserInfo()
 				.getMenuIds(), -1);

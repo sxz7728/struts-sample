@@ -4,6 +4,7 @@ import org.apache.struts2.convention.annotation.Action;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import sample.core.service.SystemService;
+import sample.core.utils.DictUtils;
 import sample.core.utils.QueryBuilder;
 import sample.core.utils.QueryUtils;
 import sample.view.action.BaseAction;
@@ -25,12 +26,15 @@ public class DictList extends BaseAction {
 
 	@Action("dictDatagrid")
 	public void datagrid() {
-		QueryBuilder qb = QueryUtils.addWhereNotDeleted(new QueryBuilder(
-				getStart(), getLength()));
+		QueryBuilder qb = new QueryBuilder(getStart(), getLength());
 		QueryUtils.addColumn(qb, "t.dictKey");
 		QueryUtils.addColumn(qb, "t.dictValue");
 		QueryUtils.addColumn(qb, "t.sequence");
+		QueryUtils.addWhere(qb, "and t.deleted = {0}", DictUtils.NO);
 		// QueryUtils.addWhere(qb, "and t.dictType = {0}", dictType);
+		QueryUtils.addWhereIfNotEmpty(qb,
+				"and (t.dictKey like {0} or t.dictValue like {0})",
+				getQueryName());
 		QueryUtils.addOrder(qb, "t.sequence");
 		QueryUtils.addOrder(qb, "t.id");
 		writeJson(systemService.datagridDict(qb));
@@ -38,7 +42,8 @@ public class DictList extends BaseAction {
 
 	@Action("dictDictionary")
 	public void dictionary() {
-		QueryBuilder qb = QueryUtils.addWhereNotDeleted(new QueryBuilder());
+		QueryBuilder qb = new QueryBuilder();
+		QueryUtils.addWhere(qb, "and t.deleted = {0}", DictUtils.NO);
 		QueryUtils.addWhere(qb, "and t.dictType = {0}", dictType);
 		QueryUtils.addWhereIfNotEmpty(qb, "and t.parentKey = {0}", parentKey);
 		QueryUtils.addOrder(qb, "t.sequence");

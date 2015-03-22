@@ -65,6 +65,14 @@
 						target : opts.target
 					})).fadeIn(opts.dual);
 					$('#side-menu').metisMenu();
+
+					$this.find("a").each(function(i, e) {
+						e.click();
+
+						if ($(e).attr("href") != "javascript:void(0);") {
+							return false;
+						}
+					});
 				}
 			}));
 

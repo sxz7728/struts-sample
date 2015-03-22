@@ -175,11 +175,13 @@
 			return "";
 		};
 
-		return $(this).bootgrid(opts);
+		$(this).bootgrid(opts);
 	};
 
 	$.fn._bootgrid.defaults = {
 		ajax : true,
+		sorting : false,
+		columnSelection : false,
 		rowCount : [ 10, 25, 50 ],
 		requestHandler : function(request) {
 			var current = request.current;
@@ -191,6 +193,9 @@
 			request.start = start;
 			request.length = rowCount;
 
+			if (request.searchPhrase != null) {
+				request.queryName = '%' + request.searchPhrase + '%';
+			}
 			return request;
 		},
 		responseHandler : function(response) {

@@ -10,6 +10,15 @@
 <%@ include file="/include/commands.html"%>
 <script type="text/javascript">
 	$(function() {
+		$("#grid-data").on("loaded.rs.jquery.bootgrid", function(e) {
+			$("#grid-data").find(".command-edit").on("click", function(e) {
+			});
+
+			$("#grid-data").find(".command-delete").on("click", function(e) {
+			});
+
+		});
+
 		$("#grid-data")._bootgrid({
 			url : "dictDatagrid",
 			commandsTemplate : commandsTemplate
@@ -33,12 +42,12 @@
 								class="table table-condensed table-hover table-striped">
 								<thead>
 									<tr>
-										<th data-column-id="seq" data-sortable="false"
-											data-formatter="seq">序号</th>
-										<th data-column-id="dictKey" data-sortable="false">字典键</th>
-										<th data-column-id="dictValue" data-sortable="false">字典值</th>
-										<th data-column-id="sequence" data-sortable="false">顺序</th>
-										<th data-column-id="commands" data-sortable="false"
+										<th data-column-id="seq" data-formatter="seq"
+											data-header-css-class="seq">序号</th>
+										<th data-column-id="dictKey">字典键</th>
+										<th data-column-id="dictValue">字典值</th>
+										<th data-column-id="sequence">顺序</th>
+										<th data-column-id="commands" data-header-css-class="commands"
 											data-formatter="commands">操作</th>
 									</tr>
 								</thead>

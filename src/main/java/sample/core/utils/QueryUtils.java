@@ -22,6 +22,11 @@ public class QueryUtils {
 		return qb.addColumn(ColumnUtils.column(name, alias));
 	}
 
+	public static QueryBuilder addSetColumn(QueryBuilder qb, String name,
+			Object param) {
+		return qb.addColumn(name + " = {0}", param);
+	}
+
 	public static QueryBuilder addWhere(QueryBuilder qb, String str,
 			Object... params) {
 		return qb.addWhere(str, params);
@@ -59,10 +64,6 @@ public class QueryUtils {
 		return qb.addWhere(str,
 				CollectionUtils.isEmpty(param) ? Lists.newArrayList(obj)
 						: param);
-	}
-
-	public static QueryBuilder addWhereNotDeleted(QueryBuilder qb) {
-		return qb.addWhere("and t.deleted = {0}", DictUtils.NO);
 	}
 
 	public static QueryBuilder addOrder(QueryBuilder qb, String str) {

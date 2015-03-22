@@ -175,7 +175,8 @@ public class SystemServiceImpl implements SystemService {
 		sysRole.setName(name);
 		sysRole.setSequence(sequence);
 
-		QueryBuilder qb = QueryUtils.addWhereNotDeleted(new QueryBuilder());
+		QueryBuilder qb = new QueryBuilder();
+		QueryUtils.addWhere(qb, "and t.deleted = {0}", DictUtils.NO);
 		QueryUtils.addWhereWithDefault(qb, "and t.id in {0}", menuIds, -1);
 		List<SysMenu> sysMenus = sysMenuDao.find(qb);
 		sysRole.setSysMenus(sysMenus);
@@ -192,7 +193,8 @@ public class SystemServiceImpl implements SystemService {
 		sysRole.setName(name);
 		sysRole.setSequence(sequence);
 
-		QueryBuilder qb = QueryUtils.addWhereNotDeleted(new QueryBuilder());
+		QueryBuilder qb = new QueryBuilder();
+		QueryUtils.addWhere(qb, "and t.deleted = {0}", DictUtils.NO);
 		QueryUtils.addWhereWithDefault(qb, "and t.id in {0}", menuIds, -1);
 		List<SysMenu> sysMenus = sysMenuDao.find(qb);
 		sysRole.setSysMenus(sysMenus);
@@ -276,6 +278,14 @@ public class SystemServiceImpl implements SystemService {
 		return sysDictDao.update(sysDict);
 	}
 
+	@Transactional(propagation = Propagation.REQUIRED)
+	public Integer deleteDict(Integer id) {
+		QueryBuilder qb = new QueryBuilder();
+		QueryUtils.addSetColumn(qb, "t.deleted", DictUtils.YES);
+		QueryUtils.addWhere(qb, "and t.id = {0}", id);
+		return sysDictDao.update(qb);
+	}
+
 	// Area
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public SysArea loadArea(Integer id) {
@@ -321,7 +331,8 @@ public class SystemServiceImpl implements SystemService {
 	// Other
 	@Transactional(propagation = Propagation.REQUIRED)
 	public UserInfo login(String username, String password) {
-		QueryBuilder qb = QueryUtils.addWhereNotDeleted(new QueryBuilder());
+		QueryBuilder qb = new QueryBuilder();
+		QueryUtils.addWhere(qb, "and t.deleted = {0}", DictUtils.NO);
 		QueryUtils.addWhere(qb, "and t.username = {0}", username);
 
 		List<SysUser> sysUsers = sysUserDao.find(qb);
@@ -338,7 +349,9 @@ public class SystemServiceImpl implements SystemService {
 				List<SysMenu> sysMenus = null;
 
 				if (userInfo.isAdmin()) {
-					qb = QueryUtils.addWhereNotDeleted(new QueryBuilder());
+					qb = new QueryBuilder();
+					QueryUtils
+							.addWhere(qb, "and t.deleted = {0}", DictUtils.NO);
 					sysMenus = sysMenuDao.find(qb);
 				} else {
 					sysMenus = Lists.newArrayList();

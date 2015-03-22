@@ -85,6 +85,8 @@ public interface SystemService {
 	public SysDict updateDict(Integer id, String dictKey, String dictValue,
 			String parentKey, Integer sequence, UserInfo userInfo);
 
+	public Integer deleteDict(Integer id);
+
 	// Area
 	public SysArea loadArea(Integer id);
 

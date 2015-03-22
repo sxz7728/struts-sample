@@ -13,3 +13,11 @@ iframe {
 #page-wrapper {
 	padding: 0 0;
 }
+
+.table .seq {
+	width: 100px
+}
+
+.table .commands {
+	width: 100px
+}

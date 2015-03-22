@@ -37,10 +37,12 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 	private static final String SESSION_USER_INFO = "user_info";
 
 	private final boolean needAuth;
-	
+
 	private int start;
-	
+
 	private int length;
+
+	private String queryName;
 
 	private HttpServletRequest servletRequest;
 
@@ -106,7 +108,7 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 			userInfo.setOperateDate(new Date());
 		}
 	}
-	
+
 	public int getStart() {
 		return start;
 	}
@@ -121,6 +123,14 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 
 	public void setLength(int length) {
 		this.length = length;
+	}
+
+	public String getQueryName() {
+		return queryName;
+	}
+
+	public void setQueryName(String queryName) {
+		this.queryName = queryName;
 	}
 
 	public UserInfo getUserInfo() {
@@ -145,7 +155,8 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 	}
 
 	public List<Map<String, ?>> findDict(String dictType) {
-		QueryBuilder qb = QueryUtils.addWhereNotDeleted(new QueryBuilder());
+		QueryBuilder qb = new QueryBuilder();
+		QueryUtils.addWhere(qb, "and t.deleted = {0}", DictUtils.NO);
 		QueryUtils.addWhere(qb, "and t.dictType = {0}", dictType);
 		return systemService.dictionaryDict(qb);
 	}
