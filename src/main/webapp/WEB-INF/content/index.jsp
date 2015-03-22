@@ -8,19 +8,17 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <s:head />
 <script type="text/javascript">
-	function login() {
-		$("form")._ajaxSubmit({
-			url : "login",
-			success : function(result) {
-				if (result.data) {
-					$._location("main");
-				}
-			}
-		});
-	}
-
 	$(function() {
-		$("#login").click(login);
+		$("#login").click(function() {
+			$("form")._ajaxSubmit({
+				url : "login",
+				success : function(result) {
+					if (result.data) {
+						$._location("main");
+					}
+				}
+			});
+		});
 	});
 </script>
 </head>

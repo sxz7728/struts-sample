@@ -1,3 +1,12 @@
+html {
+	height: 100%
+}
+
+body {
+	height: 100%;
+	background: white;
+}
+
 iframe {
 	width: 100%;
 	border: 0px;
@@ -20,4 +29,22 @@ iframe {
 
 .table .commands {
 	width: 100px
+}
+
+form input {
+	width: 100%
+}
+
+.dl-horizontal dt {
+	float: left;
+	width: 50px;
+	overflow: hidden;
+	clear: left;
+	text-align: right;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.dl-horizontal dd {
+	margin-left: 70px;
 }

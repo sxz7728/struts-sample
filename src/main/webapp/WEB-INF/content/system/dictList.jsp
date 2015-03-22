@@ -9,9 +9,35 @@
 <s:head />
 <%@ include file="/include/commands.html"%>
 <script type="text/javascript">
+	function edit(id) {
+		var title = id ? "编辑字典" : "新建字典";
+
+		$._edit({
+			title : title,
+			url : "dictEdit",
+			params : {
+				id : id
+			},
+			saveUrl : "dictSave",
+			width : 300,
+			height : 300,
+			success : function() {
+				if (id) {
+					$(this).dialog("close");
+				}
+
+				$("#grid-data").bootgrid("reload");
+			},
+			cancel : function() {
+				$("#grid-data").bootgrid("reload");
+			}
+		});
+	}
+
 	$(function() {
 		$("#grid-data").on("loaded.rs.jquery.bootgrid", function(e) {
 			$("#grid-data").find(".command-edit").on("click", function(e) {
+				edit($(this).data("id"));
 			});
 
 			$("#grid-data").find(".command-delete").on("click", function(e) {

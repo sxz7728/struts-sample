@@ -1,6 +1,42 @@
+String.prototype.format = function(args) {
+	var result = this;
+	if (arguments.length > 0) {
+		if (arguments.length == 1 && typeof (args) == "object") {
+			for ( var key in args) {
+				if (args[key] != undefined) {
+					var reg = new RegExp("({" + key + "})", "g");
+					result = result.replace(reg, args[key]);
+				}
+			}
+		} else {
+			for (var i = 0; i < arguments.length; i++) {
+				if (arguments[i] != undefined) {
+					var reg = new RegExp("({[" + i + "]})", "g");
+					result = result.replace(reg, arguments[i]);
+				}
+			}
+		}
+	}
+	return result;
+};
+
 (function($) {
-	$._url = function(url) {
-		return url.charAt(0) == '/' ? globals.APP_NAME + url : url;
+	$._url = function(url, params) {
+		if (url.charAt(0) == "/") {
+			url = globals.APP_NAME + url;
+		} else {
+			if (url.indexOf("http") != 0) {
+				var href = window.location.href;
+				url = href.substring(0, href.lastIndexOf("/") + 1) + url;
+			}
+		}
+
+		if (params != null) {
+			url += url.indexOf("?") < 0 ? "?" : "&";
+			url += $.param(params);
+		}
+
+		return url;
 	};
 
 	$._location = function(url) {
@@ -16,18 +52,10 @@
 	};
 
 	$._confirm = function(options) {
-		var opts = jQuery.extend({}, $._confirm.defaults, options);
+
 	};
 
 	$._confirm.defaults = {
-
-	};
-
-	$._openDialog = function(options) {
-		var opts = jQuery.extend({}, $._openDialog.defaults, options);
-	};
-
-	$._openDialog.defaults = {
 
 	};
 
@@ -41,8 +69,10 @@
 		$.ajax(jQuery.extend({}, opts, {
 			success : function(result) {
 				if (result.success) {
-					opts.success(result);
+					opts.success.apply(this, arguments);
 				} else {
+					opts.failed.apply(this, arguments);
+
 					$._notify({
 						message : result.error
 					});
@@ -55,6 +85,8 @@
 		type : "post",
 		params : {},
 		success : function() {
+		},
+		failed : function() {
 		}
 	};
 
@@ -89,9 +121,28 @@
 		children : "children"
 	};
 
-	$.fn._data = function() {
-		return {};
+	$._dialog = function(options) {
+		/*
+		 * var opts = jQuery.extend({}, $._dialog.defaults, options);
+		 * 
+		 * var id = "dlg" + new Date().getTime(); var $dlg = $("<div id='{0}'><iframe
+		 * style='height: 99%;' /></div>" .format(id)); var frame =
+		 * $dlg.find("iframe"); var url = $._url(opts.url, opts.params);
+		 * frame.attr("src", url);
+		 * 
+		 * $dlg.appendTo(document.body); $dlg.dialog(jQuery.extend({}, opts, {
+		 * close : function() { opts.close.apply(this, arguments);
+		 * $dlg.remove(); } }));
+		 */
+
+		var opts = jQuery.extend({}, $._dialog.defaults, options);
+		var url = $._url(opts.url, opts.params);
+		opts.message = "<iframe src='{0}' />".format(url);
+
+		bootbox.dialog(opts);
 	};
+
+	$._dialog.defaults = {};
 
 	$.fn._ajaxSubmit = function(options) {
 		var opts = jQuery.extend({}, $.fn._ajaxSubmit.defaults, options);
@@ -107,8 +158,10 @@
 			},
 			success : function(result) {
 				if (result.success) {
-					opts.success(result);
+					opts.success.apply(this, arguments);
 				} else {
+					opts.failed.apply(this, arguments);
+
 					$._notify({
 						message : result.error
 					});
@@ -121,6 +174,8 @@
 		type : "post",
 		params : {},
 		success : function() {
+		},
+		failed : function() {
 		}
 	};
 
@@ -138,13 +193,13 @@
 		$this.val(opts.value);
 
 		if ($this.find("option:selected").size() == 0) {
-			$this.find("option:first").prop('selected', 'selected');
+			$this.find("option:first").prop("selected", "selected");
 		}
 	};
 
 	$.fn._jsonSelect.defaults = {
 		data : [],
-		value : ''
+		value : ""
 	};
 
 	$.fn._ajaxSelect = function(options) {
@@ -194,7 +249,7 @@
 			request.length = rowCount;
 
 			if (request.searchPhrase != null) {
-				request.queryName = '%' + request.searchPhrase + '%';
+				request.queryName = "%" + request.searchPhrase + "%";
 			}
 			return request;
 		},

@@ -9,6 +9,11 @@
 <s:head />
 <%@ include file="/include/sidebar.html"%>
 <script src="js/sb-admin-2.js" type="text/javascript"></script>
+<style type="text/css">
+body {
+	background-color: #f8f8f8;
+}
+</style>
 <script type="text/javascript">
 	$(function() {
 		$("#sidebar")._sidebar({
@@ -39,9 +44,8 @@
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse"
 					data-target=".navbar-collapse">
-					<span class="sr-only">Toggle navigation</span> <span
-						class="icon-bar"></span> <span class="icon-bar"></span> <span
-						class="icon-bar"></span>
+					<span class="sr-only"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span>
 				</button>
 				<a class="navbar-brand" href="main">struts-sample</a>
 			</div>
