@@ -23,34 +23,32 @@
 			<div class="panel-body">
 				<s:form role="form">
 					<s:hidden name="id"></s:hidden>
-					<dl class="dl-horizontal">
+					<dl class="form-group dl-horizontal">
 						<dt>
 							<label class="control-label" for="sysDict.dictKey">字典键</label>
 						</dt>
 						<dd>
-							<s:textfield name="sysDict.dictKey" cssClass="required"
-								maxlength="10" />
+							<s:textfield name="sysDict.dictKey"
+								cssClass="form-control required" maxlength="10" />
 						</dd>
-
 					</dl>
-					<dl class="dl-horizontal">
+					<dl class="form-group dl-horizontal">
 						<dt>
 							<label class="control-label" for="sysDict.dictValue">字典值</label>
 						</dt>
 						<dd>
-							<s:textfield name="sysDict.dictValue" cssClass="required"
-								maxlength="50" />
+							<s:textfield name="sysDict.dictValue"
+								cssClass=" form-control required" maxlength="50" />
 						</dd>
 					</dl>
-					<dl class="dl-horizontal">
+					<dl class="form-group dl-horizontal">
 						<dt>
 							<label class="control-label" for="sysDict.sequence">顺序</label>
 						</dt>
 						<dd>
-							<s:textfield name="sysDict.sequence" cssClass="digits"
-								maxlength="10" />
+							<s:textfield name="sysDict.sequence"
+								cssClass="form-control digits" maxlength="10" />
 						</dd>
-
 					</dl>
 				</s:form>
 			</div>

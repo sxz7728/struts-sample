@@ -42,9 +42,8 @@
 										name="password" type="password" value="">
 								</div>
 								<div class="checkbox">
-									<label> <input name="remember" type="checkbox"
-										value="true">记住我
-									</label>
+									<label><input name="remember" type="checkbox"
+										value="true">记住我 </label>
 								</div>
 								<a id="login" href="javascript:void(0)"
 									class="btn btn-lg btn-success btn-block">登录</a>

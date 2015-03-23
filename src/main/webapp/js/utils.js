@@ -52,11 +52,21 @@ String.prototype.format = function(args) {
 	};
 
 	$._confirm = function(options) {
-
+		var opts = jQuery.extend({}, $._confirm.defaults, options);
+		top.bootbox.confirm(opts);
 	};
 
 	$._confirm.defaults = {
-
+		buttons : {
+			confirm : {
+				label : '确认',
+				className : 'btn-primary'
+			},
+			cancel : {
+				label : '取消',
+				className : 'btn-default'
+			}
+		},
 	};
 
 	$._ajax = function(options) {
@@ -122,27 +132,17 @@ String.prototype.format = function(args) {
 	};
 
 	$._dialog = function(options) {
-		/*
-		 * var opts = jQuery.extend({}, $._dialog.defaults, options);
-		 * 
-		 * var id = "dlg" + new Date().getTime(); var $dlg = $("<div id='{0}'><iframe
-		 * style='height: 99%;' /></div>" .format(id)); var frame =
-		 * $dlg.find("iframe"); var url = $._url(opts.url, opts.params);
-		 * frame.attr("src", url);
-		 * 
-		 * $dlg.appendTo(document.body); $dlg.dialog(jQuery.extend({}, opts, {
-		 * close : function() { opts.close.apply(this, arguments);
-		 * $dlg.remove(); } }));
-		 */
-
 		var opts = jQuery.extend({}, $._dialog.defaults, options);
-		var url = $._url(opts.url, opts.params);
-		opts.message = "<iframe src='{0}' />".format(url);
-
-		bootbox.dialog(opts);
+		top.bootbox.dialog(opts);
 	};
 
 	$._dialog.defaults = {};
+
+	$.fn._refresh = function() {
+		var $this = $(this);
+		var url = $this.attr("src");
+		$this.attr("src", url);
+	};
 
 	$.fn._ajaxSubmit = function(options) {
 		var opts = jQuery.extend({}, $.fn._ajaxSubmit.defaults, options);

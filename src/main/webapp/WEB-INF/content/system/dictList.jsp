@@ -10,7 +10,7 @@
 <%@ include file="/include/commands.html"%>
 <script type="text/javascript">
 	function edit(id) {
-		var title = id ? "编辑字典" : "新建字典";
+		var title = id == null ? "新建字典" : "编辑字典";
 
 		$._edit({
 			title : title,
@@ -19,16 +19,29 @@
 				id : id
 			},
 			saveUrl : "dictSave",
-			width : 300,
 			height : 300,
 			success : function() {
-				if (id) {
-					$(this).dialog("close");
+				if (id == null) {
+					$(this).find("iframe")._refresh();
+					return false;
+				} else {
+					$("#grid-data").bootgrid("reload");
+					return true;
 				}
-
-				$("#grid-data").bootgrid("reload");
 			},
 			cancel : function() {
+				$("#grid-data").bootgrid("reload");
+			}
+		});
+	}
+
+	function del(id) {
+		$._delete({
+			url : "dictDelete",
+			params : {
+				id : id
+			},
+			success : function() {
 				$("#grid-data").bootgrid("reload");
 			}
 		});
@@ -41,6 +54,7 @@
 			});
 
 			$("#grid-data").find(".command-delete").on("click", function(e) {
+				del($(this).data("id"));
 			});
 
 		});

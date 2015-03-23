@@ -42,10 +42,10 @@ public class DictEdit extends BaseAction {
 
 		writeJson(sysDict);
 	}
-	
+
 	@Action("dictDelete")
 	public void delete() {
-		
+		writeJson(systemService.deleteDict(id));
 	}
 
 	public Integer getId() {
