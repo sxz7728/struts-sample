@@ -26,14 +26,16 @@ jQuery.validator.setDefaults({
 							close = opts.success.apply($this[0], arguments);
 
 							$._notify({
-								message : "保存成功!"
+								message : "保存成功!",
+								className : "success"
 							});
 						},
 						failed : function(result) {
 							close = opts.failed.apply($this[0], arguments);
 
 							$._notify({
-								message : "保存失败!"
+								message : "保存失败!",
+								className : "error"
 							});
 						}
 					});
@@ -75,14 +77,16 @@ jQuery.validator.setDefaults({
 							opts.success.apply(this, arguments);
 
 							$._notify({
-								message : "删除成功!"
+								message : "删除成功!",
+								className : "success"
 							});
 						},
 						failed : function(result) {
 							opts.failed.apply(this, arguments);
 
 							$._notify({
-								message : "删除失败!"
+								message : "删除失败!",
+								className : "error"
 							});
 						}
 					}));
@@ -118,8 +122,8 @@ $(function() {
 		}
 	});
 
-	$(document).on('focus', ':input', function() {
-		$(this).attr('autocomplete', 'off');
+	$(document).on("focus", ":input", function() {
+		$(this).attr("autocomplete", "off");
 	});
 
 	$("form").validate();

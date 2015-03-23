@@ -22,6 +22,7 @@
 <script src="${base}/js/jquery.ui.datepicker-zh-CN.js"
 	type="text/javascript"></script>
 <script src="${base}/js/bootbox.js" type="text/javascript"></script>
+<script src="${base}/js/notify-combined.js" type="text/javascript"></script>
 
 <script src="${base}/js/doT.js"></script>
 <script src="${base}/js/localization/messages_zh.js"></script>
@@ -54,6 +55,7 @@
 <script src="${base}/js/jquery.ui.datepicker-zh-CN.min.js"
 	type="text/javascript"></script>
 <script src="${base}/js/bootbox.min.js" type="text/javascript"></script>
+<script src="${base}/js/notify-combined.min.js" type="text/javascript"></script>
 
 <script src="${base}/js/doT.min.js"></script>
 <script src="${base}/js/localization/messages_zh.js"></script>

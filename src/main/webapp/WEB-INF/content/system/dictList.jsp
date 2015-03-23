@@ -7,7 +7,7 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <s:head />
-<%@ include file="/include/commands.html"%>
+<%@ include file="/include/bootgrid.html"%>
 <script type="text/javascript">
 	function edit(id) {
 		var title = id == null ? "新建字典" : "编辑字典";
@@ -61,7 +61,10 @@
 
 		$("#grid-data")._bootgrid({
 			url : "dictDatagrid",
-			commandsTemplate : commandsTemplate
+			commandsTemplate : commandsTemplate,
+			templates : {
+				search : searchTemplate()
+			}
 		});
 	});
 </script>

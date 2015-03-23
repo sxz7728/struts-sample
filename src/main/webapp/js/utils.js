@@ -39,16 +39,18 @@ String.prototype.format = function(args) {
 		return url;
 	};
 
-	$._location = function(url) {
-		window.location.href = $._url(url);
+	$._location = function(url, params) {
+		window.location.href = $._url(url, params);
 	};
 
 	$._notify = function(options) {
 		var opts = jQuery.extend({}, $._notify.defaults, options);
+		top.$.notify(opts.message, opts);
 	};
 
 	$._notify.defaults = {
-
+		autoHideDelay : 3000,
+		className : "info",
 	};
 
 	$._confirm = function(options) {
@@ -59,12 +61,12 @@ String.prototype.format = function(args) {
 	$._confirm.defaults = {
 		buttons : {
 			confirm : {
-				label : '确认',
-				className : 'btn-primary'
+				label : "确认",
+				className : "btn-primary"
 			},
 			cancel : {
-				label : '取消',
-				className : 'btn-default'
+				label : "取消",
+				className : "btn-default"
 			}
 		},
 	};
@@ -84,7 +86,8 @@ String.prototype.format = function(args) {
 					opts.failed.apply(this, arguments);
 
 					$._notify({
-						message : result.error
+						message : result.error,
+						className : "error"
 					});
 				}
 			}
@@ -163,7 +166,8 @@ String.prototype.format = function(args) {
 					opts.failed.apply(this, arguments);
 
 					$._notify({
-						message : result.error
+						message : result.error,
+						className : "error"
 					});
 				}
 			}
@@ -261,7 +265,8 @@ String.prototype.format = function(args) {
 				return data;
 			} else {
 				$._notify({
-					message : response.error
+					message : response.error,
+					className : "error"
 				});
 				return {
 					rows : [],

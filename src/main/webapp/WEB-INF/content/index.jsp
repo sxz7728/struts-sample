@@ -35,11 +35,11 @@
 							<fieldset>
 								<div class="form-group">
 									<input class="form-control required" placeholder="用户名"
-										name="username" type="email" autofocus>
+										name="username" type="email" autofocus maxlength="50">
 								</div>
 								<div class="form-group">
 									<input class="form-control required" placeholder="密码"
-										name="password" type="password" value="">
+										name="password" type="password" value="" maxlength="50">
 								</div>
 								<div class="checkbox">
 									<label><input name="remember" type="checkbox"
