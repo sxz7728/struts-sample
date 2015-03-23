@@ -220,6 +220,7 @@ String.prototype.format = function(args) {
 
 	$.fn._bootgrid = function(options) {
 		var opts = jQuery.extend({}, $.fn._bootgrid.defaults, options);
+		var $this = $(this);
 		opts.url = $._url(opts.url);
 		opts.formatters.seq = function(column, row) {
 			return ++this.options.start;
@@ -234,7 +235,19 @@ String.prototype.format = function(args) {
 			return "";
 		};
 
-		$(this).bootgrid(opts);
+		$this.on("initialized.rs.jquery.bootgrid", function(e) {
+			var template = "<button class='btn btn-default'>{0}</button>";
+			var id = $this.attr("id");
+			var header = $("#" + id + "-header").find(".actions");
+
+			$.each(opts.buttons, function(key, value) {
+				var button = $(template.format(key));
+				button.click(value);
+				header.prepend(button);
+			});
+		});
+
+		$this.bootgrid(opts);
 	};
 
 	$.fn._bootgrid.defaults = {
@@ -242,6 +255,7 @@ String.prototype.format = function(args) {
 		sorting : false,
 		columnSelection : false,
 		rowCount : [ 10, 25, 50 ],
+		buttons : {},
 		requestHandler : function(request) {
 			var current = request.current;
 			var rowCount = request.rowCount;

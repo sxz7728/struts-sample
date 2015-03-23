@@ -49,11 +49,11 @@
 
 	$(function() {
 		$("#grid-data").on("loaded.rs.jquery.bootgrid", function(e) {
-			$("#grid-data").find(".command-edit").on("click", function(e) {
+			$(this).find(".command-edit").on("click", function(e) {
 				edit($(this).data("id"));
 			});
 
-			$("#grid-data").find(".command-delete").on("click", function(e) {
+			$(this).find(".command-delete").on("click", function(e) {
 				del($(this).data("id"));
 			});
 
@@ -62,8 +62,10 @@
 		$("#grid-data")._bootgrid({
 			url : "dictDatagrid",
 			commandsTemplate : commandsTemplate,
-			templates : {
-				search : searchTemplate()
+			buttons : {
+				"新增" : function() {
+					edit();
+				}
 			}
 		});
 	});
