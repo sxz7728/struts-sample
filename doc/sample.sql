@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `sample` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `sample`;
--- MySQL dump 10.13  Distrib 5.6.17, for Win32 (x86)
+-- MySQL dump 10.13  Distrib 5.5.16, for Win32 (x86)
 --
 -- Host: 127.0.0.1    Database: sample
 -- ------------------------------------------------------
--- Server version	5.6.21
+-- Server version	5.5.25a
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -63,8 +63,9 @@ CREATE TABLE `sys_dict` (
   `deleted` char(1) DEFAULT NULL,
   `operator_id` int(11) DEFAULT NULL,
   `operate_date` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `index2` (`type`,`dict_key`)
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -73,7 +74,7 @@ CREATE TABLE `sys_dict` (
 
 LOCK TABLES `sys_dict` WRITE;
 /*!40000 ALTER TABLE `sys_dict` DISABLE KEYS */;
-INSERT INTO `sys_dict` VALUES (1,'99','01','测试1',NULL,10,'0',NULL,NULL),(2,'99','02','测试2',NULL,20,'0',NULL,NULL),(3,'99','03','测试2',NULL,10,'0',NULL,NULL),(4,'99','04','测试2',NULL,10,'0',NULL,NULL),(5,'99','05','测试2',NULL,10,'0',NULL,NULL),(6,'99','06','测试2',NULL,10,'0',NULL,NULL),(7,'99','07','测试2',NULL,10,'0',NULL,NULL),(8,'99','08','测试2',NULL,10,'0',NULL,NULL),(9,'99','09','测试2',NULL,10,'0',NULL,NULL),(10,'99','10','测试2',NULL,10,'0',NULL,NULL),(11,'99','11','测试2',NULL,10,'0',NULL,NULL),(12,'99','12','测试2',NULL,10,'0',NULL,NULL),(13,'99','13','测试2',NULL,10,'0',NULL,NULL),(14,'99','14','测试2',NULL,10,'0',NULL,NULL),(15,'99','15','测试2',NULL,10,'0',NULL,NULL),(16,'99','16','测试2',NULL,10,'0',NULL,NULL),(17,'99','17','测试2',NULL,10,'0',NULL,NULL),(18,'99','18','测试2',NULL,10,'0',NULL,NULL);
+INSERT INTO `sys_dict` VALUES (1,'100','01','测试1',NULL,10,'0',1,'2015-03-24 21:54:45'),(2,'100','02','测试2',NULL,20,'0',NULL,NULL),(3,'100','03','测试3',NULL,10,'0',1,'2015-03-24 21:13:28'),(4,'100','04','测试2',NULL,10,'0',NULL,NULL),(5,'100','05','测试2',NULL,10,'0',NULL,NULL),(6,'100','06','测试2',NULL,10,'0',NULL,NULL),(7,'100','07','测试2',NULL,10,'0',NULL,NULL),(8,'100','08','测试2',NULL,10,'0',NULL,NULL),(9,'100','09','测试2',NULL,10,'0',NULL,NULL),(10,'100','10','测试2',NULL,10,'0',NULL,NULL),(11,'100','11','测试2',NULL,10,'0',NULL,NULL),(12,'100','12','测试2',NULL,10,'0',1,'2015-03-24 21:12:33'),(13,'100','13','测试51',NULL,10,'0',1,'2015-03-22 21:16:13'),(14,'100','14','测试2',NULL,10,'0',NULL,NULL),(15,'100','15','测试2',NULL,10,'0',NULL,NULL),(16,'100','16','测试2',NULL,10,'0',NULL,NULL),(17,'100','17','测试2',NULL,10,'0',NULL,NULL),(18,'100','18','测试2',NULL,10,'0',NULL,NULL),(19,'01','100','字典类型1',NULL,10,'0',NULL,NULL),(20,'01','101','字典类型2',NULL,20,'0',NULL,NULL),(21,'100','21','22',NULL,33,'0',1,'2015-03-24 20:06:14'),(22,'101','22','22',NULL,33,'0',1,'2015-03-24 20:06:27'),(23,'101','33','44',NULL,55,'0',1,'2015-03-24 20:06:32'),(25,'100','33','44',NULL,55,'1',1,'2015-03-24 20:55:44');
 /*!40000 ALTER TABLE `sys_dict` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -306,4 +307,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-03-20 17:30:10
+-- Dump completed on 2015-03-24 21:55:42

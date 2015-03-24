@@ -188,11 +188,7 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 	public void writeJson(Exception error) {
 		JsonResult result = new JsonResult();
 		result.setSuccess(false);
-
-		if (Properties.DEV_MODE) {
-			result.setError(error.getMessage());
-		}
-
+		result.setError(error.getMessage());
 		writeJson(result);
 	}
 }

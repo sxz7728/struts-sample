@@ -45,7 +45,8 @@
 			$this.on("initialized.rs.jquery.bootgrid", function(e) {
 				var id = $this.attr("id");
 				var header = $("#" + id + "-header");
-				var params = opts.params;
+				var grid = $(this).data(".rs.jquery.bootgrid");
+				var params = grid.options.params;
 
 				$.each(opts.searches, function(key, value) {
 					var search = $(searchTemplate.format(key, value));
@@ -58,6 +59,7 @@
 
 							$e.on("change", function() {
 								params[$e.attr("name")] = $(e).val();
+								grid.current = 1;
 								$this.bootgrid("reload");
 							});
 						}

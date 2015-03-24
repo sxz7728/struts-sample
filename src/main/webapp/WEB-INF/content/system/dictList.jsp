@@ -10,18 +10,21 @@
 <%@ include file="/include/bootgrid.html"%>
 
 <script id="typeTemplate" type="text/template">
-<s:select name="type" list="findDict('01')" listKey="key"
+<s:select name="type" list="findDict(DictUtils.DICT_TYPE)" listKey="key"
 	cssClass="form-control" cssStyle="width: 120px;" listValue="value"></s:select>
 </script>
 
 <script type="text/javascript">
 	function edit(id) {
+		var params = {
+			id : id,
+			type : $("[name=type]").val()
+		};
+
 		$._edit({
-			title : id ? "新建字典" : "编辑字典",
+			title : id == null ? "新建字典" : "编辑字典",
 			url : "dictEdit",
-			params : {
-				id : id
-			},
+			params : params,
 			saveUrl : "dictSave",
 			height : 300,
 			success : function() {

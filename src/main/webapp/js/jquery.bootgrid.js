@@ -76,9 +76,9 @@
         renderTableHeader.call(this);
         renderSearchField.call(this);
         renderActions.call(this);
-        loadData.call(this);
-
+ 
         this.element.trigger("initialized" + namespace);
+        loadData.call(this);
     }
 
     function highlightAppendedRows(rows)

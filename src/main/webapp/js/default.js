@@ -59,6 +59,7 @@ jQuery.validator.setDefaults({
 		success : function() {
 		},
 		failed : function() {
+			return false;
 		},
 		cancel : function() {
 		}
