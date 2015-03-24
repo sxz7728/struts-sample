@@ -10,4 +10,86 @@
 
 <script type="text/javascript">
 	var commandsTemplate = doT.template($("#commandsTemplate").html());
+
+	(function($) {
+		$.fn._bootgrid = function(options) {
+			var opts = jQuery.extend({}, $.fn._bootgrid.defaults, options);
+			var $this = $(this);
+			opts.url = $._url(opts.url);
+			opts.formatters.seq = function(column, row) {
+				return ++this.options.start;
+			};
+			opts.formatters.commands = function(column, row) {
+				if (this.options.commandsTemplate) {
+					return this.options.commandsTemplate({
+						row : row
+					});
+				}
+
+				return "";
+			};
+
+			$this.on("initialized.rs.jquery.bootgrid", function(e) {
+				var template = "<button class='btn btn-default'>{0}</button>";
+				var id = $this.attr("id");
+				var header = $("#" + id + "-header").find(".actions");
+
+				$.each(opts.buttons, function(key, value) {
+					var button = $(template.format(key));
+					button.on("click", value);
+					header.prepend(button);
+				});
+			});
+
+			$this.on("loaded.rs.jquery.bootgrid", function(e) {
+				$.each(opts.commands, function(key, value) {
+					$this.find("." + key).on("click", value);
+				});
+			});
+
+			$this.bootgrid(opts);
+		};
+
+		$.fn._bootgrid.defaults = {
+			ajax : true,
+			sorting : false,
+			columnSelection : false,
+			rowCount : [ 10, 25, 50 ],
+			buttons : {},
+			commands : {},
+			requestHandler : function(request) {
+				var current = request.current;
+				var rowCount = request.rowCount;
+				var start = (current - 1) * rowCount;
+
+				this.current = current;
+				this.start = start;
+				request.start = start;
+				request.length = rowCount;
+
+				if (request.searchPhrase != null) {
+					request.queryName = "%" + request.searchPhrase + "%";
+				}
+				return request;
+			},
+			responseHandler : function(response) {
+				if (response.success) {
+					var data = response.data;
+					data.current = this.current;
+					data.total = data.count;
+					return data;
+				} else {
+					$._notify({
+						message : response.error,
+						className : "error"
+					});
+					return {
+						rows : [],
+						total : 0
+					};
+				}
+			},
+			formatters : {}
+		};
+	})(jQuery);
 </script>

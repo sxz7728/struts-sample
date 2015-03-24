@@ -48,23 +48,21 @@
 	}
 
 	$(function() {
-		$("#grid-data").on("loaded.rs.jquery.bootgrid", function(e) {
-			$(this).find(".command-edit").on("click", function(e) {
-				edit($(this).data("id"));
-			});
-
-			$(this).find(".command-delete").on("click", function(e) {
-				del($(this).data("id"));
-			});
-
-		});
-
 		$("#grid-data")._bootgrid({
 			url : "dictDatagrid",
 			commandsTemplate : commandsTemplate,
 			buttons : {
 				"新增" : function() {
 					edit();
+				}
+			},
+			commands : {
+				"command-edit" : function() {
+					edit($(this).data("id"));
+				},
+
+				"command-delete" : function() {
+					del($(this).data("id"));
 				}
 			}
 		});
