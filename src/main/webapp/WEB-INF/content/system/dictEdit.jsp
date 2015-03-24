@@ -23,6 +23,7 @@
 			<div class="panel-body">
 				<s:form role="form">
 					<s:hidden name="id"></s:hidden>
+					<s:hidden name="type"></s:hidden>
 					<dl class="form-group dl-horizontal">
 						<dt>
 							<label class="control-label" for="sysDict.dictKey">字典键</label>

@@ -16,12 +16,15 @@ public class DictEdit extends BaseAction {
 
 	private Integer id;
 
+	private String type;
+
 	private SysDict sysDict;
 
 	@Action("dictEdit")
 	public String execute() {
 		if (Utilities.isValidId(id)) {
 			sysDict = systemService.loadDict(id);
+			type = sysDict.getType();
 		}
 
 		return INPUT;
@@ -30,10 +33,9 @@ public class DictEdit extends BaseAction {
 	@Action("dictSave")
 	public void save() {
 		if (!Utilities.isValidId(id)) {
-			sysDict = systemService.saveDict(sysDict.getType(),
-					sysDict.getDictKey(), sysDict.getDictValue(),
-					sysDict.getParentKey(), sysDict.getSequence(),
-					getUserInfo());
+			sysDict = systemService.saveDict(type, sysDict.getDictKey(),
+					sysDict.getDictValue(), sysDict.getParentKey(),
+					sysDict.getSequence(), getUserInfo());
 		} else {
 			sysDict = systemService.updateDict(id, sysDict.getDictKey(),
 					sysDict.getDictValue(), sysDict.getParentKey(),
@@ -54,6 +56,14 @@ public class DictEdit extends BaseAction {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public SysDict getSysDict() {

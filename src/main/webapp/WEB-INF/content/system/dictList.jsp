@@ -8,12 +8,16 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <s:head />
 <%@ include file="/include/bootgrid.html"%>
+
+<script id="typeTemplate" type="text/template">
+<s:select name="type" list="findDict('01')" listKey="key" cssClass="form-control"
+	listValue="value"></s:select>
+</script>
+
 <script type="text/javascript">
 	function edit(id) {
-		var title = id == null ? "新建字典" : "编辑字典";
-
 		$._edit({
-			title : title,
+			title : id ? "新建字典" : "编辑字典",
 			url : "dictEdit",
 			params : {
 				id : id
@@ -50,7 +54,9 @@
 	$(function() {
 		$("#grid-data")._bootgrid({
 			url : "dictDatagrid",
-			commandsTemplate : commandsTemplate,
+			searches : {
+				"类型" : $("#typeTemplate").html()
+			},
 			buttons : {
 				"新增" : function() {
 					edit();
@@ -64,8 +70,7 @@
 				"command-delete" : function() {
 					del($(this).data("id"));
 				}
-			},
-			searches : {}
+			}
 		});
 	});
 </script>

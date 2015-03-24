@@ -15,7 +15,7 @@ public class DictList extends BaseAction {
 	@Autowired
 	private SystemService systemService;
 
-	private String dictType;
+	private String type;
 
 	private String parentKey;
 
@@ -31,7 +31,7 @@ public class DictList extends BaseAction {
 		QueryUtils.addColumn(qb, "t.dictValue");
 		QueryUtils.addColumn(qb, "t.sequence");
 		QueryUtils.addWhere(qb, "and t.deleted = {0}", DictUtils.NO);
-		// QueryUtils.addWhere(qb, "and t.dictType = {0}", dictType);
+		// QueryUtils.addWhere(qb, "and t.type = {0}", type);
 		QueryUtils.addWhereIfNotEmpty(qb,
 				"and (t.dictKey like {0} or t.dictValue like {0})",
 				getQueryName());
@@ -44,19 +44,19 @@ public class DictList extends BaseAction {
 	public void dictionary() {
 		QueryBuilder qb = new QueryBuilder();
 		QueryUtils.addWhere(qb, "and t.deleted = {0}", DictUtils.NO);
-		QueryUtils.addWhere(qb, "and t.dictType = {0}", dictType);
+		QueryUtils.addWhere(qb, "and t.type = {0}", type);
 		QueryUtils.addWhereIfNotEmpty(qb, "and t.parentKey = {0}", parentKey);
 		QueryUtils.addOrder(qb, "t.sequence");
 		QueryUtils.addOrder(qb, "t.id");
 		writeJson(systemService.dictionaryDict(qb));
 	}
 
-	public String getDictType() {
-		return dictType;
+	public String getType() {
+		return type;
 	}
 
-	public void setDictType(String dictType) {
-		this.dictType = dictType;
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public String getParentKey() {

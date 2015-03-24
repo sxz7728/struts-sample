@@ -1,3 +1,7 @@
+String.isNullOrEmpty = function(str) {
+	return str == undefined || str == null || str == "";
+};
+
 String.prototype.format = function(args) {
 	var result = this;
 	if (arguments.length > 0) {

@@ -14,7 +14,7 @@ public class SysDictDaoImpl extends BaseDaoImpl<SysDict> implements SysDictDao {
 	public final String HQL_DICTIONARY;
 
 	public SysDictDaoImpl() {
-		HQL_DICTIONARY = " select " + " t.dictType as type, "
+		HQL_DICTIONARY = " select " + " t.type as type, "
 				+ " t.dictKey as key, " + " t.dictValue as value "
 				+ " {0} from " + modelClass.getSimpleName()
 				+ " t where 1 = 1 {1} {2} ";

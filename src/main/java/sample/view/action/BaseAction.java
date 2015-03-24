@@ -154,10 +154,12 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 		return dictUtils;
 	}
 
-	public List<Map<String, ?>> findDict(String dictType) {
+	public List<Map<String, ?>> findDict(String type) {
 		QueryBuilder qb = new QueryBuilder();
 		QueryUtils.addWhere(qb, "and t.deleted = {0}", DictUtils.NO);
-		QueryUtils.addWhere(qb, "and t.dictType = {0}", dictType);
+		QueryUtils.addWhere(qb, "and t.type = {0}", type);
+		QueryUtils.addOrder(qb, "t.sequence");
+		QueryUtils.addOrder(qb, "t.id");
 		return systemService.dictionaryDict(qb);
 	}
 

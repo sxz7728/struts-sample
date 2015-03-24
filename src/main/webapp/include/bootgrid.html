@@ -1,5 +1,17 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 
+<script id="searchTemplate" type="text/template">
+<div class="search form-horizontal">
+	<div>
+		<label class="control-label">{0}</label>{1}
+	</div>
+</div>
+</script>
+
+<script id="buttonTemplate" type="text/template">
+<button class="btn btn-default">{0}</button>
+</script>
+
 <script id="commandsTemplate" type="text/template">
 <button type="button" class="btn btn-xs btn-default command-edit" data-id="{{=it.row.id}}">
 	<span class="fa fa-pencil"></span>
@@ -10,11 +22,10 @@
 </script>
 
 <script type="text/javascript">
-	var commandsTemplate = doT.template($("#commandsTemplate").html());
-
 	(function($) {
-		var searchTemplate = "<div class='input-group'><label class='control-label'>{0}</label>{1}</div>";
-		var buttonTemplate = "<button class='btn btn-default'>{0}</button>";
+		var searchTemplate = $("#searchTemplate").html();
+		var buttonTemplate = $("#buttonTemplate").html();
+		var commandsTemplate = doT.template($("#commandsTemplate").html());
 
 		$.fn._bootgrid = function(options) {
 			var opts = jQuery.extend({}, $.fn._bootgrid.defaults, options);
@@ -54,7 +65,7 @@
 						}
 					});
 
-					header.find(".search").prepend(search);
+					header.find(".actionBar").prepend(search);
 				});
 
 				$.each(opts.buttons, function(key, value) {
@@ -78,9 +89,10 @@
 			sorting : false,
 			columnSelection : false,
 			rowCount : [ 10, 25, 50 ],
+			searches : {},
 			buttons : {},
 			commands : {},
-			searches : {},
+			commandsTemplate : commandsTemplate,
 			params : {},
 			requestHandler : function(request) {
 				var current = request.current;
@@ -92,7 +104,7 @@
 				request.start = start;
 				request.length = rowCount;
 
-				if (request.searchPhrase != null) {
+				if (!String.isNullOrEmpty(request.searchPhrase)) {
 					request.queryName = "%" + request.searchPhrase + "%";
 				}
 
