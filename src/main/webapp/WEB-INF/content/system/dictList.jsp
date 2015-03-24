@@ -10,8 +10,8 @@
 <%@ include file="/include/bootgrid.html"%>
 
 <script id="typeTemplate" type="text/template">
-<s:select name="type" list="findDict('01')" listKey="key" cssClass="form-control"
-	listValue="value"></s:select>
+<s:select name="type" list="findDict('01')" listKey="key"
+	cssClass="form-control" cssStyle="width: 120px;" listValue="value"></s:select>
 </script>
 
 <script type="text/javascript">
