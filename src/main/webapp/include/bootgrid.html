@@ -1,4 +1,5 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
+
 <script id="commandsTemplate" type="text/template">
 <button type="button" class="btn btn-xs btn-default command-edit" data-id="{{=it.row.id}}">
 	<span class="fa fa-pencil"></span>
@@ -12,6 +13,9 @@
 	var commandsTemplate = doT.template($("#commandsTemplate").html());
 
 	(function($) {
+		var searchTemplate = "<div class='input-group'><label class='control-label'>{0}</label>{1}</div>";
+		var buttonTemplate = "<button class='btn btn-default'>{0}</button>";
+
 		$.fn._bootgrid = function(options) {
 			var opts = jQuery.extend({}, $.fn._bootgrid.defaults, options);
 			var $this = $(this);
@@ -30,14 +34,33 @@
 			};
 
 			$this.on("initialized.rs.jquery.bootgrid", function(e) {
-				var template = "<button class='btn btn-default'>{0}</button>";
 				var id = $this.attr("id");
-				var header = $("#" + id + "-header").find(".actions");
+				var header = $("#" + id + "-header");
+				var params = opts.params;
+
+				$.each(opts.searches, function(key, value) {
+					var search = $(searchTemplate.format(key, value));
+
+					search.find("input,select").each(function(i, e) {
+						$e = $(e);
+
+						if ($e.attr("name")) {
+							params[$e.attr("name")] = $(e).val();
+
+							$e.on("change", function() {
+								params[$e.attr("name")] = $(e).val();
+								$this.bootgrid("reload");
+							});
+						}
+					});
+
+					header.find(".search").prepend(search);
+				});
 
 				$.each(opts.buttons, function(key, value) {
-					var button = $(template.format(key));
+					var button = $(buttonTemplate.format(key));
 					button.on("click", value);
-					header.prepend(button);
+					header.find(".actions").prepend(button);
 				});
 			});
 
@@ -57,6 +80,8 @@
 			rowCount : [ 10, 25, 50 ],
 			buttons : {},
 			commands : {},
+			searches : {},
+			params : {},
 			requestHandler : function(request) {
 				var current = request.current;
 				var rowCount = request.rowCount;
@@ -70,7 +95,8 @@
 				if (request.searchPhrase != null) {
 					request.queryName = "%" + request.searchPhrase + "%";
 				}
-				return request;
+
+				return $.extend({}, request, this.params);
 			},
 			responseHandler : function(response) {
 				if (response.success) {

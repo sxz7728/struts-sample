@@ -5,7 +5,7 @@ jQuery.validator.setDefaults({
 
 (function($) {
 	$._edit = function(options) {
-		var opts = jQuery.extend({}, $._edit.defaults, options);
+		var opts = $.extend({}, $._edit.defaults, options);
 		var url = $._url(opts.url, opts.params);
 		opts.message = "<iframe src='{0}' style='height:{1}px'/>".format(url,
 				opts.height);
@@ -65,14 +65,14 @@ jQuery.validator.setDefaults({
 	};
 
 	$._delete = function(options) {
-		var opts = jQuery.extend({}, $._delete.defaults, options);
+		var opts = $.extend({}, $._delete.defaults, options);
 
 		$._confirm({
 			title : "确认",
 			message : "是否要删除当前记录?",
 			callback : function(result) {
 				if (result) {
-					$._ajax(jQuery.extend({}, opts, {
+					$._ajax($.extend({}, opts, {
 						success : function(result) {
 							opts.success.apply(this, arguments);
 

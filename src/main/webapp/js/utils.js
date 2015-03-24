@@ -44,7 +44,7 @@ String.prototype.format = function(args) {
 	};
 
 	$._notify = function(options) {
-		var opts = jQuery.extend({}, $._notify.defaults, options);
+		var opts = $.extend({}, $._notify.defaults, options);
 		top.$.notify(opts.message, opts);
 	};
 
@@ -54,7 +54,7 @@ String.prototype.format = function(args) {
 	};
 
 	$._confirm = function(options) {
-		var opts = jQuery.extend({}, $._confirm.defaults, options);
+		var opts = $.extend({}, $._confirm.defaults, options);
 		top.bootbox.confirm(opts);
 	};
 
@@ -72,13 +72,13 @@ String.prototype.format = function(args) {
 	};
 
 	$._ajax = function(options) {
-		var opts = jQuery.extend({}, $._ajax.defaults, options);
+		var opts = $.extend({}, $._ajax.defaults, options);
 
 		opts.url = $._url(opts.url);
 		opts.data = opts.params;
 		opts.dataType = "json";
 
-		$.ajax(jQuery.extend({}, opts, {
+		$.ajax($.extend({}, opts, {
 			success : function(result) {
 				if (result.success) {
 					opts.success.apply(this, arguments);
@@ -108,7 +108,7 @@ String.prototype.format = function(args) {
 	};
 
 	$._tree = function(options) {
-		var opts = jQuery.extend({}, $._tree.defaults, options);
+		var opts = $.extend({}, $._tree.defaults, options);
 		var tree = [];
 		var map = {};
 
@@ -135,7 +135,7 @@ String.prototype.format = function(args) {
 	};
 
 	$._dialog = function(options) {
-		var opts = jQuery.extend({}, $._dialog.defaults, options);
+		var opts = $.extend({}, $._dialog.defaults, options);
 		top.bootbox.dialog(opts);
 	};
 
@@ -148,14 +148,14 @@ String.prototype.format = function(args) {
 	};
 
 	$.fn._ajaxSubmit = function(options) {
-		var opts = jQuery.extend({}, $.fn._ajaxSubmit.defaults, options);
+		var opts = $.extend({}, $.fn._ajaxSubmit.defaults, options);
 		var $this = $(this);
 
 		opts.url = $._url(opts.url);
 		opts.data = opts.params;
 		opts.dataType = "json";
 
-		$this.ajaxSubmit(jQuery.extend({}, opts, {
+		$this.ajaxSubmit($.extend({}, opts, {
 			beforeSubmit : function(arr, $form, options) {
 				return $form.valid();
 			},
@@ -184,7 +184,7 @@ String.prototype.format = function(args) {
 	};
 
 	$.fn._jsonSelect = function(options) {
-		var opts = jQuery.extend({}, $.fn._jsonSelect.defaults, options);
+		var opts = $.extend({}, $.fn._jsonSelect.defaults, options);
 		var $this = $(this);
 
 		$this.find("option[value != '']").remove();
@@ -207,7 +207,7 @@ String.prototype.format = function(args) {
 	};
 
 	$.fn._ajaxSelect = function(options) {
-		var opts = jQuery.extend({}, $.fn._ajaxSelect.defaults, options);
+		var opts = $.extend({}, $.fn._ajaxSelect.defaults, options);
 		var $this = $(this);
 
 		opts.success = function(result) {

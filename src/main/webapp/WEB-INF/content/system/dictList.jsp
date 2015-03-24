@@ -64,7 +64,8 @@
 				"command-delete" : function() {
 					del($(this).data("id"));
 				}
-			}
+			},
+			searches : {}
 		});
 	});
 </script>
