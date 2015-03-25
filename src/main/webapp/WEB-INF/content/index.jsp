@@ -15,6 +15,11 @@
 				success : function(result) {
 					if (result.data) {
 						$._location("main");
+					} else {
+						$._notify({
+							message : "登陆失败!",
+							className : "error"
+						});
 					}
 				}
 			});
@@ -45,7 +50,7 @@
 									<label><input name="remember" type="checkbox"
 										value="true">记住我 </label>
 								</div>
-								<a id="login" href="javascript:void(0)"
+								<a id="login" href="javascript:void(0);"
 									class="btn btn-lg btn-success btn-block">登录</a>
 							</fieldset>
 

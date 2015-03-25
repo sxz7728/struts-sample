@@ -97,7 +97,7 @@ body {
 						<li><a href="#"><i class="fa fa-user fa-fw"></i>用户信息</a></li>
 						<li><a href="#"><i class="fa fa-gear fa-fw"></i>设置</a></li>
 						<li class="divider"></li>
-						<li><a id="logout" href="javascript:void(0)"><i
+						<li><a id="logout" href="javascript:void(0);"><i
 								class="fa fa-sign-out fa-fw"></i> 退出</a></li>
 					</ul> <!-- /.dropdown-user --></li>
 				<!-- /.dropdown -->

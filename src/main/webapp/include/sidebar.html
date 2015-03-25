@@ -18,19 +18,19 @@
 				</div> <!-- /input-group -->
 			</li>
 			{{~ it.rows : row1}}
-				{{var url = row1.url != null ? row1.url : "javascript:void(0);";}}
+				{{var url = !String.isNullOrEmpty(row1.url) ? row1.url : "javascript:void(0);";}}
 				<li><a href="{{=url}}" target="{{=it.target}}"><i class="{{=row1.cssClass||''}}"></i> {{=row1.name}}
 				{{? row1.children.length > 0}}<span class="fa arrow"></span>{{?}}</a>
 				{{? row1.children.length > 0}}
 					<ul class="nav nav-second-level">
 					{{~ row1.children : row2}}
-						{{var url = row2.url != null ? row2.url : "javascript:void(0);";}}
+						{{var url = !String.isNullOrEmpty(row2.url) ? row2.url : "javascript:void(0);";}}
 						<li><a href="{{=url}}" target="{{=it.target}}">{{=row2.name}}
 						{{? row2.children.length > 0}}<span class="fa arrow"></span>{{?}}</a>
 						{{? row2.children.length > 0}}
 							<ul class="nav nav-third-level">
 							{{~ row2.children : row3}}
-								{{var url = row3.url != null ? row3.url : "javascript:void(0);";}}
+								{{var url = !String.isNullOrEmpty(row3.url) ? row3.url : "javascript:void(0);";}}
 								<li><a href="{{=url}}" target="{{=it.target}}">{{=row3.name}}</a></li>
 							{{~}}
 							</ul> <!-- /.nav-third-level -->
