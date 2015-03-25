@@ -26,7 +26,7 @@
 					<s:hidden name="type"></s:hidden>
 					<dl class="form-group dl-horizontal">
 						<dt>
-							<label class="control-label" for="sysDict.dictKey">字典键</label>
+							<label class="control-label required" for="sysDict.dictKey">字典键</label>
 						</dt>
 						<dd>
 							<s:textfield name="sysDict.dictKey"
@@ -35,7 +35,7 @@
 					</dl>
 					<dl class="form-group dl-horizontal">
 						<dt>
-							<label class="control-label" for="sysDict.dictValue">字典值</label>
+							<label class="control-label required" for="sysDict.dictValue">字典值</label>
 						</dt>
 						<dd>
 							<s:textfield name="sysDict.dictValue"
