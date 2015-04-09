@@ -7,7 +7,7 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <s:head />
-<%@ include file="/include/sidebar.html"%>
+<%@ include file="/include/sidebar.jsp"%>
 <script src="js/sb-admin-2.js" type="text/javascript"></script>
 <style type="text/css">
 body {

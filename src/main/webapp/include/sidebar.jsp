@@ -1,7 +1,10 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 
-<link href="css/plugins/metisMenu/metisMenu.min.css" rel="stylesheet">
-<script src="js/plugins/metisMenu/metisMenu.min.js"></script>
+<link
+	href="<%=request.getContextPath()%>/css/plugins/metisMenu/metisMenu.min.css"
+	rel="stylesheet">
+<script
+	src="<%=request.getContextPath()%>/js/plugins/metisMenu/metisMenu.min.js"></script>
 
 <script id="sidebarTemplate" type="text/template">
 <div class="navbar-default sidebar" role="navigation">

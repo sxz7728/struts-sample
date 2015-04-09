@@ -3,8 +3,6 @@
 <link href="${base}/css/bootstrap.css" rel="stylesheet" type="text/css"></link>
 <link href="${base}/css/bootstrap-theme.css" rel="stylesheet"
 	type="text/css"></link>
-<link href="${base}/css/jquery.bootgrid.css" rel="stylesheet"
-	type="text/css"></link>
 <link href="${base}/css/jquery-ui-1.10.0.custom.css" rel="stylesheet"
 	type="text/css"></link>
 <link href="${base}/css/sb-admin-2.css" rel="stylesheet" type="text/css">
@@ -17,7 +15,6 @@
 <script src="${base}/js/bootstrap.js" type="text/javascript"></script>
 <script src="${base}/js/jquery.validate.js" type="text/javascript"></script>
 <script src="${base}/js/jquery.form.js" type="text/javascript"></script>
-<script src="${base}/js/jquery.bootgrid.js" type="text/javascript"></script>
 <script src="${base}/js/jquery-ui.js" type="text/javascript"></script>
 <script src="${base}/js/bootbox.js" type="text/javascript"></script>
 <script src="${base}/js/notify-combined.js" type="text/javascript"></script>
@@ -36,8 +33,6 @@
 	type="text/css"></link>
 <link href="${base}/css/bootstrap-theme.min.css" rel="stylesheet"
 	type="text/css"></link>
-<link href="${base}/css/jquery.bootgrid.min.css" rel="stylesheet"
-	type="text/css"></link>
 <link href="${base}/css/jquery-ui-1.10.0.custom.css" rel="stylesheet"
 	type="text/css"></link>
 <link href="${base}/css/sb-admin-2.css" rel="stylesheet" type="text/css">
@@ -50,7 +45,6 @@
 <script src="${base}/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="${base}/js/jquery.validate.min.js" type="text/javascript"></script>
 <script src="${base}/js/jquery.form.js" type="text/javascript"></script>
-<script src="${base}/js/jquery.bootgrid.min.js" type="text/javascript"></script>
 <script src="${base}/js/jquery-ui.min.js" type="text/javascript"></script>
 <script src="${base}/js/bootbox.min.js" type="text/javascript"></script>
 <script src="${base}/js/notify-combined.min.js" type="text/javascript"></script>

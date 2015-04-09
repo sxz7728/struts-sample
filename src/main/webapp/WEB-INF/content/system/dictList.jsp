@@ -7,7 +7,7 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <s:head />
-<%@ include file="/include/bootgrid.html"%>
+<%@ include file="/include/bootgrid.jsp"%>
 
 <script id="typeTemplate" type="text/template">
 <s:select name="type" list="findDict(DictUtils.DICT_TYPE)" listKey="key"
@@ -16,15 +16,13 @@
 
 <script type="text/javascript">
 	function edit(id) {
-		var params = {
-			id : id,
-			type : $("[name=type]").val()
-		};
-
 		$._edit({
-			title : id == null ? "新建字典" : "编辑字典",
+			title : id == null ? "新增字典" : "编辑字典",
 			url : "dictEdit",
-			params : params,
+			params : {
+				id : id,
+				type : $("[name=type]").val()
+			},
 			saveUrl : "dictSave",
 			height : 300,
 			success : function() {

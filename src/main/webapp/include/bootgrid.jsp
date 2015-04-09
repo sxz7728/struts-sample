@@ -1,4 +1,19 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8"%>
+<%@ taglib uri="/struts-tags" prefix="s"%>
+
+<s:if test="properties.DEV_MODE">
+	<link href="<%=request.getContextPath()%>/css/jquery.bootgrid.css"
+		rel="stylesheet" type="text/css"></link>
+	<script src="<%=request.getContextPath()%>/js/jquery.bootgrid.js"
+		type="text/javascript"></script>
+</s:if>
+<s:else>
+	<link href="<%=request.getContextPath()%>/css/jquery.bootgrid.min.css"
+		rel="stylesheet" type="text/css"></link>
+	<script src="<%=request.getContextPath()%>/js/jquery.bootgrid.min.js"
+		type="text/javascript"></script>
+</s:else>
 
 <script id="searchTemplate" type="text/template">
 <div class="search form-group form-inline">
