@@ -15,17 +15,17 @@
 		type="text/javascript"></script>
 </s:else>
 
-<script id="searchTemplate" type="text/template">
+<script id="bgSearchTemplate" type="text/template">
 <div class="search form-group form-inline">
 	<label class="control-label">{0}</label>{1}
 </div>
 </script>
 
-<script id="buttonTemplate" type="text/template">
+<script id="bgButtonTemplate" type="text/template">
 <button class="btn btn-default">{0}</button>
 </script>
 
-<script id="commandsTemplate" type="text/template">
+<script id="bgCommandsTemplate" type="text/template">
 <button type="button" class="btn btn-xs btn-default command-edit" data-id="{{=it.row.id}}">
 	<span class="fa fa-pencil"></span>
 </button> 
@@ -36,11 +36,13 @@
 
 <script type="text/javascript">
 	(function($) {
-		var searchTemplate = $("#searchTemplate").html();
-		var buttonTemplate = $("#buttonTemplate").html();
-		var commandsTemplate = doT.template($("#commandsTemplate").html());
+		var searchTemplate = $("#bgSearchTemplate").html();
+		var buttonTemplate = $("#bgButtonTemplate").html();
+		var commandsTemplate = doT.template($("#bgCommandsTemplate").html());
 
-		$.fn._bootgrid = function(options) {
+		var methods = {};
+
+		methods.init = function(options) {
 			var opts = jQuery.extend({}, $.fn._bootgrid.defaults, options);
 			var $this = $(this);
 			opts.url = $._url(opts.url);
@@ -99,6 +101,17 @@
 			$this.bootgrid(opts);
 		};
 
+		$.fn._bootgrid = function(method) {
+			if (methods[method]) {
+				return methods[method].apply(this, Array.prototype.slice.call(
+						arguments, 1));
+			} else if (typeof method === 'object' || !method) {
+				return methods.init.apply(this, arguments);
+			} else {
+				$(this).bootgrid.apply(this, arguments);
+			}
+		};
+
 		$.fn._bootgrid.defaults = {
 			ajax : true,
 			sorting : false,
@@ -145,4 +158,6 @@
 			formatters : {}
 		};
 	})(jQuery);
+
+	
 </script>

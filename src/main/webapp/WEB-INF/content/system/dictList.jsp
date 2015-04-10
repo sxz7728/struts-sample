@@ -30,12 +30,12 @@
 					$(this).find("iframe")._refresh();
 					return false;
 				} else {
-					$("#grid-data").bootgrid("reload");
+					$("#grid-data")._bootgrid("reload");
 					return true;
 				}
 			},
 			cancel : function() {
-				$("#grid-data").bootgrid("reload");
+				$("#grid-data")._bootgrid("reload");
 			}
 		});
 	}
@@ -47,7 +47,7 @@
 				id : id
 			},
 			success : function() {
-				$("#grid-data").bootgrid("reload");
+				$("#grid-data")._bootgrid("reload");
 			}
 		});
 	}
