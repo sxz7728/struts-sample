@@ -21,36 +21,32 @@
 	<div id="wrapper">
 		<div class="panel panel-default">
 			<div class="panel-body">
-				<s:form role="form">
+				<s:form role="form" cssClass="form-horizontal">
 					<s:hidden name="id"></s:hidden>
 					<s:hidden name="type"></s:hidden>
-					<dl class="form-group dl-horizontal">
-						<dt>
-							<label class="control-label required" for="sysDict.dictKey">字典键</label>
-						</dt>
-						<dd>
+					<div class="form-group">
+						<label class="control-label col-xs-2 required"
+							for="sysDict.dictKey">字典键</label>
+						<div class="col-xs-10">
 							<s:textfield name="sysDict.dictKey"
 								cssClass="form-control required" maxlength="10" />
-						</dd>
-					</dl>
-					<dl class="form-group dl-horizontal">
-						<dt>
-							<label class="control-label required" for="sysDict.dictValue">字典值</label>
-						</dt>
-						<dd>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-2 required"
+							for="sysDict.dictValue">字典值</label>
+						<div class="col-xs-10">
 							<s:textfield name="sysDict.dictValue"
 								cssClass=" form-control required" maxlength="50" />
-						</dd>
-					</dl>
-					<dl class="form-group dl-horizontal">
-						<dt>
-							<label class="control-label" for="sysDict.sequence">顺序</label>
-						</dt>
-						<dd>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-2" for="sysDict.sequence">顺序</label>
+						<div class="col-xs-10">
 							<s:textfield name="sysDict.sequence"
 								cssClass="form-control digits" maxlength="10" />
-						</dd>
-					</dl>
+						</div>
+					</div>
 				</s:form>
 			</div>
 		</div>
