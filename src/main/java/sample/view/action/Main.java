@@ -46,6 +46,7 @@ public class Main extends BaseAction {
 		QueryUtils.addWhereWithDefault(qb, "and t.id in {0}", getUserInfo()
 				.getMenuIds(), -1);
 		QueryUtils.addOrder(qb, "t.sequence");
+		QueryUtils.addOrder(qb, "t.id");
 		writeJson(systemService.datagridMenu(qb));
 	}
 

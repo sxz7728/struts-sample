@@ -23,9 +23,11 @@
 
 <script type="text/javascript">
 	(function($) {
-		function appendRows(rows, columns, $tbody, opts, parentId) {
+		function appendRows(rows, columns, $tbody, opts, parentId, parentSerial) {
 			$.each(rows, function(i, e) {
 				var id = e[opts.idColumn];
+				var serial = parentSerial ? parentSerial + "-" + (i + 1)
+						: (i + 1);
 
 				var $tr = $("<tr></tr>");
 				$tr.addClass("treegrid-" + id);
@@ -35,22 +37,23 @@
 				}
 
 				for (var j = 0; j < columns.length; ++j) {
-					var column = columns;
+					var column = columns[j];
 
-					if (column.formatter) {
-						$tr.append("<td>" + column.formatter(e, e[column.id])
+					if (column.formatter != null) {
+						var formatter = opts.formatters[column.formatter];
+						$tr.append("<td>" + formatter(e, e[column.id], serial)
 								+ "</td>");
-					} else if (e[column.id]) {
+					} else if (e[column.id] != null) {
 						$tr.append("<td>" + e[column.id] + "</td>");
 					} else {
 						$tr.append("<td></td>");
 					}
 				}
 
-				$tbody.appand($tr);
+				$tbody.append($tr);
 
 				if (e.children && e.children.length > 0) {
-					appendRows(e.children, columns, $tbody, id);
+					appendRows(e.children, columns, $tbody, opts, id, serial);
 				}
 			});
 		}
@@ -58,9 +61,15 @@
 		var methods = {};
 
 		methods.init = function(options) {
-			var opts = jQuery.extend({}, $.fn._bootgrid.defaults, options);
+			var opts = jQuery.extend({}, $.fn._treegrid.defaults, options);
 			var $this = $(this);
 			var columns = [];
+
+			if (opts.formatters.serialNo == null) {
+				opts.formatters.serialNo = function(row, value, serialNo) {
+					return "&nbsp;&nbsp;" + serialNo;
+				};
+			}
 
 			$this.find("th").each(function(i, e) {
 				columns.push(eval("({" + $(e).data("column") + "})"));
@@ -83,7 +92,7 @@
 				success : function(result) {
 					$tbody = $("<tbody></tbody>");
 
-					appendRows(opts.load(result.data), columns, opts);
+					appendRows(opts.load(result), columns, $tbody, opts);
 
 					$this.find("tbody").remove();
 					$this.append($tbody);
@@ -97,7 +106,7 @@
 				return methods[method].apply(this, Array.prototype.slice.call(
 						arguments, 1));
 			} else if (typeof method === 'object' || !method) {
-				return methods.initTree.apply(this, arguments);
+				return methods.init.apply(this, arguments);
 			} else {
 				$(this).treegrid.apply(this, arguments);
 			}
@@ -105,8 +114,11 @@
 
 		$.fn._treegrid.defaults = {
 			idColumn : "id",
-			load : function(data) {
-				return data;
+			formatters : {},
+			load : function(result) {
+				return $._tree({
+					rows : result.data.rows
+				});
 			}
 		};
 	})(jQuery);

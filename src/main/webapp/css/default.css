@@ -23,14 +23,6 @@ iframe {
 	padding: 0 0;
 }
 
-.table .seq {
-	width: 100px
-}
-
-.table .commands {
-	width: 100px
-}
-
 .form-group .control-label {
 	text-align: right;
 }

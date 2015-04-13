@@ -46,18 +46,24 @@
 			var opts = jQuery.extend({}, $.fn._bootgrid.defaults, options);
 			var $this = $(this);
 			opts.url = $._url(opts.url);
-			opts.formatters.seq = function(column, row) {
-				return ++this.options.start;
-			};
-			opts.formatters.commands = function(column, row) {
-				if (this.options.commandsTemplate) {
-					return this.options.commandsTemplate({
-						row : row
-					});
-				}
 
-				return "";
-			};
+			if (opts.formatters.serialNo == null) {
+				opts.formatters.serialNo = function(column, row) {
+					return ++this.options.start;
+				};
+			}
+
+			if (opts.formatters.commands == null) {
+				opts.formatters.commands = function(column, row) {
+					if (this.options.commandsTemplate) {
+						return this.options.commandsTemplate({
+							row : row
+						});
+					}
+
+					return "";
+				};
+			}
 
 			$this.on("initialized.rs.jquery.bootgrid", function(e) {
 				var id = $this.attr("id");

@@ -53,7 +53,7 @@
 	}
 
 	$(function() {
-		$("#grid-data")._bootgrid({
+		$("#datagrid")._bootgrid({
 			url : "dictDatagrid",
 			searches : {
 				"类型" : $("#typeTemplate").html()
@@ -88,17 +88,17 @@
 				<div class="col-lg-12">
 					<div class="panel panel-default">
 						<div class="panel-body">
-							<table id="grid-data"
+							<table id="datagrid"
 								class="table table-condensed table-hover table-striped">
 								<thead>
 									<tr>
-										<th data-column-id="seq" data-formatter="seq"
-											data-header-css-class="seq">序号</th>
+										<th data-column-id="serialNo" data-formatter="serialNo"
+											style="width: 100px">序号</th>
 										<th data-column-id="dictKey">字典键</th>
 										<th data-column-id="dictValue">字典值</th>
 										<th data-column-id="sequence">顺序</th>
-										<th data-column-id="commands" data-header-css-class="commands"
-											data-formatter="commands">操作</th>
+										<th data-column-id="commands" data-formatter="commands"
+											style="width: 100px">操作</th>
 									</tr>
 								</thead>
 							</table>

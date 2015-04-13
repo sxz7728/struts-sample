@@ -147,6 +147,37 @@ public class SystemServiceImpl implements SystemService {
 		return sysMenuDao.update(sysMenu);
 	}
 
+	@Transactional(propagation = Propagation.REQUIRED)
+	public Integer deleteMenu(Integer id) {
+		List<Integer> deleteIds = Lists.newArrayList(id);
+		List<Integer> parentIds = Lists.newArrayList(id);
+		QueryBuilder qb = null;
+
+		for (int i = 0; i < 10; ++i) {
+			qb = new QueryBuilder();
+			QueryUtils.addWhere(qb, "t.deleted", DictUtils.NO);
+			QueryUtils.addWhere(qb, "t.parentId in {0}", parentIds);
+
+			List<SysMenu> sysMenus = sysMenuDao.find(qb);
+
+			if (sysMenus.size() > 0) {
+				parentIds = Lists.newArrayList();
+				
+				for (SysMenu sysMenu : sysMenus) {
+					deleteIds.add(sysMenu.getId());
+					parentIds.add(sysMenu.getId());
+				}
+			} else {
+				break;
+			}
+		}
+
+		qb = new QueryBuilder();
+		QueryUtils.addSetColumn(qb, "t.deleted", DictUtils.YES);
+		QueryUtils.addWhere(qb, "and t.id in {0}", deleteIds);
+		return sysMenuDao.update(qb);
+	}
+
 	// Role
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public SysRole loadRole(Integer id) {

@@ -118,7 +118,8 @@
                     order: (!sorted && (data.order === "asc" || data.order === "desc")) ? data.order : null,
                     searchable: !(data.searchable === false), // default: true
                     sortable: !(data.sortable === false), // default: true
-                    visible: !(data.visible === false) // default: true
+                    visible: !(data.visible === false), // default: true
+                    headerCssStyle : $this.attr("style") || ""
                 };
             that.columns.push(column);
             if (column.order != null)
@@ -613,6 +614,7 @@
                 {
                     rowAttr += " class=\"" + rowCss + "\"";
                 }
+                
                 html += tpl.row.resolve(getParams.call(that, { attr: rowAttr, cells: cells }));
             });
 
@@ -754,7 +756,8 @@
                 html += tpl.headerCell.resolve(getParams.call(that, {
                     column: column, icon: icon, sortable: sorting && column.sortable && css.sortable || "",
                     css: ((align === "right") ? css.right : (align === "center") ? 
-                        css.center : css.left) + cssClass }));
+                        css.center : css.left) + cssClass,
+                    style: column.headerCssStyle }));
             }
         });
 
@@ -1210,7 +1213,7 @@
             cell: "<td class=\"{{ctx.css}}\">{{ctx.content}}</td>",
             footer: "<div id=\"{{ctx.id}}\" class=\"{{css.footer}}\"><div class=\"row\"><div class=\"col-sm-6\"><p class=\"{{css.pagination}}\"></p></div><div class=\"col-sm-6 infoBar\"><p class=\"{{css.infos}}\"></p></div></div></div>",
             header: "<div id=\"{{ctx.id}}\" class=\"{{css.header}}\"><div class=\"row\"><div class=\"col-sm-12 actionBar\"><p class=\"{{css.search}}\"></p><p class=\"{{css.actions}}\"></p></div></div></div>",
-            headerCell: "<th data-column-id=\"{{ctx.column.id}}\" class=\"{{ctx.css}}\"><a href=\"javascript:void(0);\" class=\"{{css.columnHeaderAnchor}} {{ctx.sortable}}\"><span class=\"{{css.columnHeaderText}}\">{{ctx.column.text}}</span>{{ctx.icon}}</a></th>",
+            headerCell: "<th data-column-id=\"{{ctx.column.id}}\" class=\"{{ctx.css}}\" style=\"{{ctx.style}}\"><a href=\"javascript:void(0);\" class=\"{{css.columnHeaderAnchor}} {{ctx.sortable}}\"><span class=\"{{css.columnHeaderText}}\">{{ctx.column.text}}</span>{{ctx.icon}}</a></th>",
             icon: "<span class=\"{{css.icon}} {{ctx.iconCss}}\"></span>",
             infos: "<div class=\"{{css.infos}}\">{{lbl.infos}}</div>",
             loading: "<tr><td colspan=\"{{ctx.columns}}\" class=\"loading\">{{lbl.loading}}</td></tr>",
