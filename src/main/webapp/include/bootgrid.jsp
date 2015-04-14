@@ -55,8 +55,8 @@
 
 			if (opts.formatters.commands == null) {
 				opts.formatters.commands = function(column, row) {
-					if (this.options.commandsTemplate) {
-						return this.options.commandsTemplate({
+					if (opts.commandsTemplate) {
+						return opts.commandsTemplate({
 							row : row
 						});
 					}

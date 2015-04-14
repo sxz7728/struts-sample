@@ -1,8 +1,11 @@
 package sample.view.action.system;
 
+import java.util.List;
+
 import org.apache.struts2.convention.annotation.Action;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import sample.core.model.SysModule;
 import sample.core.service.SystemService;
 import sample.core.utils.DictUtils;
 import sample.core.utils.QueryBuilder;
@@ -35,6 +38,12 @@ public class MenuList extends BaseAction {
 		QueryUtils.addOrder(qb, "t.sequence");
 		QueryUtils.addOrder(qb, "t.id");
 		writeJson(systemService.datagridMenu(qb));
+	}
+
+	public List<SysModule> findModule() {
+		QueryBuilder qb = new QueryBuilder();
+		QueryUtils.addWhere(qb, "and t.deleted = {0}", DictUtils.NO);
+		return systemService.findModule(qb);
 	}
 
 	public Integer getModuleId() {

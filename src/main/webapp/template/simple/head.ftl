@@ -14,6 +14,7 @@
 <script src="${base}/js/jquery-1.11.1.js" type="text/javascript"></script>
 <script src="${base}/js/bootstrap.js" type="text/javascript"></script>
 <script src="${base}/js/jquery.validate.js" type="text/javascript"></script>
+<script src="${base}/js/jquery.cookie.js" type="text/javascript"></script>
 <script src="${base}/js/jquery.form.js" type="text/javascript"></script>
 <script src="${base}/js/jquery-ui.js" type="text/javascript"></script>
 <script src="${base}/js/bootbox.js" type="text/javascript"></script>
@@ -44,6 +45,7 @@
 <script src="${base}/js/jquery-1.11.1.min.js" type="text/javascript"></script>
 <script src="${base}/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="${base}/js/jquery.validate.min.js" type="text/javascript"></script>
+<script src="${base}/js/jquery.cookie.js" type="text/javascript"></script>
 <script src="${base}/js/jquery.form.js" type="text/javascript"></script>
 <script src="${base}/js/jquery-ui.min.js" type="text/javascript"></script>
 <script src="${base}/js/bootbox.min.js" type="text/javascript"></script>

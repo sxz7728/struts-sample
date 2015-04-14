@@ -21,8 +21,22 @@
 		type="text/javascript"></script>
 </s:else>
 
+<script id="tgCommandsTemplate" type="text/template">
+<button type="button" class="btn btn-xs btn-default command-add" data-id="{{=it.row.id}}">
+	<span class="fa fa-plus"></span>
+</button> 
+<button type="button" class="btn btn-xs btn-default command-edit" data-id="{{=it.row.id}}">
+	<span class="fa fa-pencil"></span>
+</button> 
+<button type="button" class="btn btn-xs btn-default command-delete" data-id="{{=it.row.id}}">
+	<span class="fa fa-trash-o"></span>
+</button>
+</script>
+
 <script type="text/javascript">
 	(function($) {
+		var commandsTemplate = doT.template($("#tgCommandsTemplate").html());
+
 		function appendRows(rows, columns, $tbody, opts, parentId, parentSerial) {
 			$.each(rows, function(i, e) {
 				var id = e[opts.idColumn];
@@ -71,6 +85,18 @@
 				};
 			}
 
+			if (opts.formatters.commands == null) {
+				opts.formatters.commands = function(row, value, serialNo) {
+					if (opts.commandsTemplate) {
+						return opts.commandsTemplate({
+							row : row
+						});
+					}
+
+					return "";
+				};
+			}
+
 			$this.find("th").each(function(i, e) {
 				columns.push(eval("({" + $(e).data("column") + "})"));
 			});
@@ -83,16 +109,24 @@
 			methods.reload.apply(this);
 		};
 
-		methods.reload = function() {
+		methods.reload = function(params) {
 			var $this = $(this);
 			var opts = $this.data("_treegrid").opts;
 			var columns = $this.data("_treegrid").columns;
+
+			if (params != null) {
+				opts.params = params;
+			}
 
 			$._ajax($.extend({}, opts, {
 				success : function(result) {
 					$tbody = $("<tbody></tbody>");
 
 					appendRows(opts.load(result), columns, $tbody, opts);
+
+					$.each(opts.commands, function(key, value) {
+						$tbody.find("." + key).on("click", value);
+					});
 
 					$this.find("tbody").remove();
 					$this.append($tbody);
@@ -114,7 +148,10 @@
 
 		$.fn._treegrid.defaults = {
 			idColumn : "id",
+			saveState : true,
 			formatters : {},
+			commands : {},
+			commandsTemplate : commandsTemplate,
 			load : function(result) {
 				return $._tree({
 					rows : result.data.rows

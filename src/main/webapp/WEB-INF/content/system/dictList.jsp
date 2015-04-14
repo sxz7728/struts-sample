@@ -10,8 +10,9 @@
 <%@ include file="/include/bootgrid.jsp"%>
 
 <script id="typeTemplate" type="text/template">
-<s:select name="type" list="findDict(DictUtils.DICT_TYPE)" listKey="key"
-	cssClass="form-control" cssStyle="width: 120px;" listValue="value"></s:select>
+<s:select id="type" name="type" list="findDict(DictUtils.DICT_TYPE)"
+	listKey="key" listValue="value" cssClass="form-control"
+	cssStyle="width: 120px;"></s:select>
 </script>
 
 <script type="text/javascript">
@@ -21,7 +22,7 @@
 			url : "dictEdit",
 			params : {
 				id : id,
-				type : $("[name=type]").val()
+				type : $("#type").val()
 			},
 			saveUrl : "dictSave",
 			height : 300,
@@ -30,12 +31,12 @@
 					$(this).find("iframe")._refresh();
 					return false;
 				} else {
-					$("#grid-data")._bootgrid("reload");
+					$("#datagrid")._bootgrid("reload");
 					return true;
 				}
 			},
 			cancel : function() {
-				$("#grid-data")._bootgrid("reload");
+				$("#datagrid")._bootgrid("reload");
 			}
 		});
 	}
@@ -47,7 +48,7 @@
 				id : id
 			},
 			success : function() {
-				$("#grid-data")._bootgrid("reload");
+				$("#datagrid")._bootgrid("reload");
 			}
 		});
 	}
@@ -67,7 +68,6 @@
 				"command-edit" : function() {
 					edit($(this).data("id"));
 				},
-
 				"command-delete" : function() {
 					del($(this).data("id"));
 				}
@@ -89,7 +89,7 @@
 					<div class="panel panel-default">
 						<div class="panel-body">
 							<table id="datagrid"
-								class="table table-condensed table-hover table-striped">
+								class="table table-hover table-striped">
 								<thead>
 									<tr>
 										<th data-column-id="serialNo" data-formatter="serialNo"
