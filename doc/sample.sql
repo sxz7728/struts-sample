@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `sample` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `sample`;
--- MySQL dump 10.13  Distrib 5.5.16, for Win32 (x86)
+-- MySQL dump 10.13  Distrib 5.6.17, for Win32 (x86)
 --
 -- Host: 127.0.0.1    Database: sample
 -- ------------------------------------------------------
--- Server version	5.5.25a
+-- Server version	5.6.21
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -65,7 +65,7 @@ CREATE TABLE `sys_dict` (
   `operate_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `index2` (`type`,`dict_key`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -74,7 +74,7 @@ CREATE TABLE `sys_dict` (
 
 LOCK TABLES `sys_dict` WRITE;
 /*!40000 ALTER TABLE `sys_dict` DISABLE KEYS */;
-INSERT INTO `sys_dict` VALUES (1,'100','01','测试1',NULL,10,'0',1,'2015-03-24 21:54:45'),(2,'100','02','测试2',NULL,20,'0',NULL,NULL),(3,'100','03','测试3',NULL,10,'0',1,'2015-03-24 21:13:28'),(4,'100','04','测试2',NULL,10,'0',NULL,NULL),(5,'100','05','测试2',NULL,10,'0',NULL,NULL),(6,'100','06','测试2',NULL,10,'0',NULL,NULL),(7,'100','07','测试2',NULL,10,'0',NULL,NULL),(8,'100','08','测试2',NULL,10,'0',NULL,NULL),(9,'100','09','测试2',NULL,10,'0',NULL,NULL),(10,'100','10','测试2',NULL,10,'0',NULL,NULL),(11,'100','11','测试2',NULL,10,'0',NULL,NULL),(12,'100','12','测试2',NULL,10,'0',1,'2015-03-24 21:12:33'),(13,'100','13','测试51',NULL,10,'0',1,'2015-03-22 21:16:13'),(14,'100','14','测试2',NULL,10,'0',NULL,NULL),(15,'100','15','测试2',NULL,10,'0',NULL,NULL),(16,'100','16','测试2',NULL,10,'0',NULL,NULL),(17,'100','17','测试2',NULL,10,'0',NULL,NULL),(18,'100','18','测试2',NULL,10,'0',NULL,NULL),(19,'01','100','字典类型1',NULL,10,'0',NULL,NULL),(20,'01','101','字典类型2',NULL,20,'0',NULL,NULL),(21,'100','21','22',NULL,33,'0',1,'2015-03-24 20:06:14'),(22,'101','22','22',NULL,33,'0',1,'2015-03-24 20:06:27'),(23,'101','33','44',NULL,55,'0',1,'2015-03-24 20:06:32'),(25,'100','33','44',NULL,55,'1',1,'2015-03-24 20:55:44');
+INSERT INTO `sys_dict` VALUES (1,'100','01','测试1',NULL,10,'0',1,'2015-03-24 21:54:45'),(2,'100','02','测试6',NULL,20,'0',1,'2015-04-14 10:00:33'),(3,'100','03','测试3',NULL,10,'0',1,'2015-03-24 21:13:28'),(4,'100','04','测试211111111',NULL,10,'0',NULL,NULL),(5,'100','05','测试222',NULL,10,'0',NULL,NULL),(6,'100','06','测试2',NULL,10,'0',NULL,NULL),(7,'100','07','测试2111',NULL,10,'0',NULL,NULL),(8,'100','08','测试2',NULL,10,'0',NULL,NULL),(9,'100','09','测试2',NULL,10,'0',NULL,NULL),(10,'100','10','测试2',NULL,10,'0',NULL,NULL),(11,'100','11','测试2',NULL,10,'0',NULL,NULL),(12,'100','12','测试2',NULL,10,'0',1,'2015-03-24 21:12:33'),(13,'100','13','测试51',NULL,10,'0',1,'2015-03-22 21:16:13'),(14,'100','14','测试2',NULL,10,'0',NULL,NULL),(15,'100','15','测试2',NULL,10,'0',NULL,NULL),(16,'100','16','测试2',NULL,10,'0',NULL,NULL),(17,'100','17','测试2',NULL,10,'0',NULL,NULL),(18,'100','18','测试2',NULL,10,'0',NULL,NULL),(19,'01','100','字典类型1',NULL,10,'0',NULL,NULL),(20,'01','101','字典类型2',NULL,20,'0',NULL,NULL);
 /*!40000 ALTER TABLE `sys_dict` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -132,7 +132,7 @@ CREATE TABLE `sys_menu` (
   PRIMARY KEY (`id`),
   KEY `fk_sys_menu1_idx` (`module_id`),
   CONSTRAINT `fk_sys_menu1` FOREIGN KEY (`module_id`) REFERENCES `sys_module` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -141,7 +141,7 @@ CREATE TABLE `sys_menu` (
 
 LOCK TABLES `sys_menu` WRITE;
 /*!40000 ALTER TABLE `sys_menu` DISABLE KEYS */;
-INSERT INTO `sys_menu` VALUES (1,1,NULL,'测试1','test/helloWorld',100,'fa fa-sitemap fa-fw','0',NULL,NULL),(2,1,NULL,'测试2',NULL,200,'fa fa-bar-chart-o fa-fw','0',NULL,NULL),(3,1,2,'测试3',NULL,100,'','0',NULL,NULL),(4,1,2,'测试3',NULL,200,NULL,'0',NULL,NULL),(5,1,3,'测试4','test/helloWorld',100,NULL,'0',NULL,NULL),(6,1,NULL,'字典维护','system/dictList',10,NULL,'0',NULL,NULL);
+INSERT INTO `sys_menu` VALUES (1,1,NULL,'测试1','test/helloWorld',100,'fa fa-sitemap fa-fw','0',NULL,NULL),(2,1,NULL,'测试2',NULL,200,'fa fa-bar-chart-o fa-fw','0',NULL,NULL),(3,1,2,'测试3',NULL,100,'','0',NULL,NULL),(4,1,2,'测试5','',200,'','0',1,'2015-04-14 17:26:39'),(5,1,3,'测试4','test/helloWorld',100,NULL,'0',NULL,NULL),(6,1,NULL,'字典维护','system/dictList',10,NULL,'0',NULL,NULL),(7,1,NULL,'菜单维护','system/menuList',20,NULL,'0',NULL,NULL);
 /*!40000 ALTER TABLE `sys_menu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -160,7 +160,7 @@ CREATE TABLE `sys_module` (
   `operator_id` int(11) DEFAULT NULL,
   `operate_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -169,7 +169,7 @@ CREATE TABLE `sys_module` (
 
 LOCK TABLES `sys_module` WRITE;
 /*!40000 ALTER TABLE `sys_module` DISABLE KEYS */;
-INSERT INTO `sys_module` VALUES (1,'系统',1,'0',NULL,NULL);
+INSERT INTO `sys_module` VALUES (1,'系统',10,'0',NULL,NULL),(2,'测试1',20,'0',NULL,NULL);
 /*!40000 ALTER TABLE `sys_module` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -307,4 +307,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-03-24 21:55:42
+-- Dump completed on 2015-04-14 17:31:09

@@ -155,8 +155,8 @@ public class SystemServiceImpl implements SystemService {
 
 		for (int i = 0; i < 10; ++i) {
 			qb = new QueryBuilder();
-			QueryUtils.addWhere(qb, "t.deleted", DictUtils.NO);
-			QueryUtils.addWhere(qb, "t.parentId in {0}", parentIds);
+			QueryUtils.addWhere(qb, "and t.deleted = {0}", DictUtils.NO);
+			QueryUtils.addWhere(qb, "and t.parentId in {0}", parentIds);
 
 			List<SysMenu> sysMenus = sysMenuDao.find(qb);
 

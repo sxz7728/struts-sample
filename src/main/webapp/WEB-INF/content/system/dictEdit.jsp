@@ -37,7 +37,7 @@
 							for="sysDict.dictValue">字典值</label>
 						<div class="col-xs-10">
 							<s:textfield name="sysDict.dictValue"
-								cssClass=" form-control required" maxlength="50" />
+								cssClass="form-control required" maxlength="50" />
 						</div>
 					</div>
 					<div class="form-group">

@@ -74,6 +74,14 @@
 		$("#refresh").click(function() {
 			$("#datagrid")._treegrid("reload");
 		});
+		
+		$("#expand").click(function() {
+			$("#datagrid")._treegrid("expandAll");
+		});
+		
+		$("#collapse").click(function() {
+			$("#datagrid")._treegrid("collapseAll");
+		});
 
 		$("#module").change(function() {
 			$("#datagrid")._treegrid("reload", {
@@ -107,7 +115,13 @@
 										<div class="btn-group">
 											<button id="add" type="button" class="btn btn-default">新增</button>
 											<button id="refresh" type="button" class="btn btn-default">
-												<span class="fa fa-refresh"></span>
+												<span class="icon glyphicon glyphicon-refresh"></span>
+											</button>
+											<button id="expand" type="button" class="btn btn-default">
+												<span class="icon glyphicon glyphicon-zoom-in"></span>
+											</button>
+											<button id="collapse" type="button" class="btn btn-default">
+												<span class="icon glyphicon glyphicon-zoom-out"></span>
 											</button>
 										</div>
 									</div>
