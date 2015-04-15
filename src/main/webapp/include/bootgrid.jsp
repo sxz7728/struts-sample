@@ -42,9 +42,19 @@
 
 		var methods = {};
 
+		function autoHeight($footer) {
+			var $parent = $footer.parent();
+			var $prev = $footer.prev();
+			$prev.height(0);
+			var height = $parent.offset().top + $parent.height();
+			height -= $footer.offset().top + $footer.height();
+			$prev.height(height);
+		}
+
 		methods.init = function(options) {
 			var opts = jQuery.extend({}, $.fn._bootgrid.defaults, options);
 			var $this = $(this);
+			var id = $this.attr("id");
 			opts.url = $._url(opts.url);
 
 			if (opts.formatters.serialNo == null) {
@@ -65,10 +75,17 @@
 				};
 			}
 
+			$this.on("initialize.rs.jquery.bootgrid", function(e) {
+				var grid = $this.data(".rs.jquery.bootgrid");
+
+				if (opts.saveRowCount && $.cookie(id + "-row-count") > 0) {
+					grid.rowCount = $.cookie(id + "-row-count");
+				}
+			});
+
 			$this.on("initialized.rs.jquery.bootgrid", function(e) {
-				var id = $this.attr("id");
 				var header = $("#" + id + "-header");
-				var grid = $(this).data(".rs.jquery.bootgrid");
+				var grid = $this.data(".rs.jquery.bootgrid");
 				var params = grid.options.params;
 
 				$.each(opts.searches, function(key, value) {
@@ -96,12 +113,33 @@
 					button.on("click", value);
 					header.find(".actions").prepend(button);
 				});
+
+				var $footer = $("#" + id + "-footer");
+				$footer.before("<p></p>");
+
+				if (opts.autoHeight) {
+					$(window).resize(function() {
+						autoHeight($footer);
+					});
+				}
 			});
 
 			$this.on("loaded.rs.jquery.bootgrid", function(e) {
+				var grid = $this.data(".rs.jquery.bootgrid");
+
 				$.each(opts.commands, function(key, value) {
 					$this.find("." + key).on("click", value);
 				});
+
+				if (opts.autoHeight) {
+					autoHeight($("#" + id + "-footer"));
+				}
+
+				if (opts.saveRowCount) {
+					$.cookie(id + "-row-count", grid.rowCount, {
+						expires : 30
+					});
+				}
 			});
 
 			$this.bootgrid(opts);
@@ -127,7 +165,10 @@
 			buttons : {},
 			commands : {},
 			commandsTemplate : commandsTemplate,
+			formatters : {},
 			params : {},
+			autoHeight : true,
+			saveRowCount : true,
 			requestHandler : function(request) {
 				var current = request.current;
 				var rowCount = request.rowCount;
@@ -160,8 +201,7 @@
 						total : 0
 					};
 				}
-			},
-			formatters : {}
+			}
 		};
 	})(jQuery);
 

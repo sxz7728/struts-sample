@@ -128,4 +128,11 @@ $(function() {
 	});
 
 	$("form").validate();
+
+	$(window).bind("load resize", function() {
+		var height = $(window).height();
+		height -= $("#wrapper").height();
+		height += $("#auto-min-height").height();
+		$("#auto-min-height").css("min-height", height + "px");
+	});
 });

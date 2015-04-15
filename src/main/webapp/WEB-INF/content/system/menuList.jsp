@@ -74,11 +74,11 @@
 		$("#refresh").click(function() {
 			$("#datagrid")._treegrid("reload");
 		});
-		
+
 		$("#expand").click(function() {
 			$("#datagrid")._treegrid("expandAll");
 		});
-		
+
 		$("#collapse").click(function() {
 			$("#datagrid")._treegrid("collapseAll");
 		});
@@ -102,7 +102,7 @@
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="panel panel-default">
-						<div class="panel-body">
+						<div id="auto-min-height" class="panel-body">
 							<div class="treegrid-header container-fluid">
 								<div class="row">
 									<div class="col-sm-12 actionBar">
@@ -127,8 +127,7 @@
 									</div>
 								</div>
 							</div>
-							<table id="datagrid"
-								class="table table-hover table-striped">
+							<table id="datagrid" class="table table-hover table-striped">
 								<thead>
 									<tr>
 										<th data-column="id:'serialNo',formatter:'serialNo'"

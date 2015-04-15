@@ -7,20 +7,11 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <s:head />
-<style type="text/css">
-#wrapper {
-	height: 90%
-}
-
-.panel {
-	height: 100%
-}
-</style>
 </head>
 <body>
 	<div id="wrapper">
 		<div class="panel panel-default">
-			<div class="panel-body">
+			<div id="auto-min-height" class="panel-body">
 				<s:form role="form" cssClass="form-horizontal">
 					<s:hidden name="id"></s:hidden>
 					<s:hidden name="type"></s:hidden>

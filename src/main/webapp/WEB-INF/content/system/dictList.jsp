@@ -87,7 +87,7 @@
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="panel panel-default">
-						<div class="panel-body">
+						<div id="auto-min-height" class="panel-body">
 							<table id="datagrid"
 								class="table table-hover table-striped">
 								<thead>
