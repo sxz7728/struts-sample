@@ -29,8 +29,7 @@ import sample.core.utils.QueryUtils;
 
 import com.opensymphony.xwork2.ActionSupport;
 
-public class BaseAction extends ActionSupport implements ServletRequestAware,
-		ServletResponseAware, ServletContextAware {
+public class BaseAction extends ActionSupport implements ServletRequestAware, ServletResponseAware, ServletContextAware {
 
 	private static final long serialVersionUID = 1L;
 

@@ -38,23 +38,18 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 	@SuppressWarnings("unchecked")
 	public BaseDaoImpl() {
 		super();
-		modelClass = (Class<T>) ((ParameterizedType) getClass()
-				.getGenericSuperclass()).getActualTypeArguments()[0];
+		modelClass = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 
-		HQL_UPDATE = " update " + modelClass.getSimpleName()
-				+ " t set {0} where 1 = 1 {1} ";
+		HQL_UPDATE = " update " + modelClass.getSimpleName() + " t set {0} where 1 = 1 {1} ";
 
-		HQL_DELETE = " delete " + modelClass.getSimpleName()
-				+ " t where 1 = 1 {0} ";
+		HQL_DELETE = " delete " + modelClass.getSimpleName() + " t where 1 = 1 {0} ";
 
-		HQL_FIND = " from " + modelClass.getSimpleName()
-				+ " t where 1 = 1 {0} {1} ";
+		HQL_FIND = " from " + modelClass.getSimpleName() + " t where 1 = 1 {0} {1} ";
 
-		HQL_COUNT = " select cast(count(*) as int) from " + modelClass.getSimpleName()
-				+ " t where 1 = 1 {0} ";
+		HQL_COUNT = " select cast(count(*) as int) from " + modelClass.getSimpleName() + " t where 1 = 1 {0} ";
 
-		HQL_DATAGRID = " select " + ColumnUtils.column("t.id") + " {0} from "
-				+ modelClass.getSimpleName() + " t where 1 = 1 {1} {2} ";
+		HQL_DATAGRID = " select " + ColumnUtils.column("t.id") + " {0} from " + modelClass.getSimpleName()
+				+ " t where 1 = 1 {1} {2} ";
 	}
 
 	protected Session getSession() {
@@ -65,8 +60,7 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 		if (params != null) {
 			for (int i = 0; i < params.size(); ++i) {
 				if (params.get(i) instanceof Collection) {
-					query.setParameterList(prefix + (i + 1),
-							(Collection<?>) params.get(i));
+					query.setParameterList(prefix + (i + 1), (Collection<?>) params.get(i));
 				} else {
 					query.setParameter(prefix + (i + 1), params.get(i));
 				}
@@ -106,6 +100,12 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 		return (T) getSession().load(modelClass, id);
 	}
 
+	@SuppressWarnings("unchecked")
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public T get(Integer id) {
+		return (T) getSession().get(modelClass, id);
+	}
+
 	@Transactional(propagation = Propagation.REQUIRED)
 	public T save(T obj) {
 		getSession().save(obj);
@@ -127,12 +127,10 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 	@Transactional(propagation = Propagation.REQUIRED)
 	public Integer update(QueryBuilder qb) {
 		if (!qb.hasColumn() || !qb.hasWhere()) {
-			throw new RuntimeException(
-					"update must have column and where condition.");
+			throw new RuntimeException("update must have column and where condition.");
 		}
 
-		Query query = getSession().createQuery(
-				Utilities.format(HQL_UPDATE, qb.getColumn(), qb.getWhere()));
+		Query query = getSession().createQuery(Utilities.format(HQL_UPDATE, qb.getColumn(), qb.getWhere()));
 		setColumnParams(query, qb);
 		setWhereParams(query, qb);
 		return query.executeUpdate();
@@ -155,8 +153,7 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 		}
 
 		String hql = Utilities.format(HQL_DELETE, qb.getWhere());
-		return setWhereParams(getSession().createQuery(hql), qb)
-				.executeUpdate();
+		return setWhereParams(getSession().createQuery(hql), qb).executeUpdate();
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
@@ -167,6 +164,12 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public Integer count(QueryBuilder qb) {
 		return hqlUnique(HQL_COUNT, qb);
+	}
+
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public T get(QueryBuilder qb) {
+		List<T> models = find(qb);
+		return models.size() == 1 ? models.get(0) : null;
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
@@ -189,8 +192,7 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 	@SuppressWarnings("unchecked")
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<T> hqlList(String hql, QueryBuilder qb) {
-		Query query = getSession().createQuery(
-				Utilities.format(hql, qb.getWhere(), qb.getOrder()));
+		Query query = getSession().createQuery(Utilities.format(hql, qb.getWhere(), qb.getOrder()));
 		setWhereParams(query, qb);
 		setFirstResult(query, qb);
 		setMaxResults(query, qb);
@@ -201,34 +203,28 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<Map<String, ?>> hqlListMap(String hql, QueryBuilder qb) {
 		Query query = getSession().createQuery(
-				Utilities.format(hql,
-						(qb.hasColumn() ? "," : "") + qb.getColumn(),
-						qb.getWhere(), qb.getOrder()));
+				Utilities.format(hql, (qb.hasColumn() ? "," : "") + qb.getColumn(), qb.getWhere(), qb.getOrder()));
 		setColumnParams(query, qb);
 		setWhereParams(query, qb);
 		setFirstResult(query, qb);
 		setMaxResults(query, qb);
-		return query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP)
-				.list();
+		return query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public <U> List<U> hqlListBean(String hql, QueryBuilder qb, Class<U> clazz) {
-		Query query = getSession().createQuery(
-				Utilities.format(hql, qb.getWhere(), qb.getOrder()));
+		Query query = getSession().createQuery(Utilities.format(hql, qb.getWhere(), qb.getOrder()));
 		setWhereParams(query, qb);
 		setFirstResult(query, qb);
 		setMaxResults(query, qb);
-		return query.setResultTransformer(Transformers.aliasToBean(clazz))
-				.list();
+		return query.setResultTransformer(Transformers.aliasToBean(clazz)).list();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public <U> U hqlUnique(String hql, QueryBuilder qb) {
-		Query query = getSession().createQuery(
-				Utilities.format(hql, qb.getWhere()));
+		Query query = getSession().createQuery(Utilities.format(hql, qb.getWhere()));
 		setWhereParams(query, qb);
 		return (U) query.uniqueResult();
 	}
@@ -236,8 +232,7 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 	@SuppressWarnings("unchecked")
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<T> sqlList(String sql, QueryBuilder qb) {
-		Query query = getSession().createSQLQuery(
-				Utilities.format(sql, qb.getWhere(), qb.getOrder()));
+		Query query = getSession().createSQLQuery(Utilities.format(sql, qb.getWhere(), qb.getOrder()));
 		setWhereParams(query, qb);
 		setFirstResult(query, qb);
 		setMaxResults(query, qb);
@@ -248,34 +243,28 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<Map<String, ?>> sqlListMap(String sql, QueryBuilder qb) {
 		Query query = getSession().createSQLQuery(
-				Utilities.format(sql,
-						(qb.hasColumn() ? "," : "") + qb.getColumn(),
-						qb.getWhere(), qb.getOrder()));
+				Utilities.format(sql, (qb.hasColumn() ? "," : "") + qb.getColumn(), qb.getWhere(), qb.getOrder()));
 		setColumnParams(query, qb);
 		setWhereParams(query, qb);
 		setFirstResult(query, qb);
 		setMaxResults(query, qb);
-		return query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP)
-				.list();
+		return query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public <U> List<U> sqlListBean(String sql, QueryBuilder qb, Class<U> clazz) {
-		Query query = getSession().createSQLQuery(
-				Utilities.format(sql, qb.getWhere(), qb.getOrder()));
+		Query query = getSession().createSQLQuery(Utilities.format(sql, qb.getWhere(), qb.getOrder()));
 		setWhereParams(query, qb);
 		setFirstResult(query, qb);
 		setMaxResults(query, qb);
-		return query.setResultTransformer(Transformers.aliasToBean(clazz))
-				.list();
+		return query.setResultTransformer(Transformers.aliasToBean(clazz)).list();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public <U> U sqlUnique(String sql, QueryBuilder qb) {
-		Query query = getSession().createSQLQuery(
-				Utilities.format(sql, qb.getWhere()));
+		Query query = getSession().createSQLQuery(Utilities.format(sql, qb.getWhere()));
 		setWhereParams(query, qb);
 		return (U) query.uniqueResult();
 	}

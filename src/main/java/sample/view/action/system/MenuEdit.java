@@ -36,13 +36,11 @@ public class MenuEdit extends BaseAction {
 	@Action("menuSave")
 	public void save() {
 		if (!Utilities.isValidId(id)) {
-			sysMenu = systemService.saveMenu(moduleId, parentId,
-					sysMenu.getName(), sysMenu.getUrl(), sysMenu.getSequence(),
-					sysMenu.getCssClass(), getUserInfo());
+			sysMenu = systemService.saveMenu(moduleId, parentId, sysMenu.getName(), sysMenu.getUrl(),
+					sysMenu.getSequence(), sysMenu.getCssClass(), getUserInfo());
 		} else {
-			sysMenu = systemService.updateMenu(id, parentId, sysMenu.getName(),
-					sysMenu.getUrl(), sysMenu.getSequence(),
-					sysMenu.getCssClass(), getUserInfo());
+			sysMenu = systemService.updateMenu(id, parentId, sysMenu.getName(), sysMenu.getUrl(),
+					sysMenu.getSequence(), sysMenu.getCssClass(), getUserInfo());
 		}
 
 		writeJson(sysMenu);

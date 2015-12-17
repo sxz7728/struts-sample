@@ -32,9 +32,7 @@ public class DictList extends BaseAction {
 		QueryUtils.addColumn(qb, "t.sequence");
 		QueryUtils.addWhere(qb, "and t.deleted = {0}", DictUtils.NO);
 		QueryUtils.addWhere(qb, "and t.type = {0}", type);
-		QueryUtils.addWhereIfNotEmpty(qb,
-				"and (t.dictKey like {0} or t.dictValue like {0})",
-				getQueryName());
+		QueryUtils.addWhereIfNotEmpty(qb, "and (t.dictKey like {0} or t.dictValue like {0})", getQueryName());
 		QueryUtils.addOrder(qb, "t.sequence");
 		QueryUtils.addOrder(qb, "t.id");
 		writeJson(systemService.datagridDict(qb));

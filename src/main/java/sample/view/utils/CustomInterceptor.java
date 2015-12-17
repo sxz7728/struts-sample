@@ -30,8 +30,7 @@ public class CustomInterceptor implements Interceptor {
 				String methodName = invocation.getProxy().getMethod();
 
 				if (methodName != null) {
-					Method method = baseAction.getClass().getMethod(methodName,
-							new Class<?>[] {});
+					Method method = baseAction.getClass().getMethod(methodName, new Class<?>[] {});
 
 					if (method.getReturnType() == void.class) {
 						e.printStackTrace();

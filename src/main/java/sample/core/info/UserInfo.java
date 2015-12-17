@@ -13,7 +13,7 @@ public class UserInfo {
 	private String userName;
 
 	private String userType;
-	
+
 	private List<Integer> moduleIds;
 
 	private List<Integer> menuIds;

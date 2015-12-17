@@ -13,8 +13,7 @@ public class JsonUtils {
 			gb.registerTypeAdapterFactory(HibernateProxyTypeAdapter.FACTORY);
 			gb.addSerializationExclusionStrategy(new ExclusionStrategy() {
 				public boolean shouldSkipField(FieldAttributes fieldAttributes) {
-					final Expose expose = fieldAttributes
-							.getAnnotation(Expose.class);
+					final Expose expose = fieldAttributes.getAnnotation(Expose.class);
 					return expose != null && !expose.serialize();
 				}
 
@@ -24,8 +23,7 @@ public class JsonUtils {
 			});
 			gb.addDeserializationExclusionStrategy(new ExclusionStrategy() {
 				public boolean shouldSkipField(FieldAttributes fieldAttributes) {
-					final Expose expose = fieldAttributes
-							.getAnnotation(Expose.class);
+					final Expose expose = fieldAttributes.getAnnotation(Expose.class);
 					return expose != null && !expose.deserialize();
 				}
 

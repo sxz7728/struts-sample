@@ -44,11 +44,9 @@ public class QueryBuilder {
 			columnParams.add(params[0]);
 
 			if (params[0] instanceof Collection) {
-				column.append(Utilities.format(str, "(:" + PREFIX_COLUMN_PARAMS
-						+ columnParams.size() + ")"));
+				column.append(Utilities.format(str, "(:" + PREFIX_COLUMN_PARAMS + columnParams.size() + ")"));
 			} else {
-				column.append(Utilities.format(str, ":" + PREFIX_COLUMN_PARAMS
-						+ columnParams.size()));
+				column.append(Utilities.format(str, ":" + PREFIX_COLUMN_PARAMS + columnParams.size()));
 			}
 		} else {
 			List<String> args = Lists.newArrayList();
@@ -57,8 +55,7 @@ public class QueryBuilder {
 				columnParams.add(param);
 
 				if (params[0] instanceof Collection) {
-					args.add("(:" + PREFIX_COLUMN_PARAMS + columnParams.size()
-							+ ")");
+					args.add("(:" + PREFIX_COLUMN_PARAMS + columnParams.size() + ")");
 				} else {
 					args.add(":" + PREFIX_COLUMN_PARAMS + columnParams.size());
 				}
@@ -77,13 +74,9 @@ public class QueryBuilder {
 			whereParams.add(params[0]);
 
 			if (params[0] instanceof Collection) {
-				where.append(" ").append(
-						Utilities.format(str, "(:" + PREFIX_WHERE_PARAMS
-								+ whereParams.size() + ")"));
+				where.append(" ").append(Utilities.format(str, "(:" + PREFIX_WHERE_PARAMS + whereParams.size() + ")"));
 			} else {
-				where.append(" ").append(
-						Utilities.format(str, ":" + PREFIX_WHERE_PARAMS
-								+ whereParams.size()));
+				where.append(" ").append(Utilities.format(str, ":" + PREFIX_WHERE_PARAMS + whereParams.size()));
 			}
 		} else {
 			List<String> args = Lists.newArrayList();
@@ -92,8 +85,7 @@ public class QueryBuilder {
 				whereParams.add(param);
 
 				if (params[0] instanceof Collection) {
-					args.add("(:" + PREFIX_WHERE_PARAMS + whereParams.size()
-							+ ")");
+					args.add("(:" + PREFIX_WHERE_PARAMS + whereParams.size() + ")");
 				} else {
 					args.add(":" + PREFIX_WHERE_PARAMS + whereParams.size());
 				}

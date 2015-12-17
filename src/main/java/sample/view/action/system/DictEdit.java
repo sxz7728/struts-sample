@@ -33,13 +33,11 @@ public class DictEdit extends BaseAction {
 	@Action("dictSave")
 	public void save() {
 		if (!Utilities.isValidId(id)) {
-			sysDict = systemService.saveDict(type, sysDict.getDictKey(),
-					sysDict.getDictValue(), sysDict.getParentKey(),
-					sysDict.getSequence(), getUserInfo());
+			sysDict = systemService.saveDict(type, sysDict.getDictKey(), sysDict.getDictValue(),
+					sysDict.getParentKey(), sysDict.getSequence(), getUserInfo());
 		} else {
-			sysDict = systemService.updateDict(id, sysDict.getDictKey(),
-					sysDict.getDictValue(), sysDict.getParentKey(),
-					sysDict.getSequence(), getUserInfo());
+			sysDict = systemService.updateDict(id, sysDict.getDictKey(), sysDict.getDictValue(),
+					sysDict.getParentKey(), sysDict.getSequence(), getUserInfo());
 		}
 
 		writeJson(sysDict);

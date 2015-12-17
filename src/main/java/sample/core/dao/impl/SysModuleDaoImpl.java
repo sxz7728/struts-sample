@@ -6,6 +6,5 @@ import sample.core.dao.SysModuleDao;
 import sample.core.model.SysModule;
 
 @Repository
-public class SysModuleDaoImpl extends BaseDaoImpl<SysModule> implements
-		SysModuleDao {
+public class SysModuleDaoImpl extends BaseDaoImpl<SysModule> implements SysModuleDao {
 }

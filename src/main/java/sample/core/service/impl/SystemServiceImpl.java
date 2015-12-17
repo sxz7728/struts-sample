@@ -33,6 +33,7 @@ import sample.core.utils.DictUtils;
 import sample.core.utils.ModelUtils;
 import sample.core.utils.QueryBuilder;
 import sample.core.utils.QueryUtils;
+import sample.core.utils.Utilities;
 
 @Service
 public class SystemServiceImpl implements SystemService {
@@ -84,17 +85,16 @@ public class SystemServiceImpl implements SystemService {
 		sysModule.setName(name);
 		sysModule.setSequence(sequence);
 		sysModule.setDeleted(DictUtils.NO);
-		ModelUtils.setOperator(sysModule, userInfo);
+		ModelUtils.setInfo(sysModule, userInfo);
 		return sysModuleDao.save(sysModule);
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
-	public SysModule updateModule(Integer id, String name, Integer sequence,
-			UserInfo userInfo) {
+	public SysModule updateModule(Integer id, String name, Integer sequence, UserInfo userInfo) {
 		SysModule sysModule = sysModuleDao.load(id);
 		sysModule.setName(name);
 		sysModule.setSequence(sequence);
-		ModelUtils.setOperator(sysModule, userInfo);
+		ModelUtils.setInfo(sysModule, userInfo);
 		return sysModuleDao.update(sysModule);
 	}
 
@@ -120,30 +120,30 @@ public class SystemServiceImpl implements SystemService {
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
-	public SysMenu saveMenu(Integer moduleId, Integer parentId, String name,
-			String url, Integer sequence, String cssClass, UserInfo userInfo) {
+	public SysMenu saveMenu(Integer moduleId, Integer parentId, String name, String url, Integer sequence,
+			String cssClass, UserInfo userInfo) {
 		SysMenu sysMenu = new SysMenu();
-		sysMenu.setSysModule(sysModuleDao.load(moduleId));
+		sysMenu.setModuleId(moduleId);
 		sysMenu.setParentId(parentId);
 		sysMenu.setName(name);
 		sysMenu.setUrl(url);
 		sysMenu.setSequence(sequence);
 		sysMenu.setCssClass(cssClass);
 		sysMenu.setDeleted(DictUtils.NO);
-		ModelUtils.setOperator(sysMenu, userInfo);
+		ModelUtils.setInfo(sysMenu, userInfo);
 		return sysMenuDao.save(sysMenu);
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
-	public SysMenu updateMenu(Integer id, Integer parentId, String name,
-			String url, Integer sequence, String cssClass, UserInfo userInfo) {
+	public SysMenu updateMenu(Integer id, Integer parentId, String name, String url, Integer sequence, String cssClass,
+			UserInfo userInfo) {
 		SysMenu sysMenu = sysMenuDao.load(id);
 		sysMenu.setParentId(parentId);
 		sysMenu.setName(name);
 		sysMenu.setUrl(url);
 		sysMenu.setSequence(sequence);
 		sysMenu.setCssClass(cssClass);
-		ModelUtils.setOperator(sysMenu, userInfo);
+		ModelUtils.setInfo(sysMenu, userInfo);
 		return sysMenuDao.update(sysMenu);
 	}
 
@@ -162,7 +162,7 @@ public class SystemServiceImpl implements SystemService {
 
 			if (sysMenus.size() > 0) {
 				parentIds = Lists.newArrayList();
-				
+
 				for (SysMenu sysMenu : sysMenus) {
 					deleteIds.add(sysMenu.getId());
 					parentIds.add(sysMenu.getId());
@@ -200,8 +200,7 @@ public class SystemServiceImpl implements SystemService {
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
-	public SysRole saveRole(String name, Integer sequence,
-			List<Integer> menuIds, UserInfo userInfo) {
+	public SysRole saveRole(String name, Integer sequence, List<Integer> menuIds, UserInfo userInfo) {
 		SysRole sysRole = new SysRole();
 		sysRole.setName(name);
 		sysRole.setSequence(sequence);
@@ -213,13 +212,12 @@ public class SystemServiceImpl implements SystemService {
 		sysRole.setSysMenus(sysMenus);
 
 		sysRole.setDeleted(DictUtils.NO);
-		ModelUtils.setOperator(sysRole, userInfo);
+		ModelUtils.setInfo(sysRole, userInfo);
 		return sysRoleDao.save(sysRole);
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
-	public SysRole updateRole(Integer id, String name, Integer sequence,
-			List<Integer> menuIds, UserInfo userInfo) {
+	public SysRole updateRole(Integer id, String name, Integer sequence, List<Integer> menuIds, UserInfo userInfo) {
 		SysRole sysRole = sysRoleDao.load(id);
 		sysRole.setName(name);
 		sysRole.setSequence(sequence);
@@ -230,7 +228,7 @@ public class SystemServiceImpl implements SystemService {
 		List<SysMenu> sysMenus = sysMenuDao.find(qb);
 		sysRole.setSysMenus(sysMenus);
 
-		ModelUtils.setOperator(sysRole, userInfo);
+		ModelUtils.setInfo(sysRole, userInfo);
 		return sysRoleDao.save(sysRole);
 	}
 
@@ -282,8 +280,8 @@ public class SystemServiceImpl implements SystemService {
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
-	public SysDict saveDict(String type, String dictKey, String dictValue,
-			String parentKey, Integer sequence, UserInfo userInfo) {
+	public SysDict saveDict(String type, String dictKey, String dictValue, String parentKey, Integer sequence,
+			UserInfo userInfo) {
 		SysDict sysDict = new SysDict();
 		sysDict.setType(type);
 		sysDict.setDictKey(dictKey);
@@ -292,20 +290,20 @@ public class SystemServiceImpl implements SystemService {
 		sysDict.setSequence(sequence);
 
 		sysDict.setDeleted(DictUtils.NO);
-		ModelUtils.setOperator(sysDict, userInfo);
+		ModelUtils.setInfo(sysDict, userInfo);
 		return sysDictDao.save(sysDict);
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
-	public SysDict updateDict(Integer id, String dictKey, String dictValue,
-			String parentKey, Integer sequence, UserInfo userInfo) {
+	public SysDict updateDict(Integer id, String dictKey, String dictValue, String parentKey, Integer sequence,
+			UserInfo userInfo) {
 		SysDict sysDict = sysDictDao.load(id);
 		sysDict.setDictKey(dictKey);
 		sysDict.setDictValue(dictValue);
 		sysDict.setParentKey(parentKey);
 		sysDict.setSequence(sequence);
 
-		ModelUtils.setOperator(sysDict, userInfo);
+		ModelUtils.setInfo(sysDict, userInfo);
 		return sysDictDao.update(sysDict);
 	}
 
@@ -381,15 +379,13 @@ public class SystemServiceImpl implements SystemService {
 
 				if (userInfo.isAdmin()) {
 					qb = new QueryBuilder();
-					QueryUtils
-							.addWhere(qb, "and t.deleted = {0}", DictUtils.NO);
+					QueryUtils.addWhere(qb, "and t.deleted = {0}", DictUtils.NO);
 					sysMenus = sysMenuDao.find(qb);
 				} else {
 					sysMenus = Lists.newArrayList();
 
 					for (SysRole sysRole : sysUser.getSysRoles()) {
-						sysMenus = ListUtils.union(sysMenus,
-								sysRole.getSysMenus());
+						sysMenus = ListUtils.union(sysMenus, sysRole.getSysMenus());
 					}
 				}
 
@@ -397,7 +393,7 @@ public class SystemServiceImpl implements SystemService {
 				List<Integer> menuIds = Lists.newArrayList();
 
 				for (SysMenu sysMenu : sysMenus) {
-					if (!DictUtils.getYesNo(sysMenu.getDeleted())) {
+					if (!Utilities.getYesNo(sysMenu.getDeleted())) {
 						if (!menuIds.contains(sysMenu.getId())) {
 							menuIds.add(sysMenu.getId());
 						}

@@ -27,8 +27,7 @@ public class Main extends BaseAction {
 	public String execute() {
 		QueryBuilder qb = new QueryBuilder();
 		QueryUtils.addWhere(qb, "and t.deleted = {0}", DictUtils.NO);
-		QueryUtils.addWhereWithDefault(qb, "and t.id in {0}", getUserInfo()
-				.getModuleIds(), -1);
+		QueryUtils.addWhereWithDefault(qb, "and t.id in {0}", getUserInfo().getModuleIds(), -1);
 		QueryUtils.addOrder(qb, "t.sequence");
 		sysModules = systemService.findModule(qb);
 		return INPUT;
@@ -43,8 +42,7 @@ public class Main extends BaseAction {
 		QueryUtils.addColumn(qb, "t.cssClass");
 		QueryUtils.addWhere(qb, "and t.deleted = {0}", DictUtils.NO);
 		QueryUtils.addWhere(qb, "and t.sysModule.id = {0}", moduleId);
-		QueryUtils.addWhereWithDefault(qb, "and t.id in {0}", getUserInfo()
-				.getMenuIds(), -1);
+		QueryUtils.addWhereWithDefault(qb, "and t.id in {0}", getUserInfo().getMenuIds(), -1);
 		QueryUtils.addOrder(qb, "t.sequence");
 		QueryUtils.addOrder(qb, "t.id");
 		writeJson(systemService.datagridMenu(qb));

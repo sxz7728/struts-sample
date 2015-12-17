@@ -9,6 +9,8 @@ import sample.core.utils.QueryBuilder;
 public interface BaseDao<T> {
 	public T load(Integer id);
 
+	public T get(Integer id);
+
 	public T save(T obj);
 
 	public T update(T obj);
@@ -26,6 +28,8 @@ public interface BaseDao<T> {
 	public List<T> find(QueryBuilder qb);
 
 	public Integer count(QueryBuilder qb);
+
+	public T get(QueryBuilder qb);
 
 	public Datagrid datagrid(QueryBuilder qb);
 

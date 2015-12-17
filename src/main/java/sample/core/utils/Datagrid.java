@@ -7,7 +7,7 @@ public class Datagrid {
 	private List<Map<String, ?>> rows;
 
 	private Integer count;
-	
+
 	public List<Map<String, ?>> getRows() {
 		return rows;
 	}

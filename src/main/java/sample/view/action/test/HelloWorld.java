@@ -15,4 +15,8 @@ public class HelloWorld extends BaseAction {
 	public String execute() {
 		return INPUT;
 	}
+
+	public static void main(String[] args) {
+
+	}
 }

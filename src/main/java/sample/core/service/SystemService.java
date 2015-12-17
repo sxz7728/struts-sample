@@ -26,8 +26,7 @@ public interface SystemService {
 
 	public SysModule saveModule(String name, Integer sequence, UserInfo userInfo);
 
-	public SysModule updateModule(Integer id, String name, Integer sequence,
-			UserInfo userInfo);
+	public SysModule updateModule(Integer id, String name, Integer sequence, UserInfo userInfo);
 
 	// Menu
 	public SysMenu loadMenu(Integer id);
@@ -38,11 +37,11 @@ public interface SystemService {
 
 	public Datagrid datagridMenu(QueryBuilder qb);
 
-	public SysMenu saveMenu(Integer moduleId, Integer parentId, String name,
-			String url, Integer sequence, String cssClass, UserInfo userInfo);
+	public SysMenu saveMenu(Integer moduleId, Integer parentId, String name, String url, Integer sequence,
+			String cssClass, UserInfo userInfo);
 
-	public SysMenu updateMenu(Integer id, Integer parentId, String name,
-			String url, Integer sequence, String cssClass, UserInfo userInfo);
+	public SysMenu updateMenu(Integer id, Integer parentId, String name, String url, Integer sequence, String cssClass,
+			UserInfo userInfo);
 
 	public Integer deleteMenu(Integer id);
 
@@ -55,11 +54,9 @@ public interface SystemService {
 
 	public Datagrid datagridRole(QueryBuilder qb);
 
-	public SysRole saveRole(String name, Integer sequence,
-			List<Integer> menuIds, UserInfo userInfo);
+	public SysRole saveRole(String name, Integer sequence, List<Integer> menuIds, UserInfo userInfo);
 
-	public SysRole updateRole(Integer id, String name, Integer sequence,
-			List<Integer> menuIds, UserInfo userInfo);
+	public SysRole updateRole(Integer id, String name, Integer sequence, List<Integer> menuIds, UserInfo userInfo);
 
 	// User
 	public SysUser loadUser(Integer id);
@@ -81,11 +78,11 @@ public interface SystemService {
 
 	public List<Map<String, ?>> dictionaryDict(QueryBuilder qb);
 
-	public SysDict saveDict(String type, String dictKey, String dictValue,
-			String parentKey, Integer sequence, UserInfo userInfo);
+	public SysDict saveDict(String type, String dictKey, String dictValue, String parentKey, Integer sequence,
+			UserInfo userInfo);
 
-	public SysDict updateDict(Integer id, String dictKey, String dictValue,
-			String parentKey, Integer sequence, UserInfo userInfo);
+	public SysDict updateDict(Integer id, String dictKey, String dictValue, String parentKey, Integer sequence,
+			UserInfo userInfo);
 
 	public Integer deleteDict(Integer id);
 

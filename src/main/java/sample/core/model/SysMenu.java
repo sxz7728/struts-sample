@@ -15,6 +15,9 @@ import com.google.gson.annotations.Expose;
 @Entity
 @Table(name = "sys_menu")
 public class SysMenu extends BaseModel {
+	@Column(name = "module_id")
+	private Integer moduleId;
+
 	@Column(name = "parent_id")
 	private Integer parentId;
 
@@ -28,13 +31,21 @@ public class SysMenu extends BaseModel {
 	private String cssClass;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "module_id")
+	@JoinColumn(name = "module_id", insertable = false, updatable = false)
 	@Expose(serialize = false, deserialize = false)
 	private SysModule sysModule;
 
 	@ManyToMany(mappedBy = "sysMenus")
 	@Expose(serialize = false, deserialize = false)
 	private List<SysRole> sysRoles;
+
+	public Integer getModuleId() {
+		return moduleId;
+	}
+
+	public void setModuleId(Integer moduleId) {
+		this.moduleId = moduleId;
+	}
 
 	public Integer getParentId() {
 		return parentId;

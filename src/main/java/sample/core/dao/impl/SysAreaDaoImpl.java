@@ -7,5 +7,5 @@ import sample.core.model.SysArea;
 
 @Repository
 public class SysAreaDaoImpl extends BaseDaoImpl<SysArea> implements SysAreaDao {
-	
+
 }
