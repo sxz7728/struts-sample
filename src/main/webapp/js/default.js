@@ -1,3 +1,5 @@
+"use strict";
+
 jQuery.ajaxSettings.traditional = true;
 jQuery.validator.setDefaults({
 	ignore : ".ignore"

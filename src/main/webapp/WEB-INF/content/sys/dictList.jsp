@@ -7,7 +7,7 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <s:head />
-<%@ include file="/include/bootgrid.jsp"%>
+<%@ include file="/include/datagrid.jsp"%>
 
 <script id="typeTemplate" type="text/template">
 <s:select id="type" name="type" list="findDict(DictUtils.DICT_TYPE)"
@@ -92,7 +92,7 @@
 								class="table table-hover table-striped">
 								<thead>
 									<tr>
-										<th data-column-id="serialNo" data-formatter="serialNo"
+										<th data-column-id="index" data-formatter="index"
 											style="width: 100px">序号</th>
 										<th data-column-id="dictKey">字典键</th>
 										<th data-column-id="dictValue">字典值</th>

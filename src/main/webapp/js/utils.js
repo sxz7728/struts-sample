@@ -1,9 +1,12 @@
+"use strict";
+
 String.isNullOrEmpty = function(str) {
 	return str == undefined || str == null || str == "";
 };
 
 String.prototype.format = function(args) {
 	var result = this;
+
 	if (arguments.length > 0) {
 		if (arguments.length == 1 && typeof (args) == "object") {
 			for ( var key in args) {
@@ -21,6 +24,7 @@ String.prototype.format = function(args) {
 			}
 		}
 	}
+
 	return result;
 };
 
@@ -194,8 +198,7 @@ String.prototype.format = function(args) {
 		$this.find("option[value != '']").remove();
 
 		$.each(opts.data, function(i, e) {
-			$this.append("<option value='" + e.key + "'>" + e.value
-					+ "</option>");
+			$this.append("<option value='" + e.key + "'>" + e.value + "</option>");
 		});
 
 		$this.val(opts.value);

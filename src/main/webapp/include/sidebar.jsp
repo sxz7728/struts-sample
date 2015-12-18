@@ -52,6 +52,8 @@
 </script>
 
 <script type="text/javascript">
+	"use strict";
+
 	(function($) {
 		var template = doT.template($("#sidebarTemplate").html());
 

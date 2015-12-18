@@ -84,7 +84,6 @@ public class SystemServiceImpl implements SystemService {
 		SysModule sysModule = new SysModule();
 		sysModule.setName(name);
 		sysModule.setSequence(sequence);
-		sysModule.setDeleted(DictUtils.NO);
 		ModelUtils.setInfo(sysModule, userInfo);
 		return sysModuleDao.save(sysModule);
 	}
@@ -129,7 +128,6 @@ public class SystemServiceImpl implements SystemService {
 		sysMenu.setUrl(url);
 		sysMenu.setSequence(sequence);
 		sysMenu.setCssClass(cssClass);
-		sysMenu.setDeleted(DictUtils.NO);
 		ModelUtils.setInfo(sysMenu, userInfo);
 		return sysMenuDao.save(sysMenu);
 	}
@@ -210,8 +208,6 @@ public class SystemServiceImpl implements SystemService {
 		QueryUtils.addWhereWithDefault(qb, "and t.id in {0}", menuIds, -1);
 		List<SysMenu> sysMenus = sysMenuDao.find(qb);
 		sysRole.setSysMenus(sysMenus);
-
-		sysRole.setDeleted(DictUtils.NO);
 		ModelUtils.setInfo(sysRole, userInfo);
 		return sysRoleDao.save(sysRole);
 	}
@@ -288,8 +284,6 @@ public class SystemServiceImpl implements SystemService {
 		sysDict.setDictValue(dictValue);
 		sysDict.setParentKey(parentKey);
 		sysDict.setSequence(sequence);
-
-		sysDict.setDeleted(DictUtils.NO);
 		ModelUtils.setInfo(sysDict, userInfo);
 		return sysDictDao.save(sysDict);
 	}

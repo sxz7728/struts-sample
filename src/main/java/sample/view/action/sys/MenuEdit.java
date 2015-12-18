@@ -1,4 +1,4 @@
-package sample.view.action.system;
+package sample.view.action.sys;
 
 import org.apache.struts2.convention.annotation.Action;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,11 +44,6 @@ public class MenuEdit extends BaseAction {
 		}
 
 		writeJson(sysMenu);
-	}
-
-	@Action("menuDelete")
-	public void delete() {
-		writeJson(systemService.deleteMenu(id));
 	}
 
 	public Integer getId() {

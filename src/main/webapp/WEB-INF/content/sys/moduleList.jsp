@@ -7,7 +7,7 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <s:head />
-<%@ include file="/include/treegrid.jsp"%>
+<%@ include file="/include/datagrid.jsp"%>
 
 <script type="text/javascript">
 	function edit(id, parentId) {
@@ -130,7 +130,7 @@
 							<table id="datagrid" class="table table-hover table-striped">
 								<thead>
 									<tr>
-										<th data-column="id:'serialNo',formatter:'serialNo'"
+										<th data-column="id:'index',formatter:'index'"
 											style="width: 200px">序号</th>
 										<th data-column="id:'name'" style="width: 20%">名称</th>
 										<th data-column="id:'url'" style="width: 20%">链接</th>
