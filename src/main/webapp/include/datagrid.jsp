@@ -29,6 +29,8 @@
 	"use strict";
 
 	(function($) {
+		var namespace = "_datagrid";
+		
 		function appendRows($this, rows, parentId, parentIndex) {
 			var opts = $this.data(namespace).opts;
 			var columns = $this.data(namespace).columns;
@@ -89,7 +91,7 @@
 
 			var $tbody = $this.children("tbody").find("tbody");
 
-			$this.data("_datagrid", {
+			$this.data(namespace, {
 				opts : opts,
 				columns : columns,
 				$tbody : $tbody
@@ -100,7 +102,7 @@
 
 		methods.reload = function(params) {
 			var $this = $(this);
-			var opts = $this.data("_datagrid").opts;
+			var opts = $this.data(namespace).opts;
 			var $tbody = $this.data(namespace).$tbody;
 
 			if (params != null) {

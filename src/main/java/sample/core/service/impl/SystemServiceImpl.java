@@ -1,5 +1,6 @@
 package sample.core.service.impl;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -97,6 +98,11 @@ public class SystemServiceImpl implements SystemService {
 		return sysModuleDao.update(sysModule);
 	}
 
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void deleteModule(Collection<Integer> ids) {
+
+	}
+
 	// Menu
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public SysMenu loadMenu(Integer id) {
@@ -146,9 +152,9 @@ public class SystemServiceImpl implements SystemService {
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
-	public Integer deleteMenu(Integer id) {
-		List<Integer> deleteIds = Lists.newArrayList(id);
-		List<Integer> parentIds = Lists.newArrayList(id);
+	public void deleteMenu(Collection<Integer> ids) {
+		List<Integer> deleteIds = Lists.newArrayList(ids);
+		List<Integer> parentIds = Lists.newArrayList(ids);
 		QueryBuilder qb = null;
 
 		for (int i = 0; i < 10; ++i) {
@@ -173,7 +179,7 @@ public class SystemServiceImpl implements SystemService {
 		qb = new QueryBuilder();
 		QueryUtils.addSetColumn(qb, "t.deleted", DictUtils.YES);
 		QueryUtils.addWhere(qb, "and t.id in {0}", deleteIds);
-		return sysMenuDao.update(qb);
+		sysMenuDao.update(qb);
 	}
 
 	// Role

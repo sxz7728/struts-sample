@@ -1,5 +1,6 @@
 package sample.core.service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -27,7 +28,9 @@ public interface SystemService {
 	public SysModule saveModule(String name, Integer sequence, UserInfo userInfo);
 
 	public SysModule updateModule(Integer id, String name, Integer sequence, UserInfo userInfo);
-
+	
+	public void deleteModule(Collection<Integer> ids);
+	
 	// Menu
 	public SysMenu loadMenu(Integer id);
 
@@ -43,7 +46,7 @@ public interface SystemService {
 	public SysMenu updateMenu(Integer id, Integer parentId, String name, String url, Integer sequence, String cssClass,
 			UserInfo userInfo);
 
-	public Integer deleteMenu(Integer id);
+	public void deleteMenu(Collection<Integer> ids);
 
 	// Role
 	public SysRole loadRole(Integer id);

@@ -49,10 +49,15 @@
 	}
 
 	$(function() {
-		$("#datagrid")._treegrid({
-			url : "menuDatagrid",
-			params : {
-				moduleId : $("#module").val()
+		$("#datagrid")._datagrid({
+			url : "moduleDatagrid",
+			load : function(result) {
+				var modules = result.data.modules;
+				var menus = result.data.menus;
+
+				return {
+					rows : modules
+				};
 			},
 			commands : {
 				"command-add" : function() {
@@ -96,7 +101,7 @@
 	<div id="wrapper">
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">菜单维护</h1>
+				<h1 class="page-header">模块维护</h1>
 			</div>
 			<!-- /.col-lg-12 -->
 			<div class="row">
@@ -106,12 +111,6 @@
 							<div class="treegrid-header container-fluid">
 								<div class="row">
 									<div class="col-sm-12 actionBar">
-										<div class="search form-group form-inline">
-											<label class="control-label">模块</label>
-											<s:select id="module" list="findModule()" listKey="id"
-												listValue="name" cssClass="form-control"
-												cssStyle="width: 120px;"></s:select>
-										</div>
 										<div class="btn-group">
 											<button id="add" type="button" class="btn btn-default">新增</button>
 											<button id="refresh" type="button" class="btn btn-default">
@@ -136,8 +135,7 @@
 										<th data-column="id:'url'" style="width: 20%">链接</th>
 										<th data-column="id:'cssClass'" style="width: 20%">样式</th>
 										<th data-column="id:'sequence'" style="width: 20%">顺序</th>
-										<th data-column="id:'commands',formatter:'commands'"
-											style="width: 100px">操作</th>
+										<th data-column="id:'commands'" style="width: 100px">操作</th>
 									</tr>
 								</thead>
 							</table>
