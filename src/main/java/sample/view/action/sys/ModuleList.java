@@ -27,15 +27,16 @@ public class ModuleList extends BaseAction {
 	@Action("moduleDatagrid")
 	public void datagrid() {
 		Map<String, Object> data = Maps.newHashMap();
-		
+
 		QueryBuilder qb = new QueryBuilder();
 		QueryUtils.addColumn(qb, "t.name");
 		QueryUtils.addWhere(qb, "and t.deleted = {0}", DictUtils.NO);
 		QueryUtils.addOrder(qb, "t.sequence");
 		QueryUtils.addOrder(qb, "t.id");
 		data.put("modules", systemService.datagridModule(qb));
-		
+
 		qb = new QueryBuilder();
+		QueryUtils.addColumn(qb, "t.moduleId");
 		QueryUtils.addColumn(qb, "t.name");
 		QueryUtils.addColumn(qb, "t.parentId");
 		QueryUtils.addColumn(qb, "t.url");
@@ -45,7 +46,7 @@ public class ModuleList extends BaseAction {
 		QueryUtils.addOrder(qb, "t.sequence");
 		QueryUtils.addOrder(qb, "t.id");
 		data.put("menus", systemService.datagridMenu(qb));
-		
+
 		writeJson(data);
 	}
 }

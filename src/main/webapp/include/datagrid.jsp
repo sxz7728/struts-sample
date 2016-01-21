@@ -62,10 +62,14 @@
 					$tr.append($td);
 				}
 
+				$tr.click(function() {
+					opts.clickRow.call($this, e, index);
+				});
+
 				$tbody.append($tr);
 
 				if (e.children && e.children.length > 0) {
-					appendRows($this, e.children, opts, id, index);
+					appendRows($this, e.children, id, index);
 				}
 			});
 		}
@@ -73,13 +77,25 @@
 		var methods = {};
 
 		methods.init = function(options) {
-			var opts = jQuery.extend({}, $.fn._datagrid.defaults, options);
+			var opts = $.extend(true, {}, $.fn._datagrid.defaults, options);
 			var $this = $(this);
 			var columns = [];
+
+			var $div = $("<div></div>");
+			var $table = $("<table></table>");
+			var $tbody = $("<tbody></tbody>");
 
 			if (opts.formatters.index == null) {
 				opts.formatters.index = function(row, value, index) {
 					return "&nbsp;&nbsp;" + index;
+				};
+			}
+
+			if (opts.formatters.checkbox == null) {
+				opts.formatters.checkbox = function(row, value, index) {
+					var $checkbox = $("<input type='checkbox' data-id='{0}' />".format(row[opts.idColumn]));
+					$checkbox.addClass("checkbox");
+					return $checkbox;
 				};
 			}
 
@@ -91,12 +107,39 @@
 					$e.css("width", column.width);
 				}
 
+				if (column.formatter == "checkbox") {
+					var $checkbox = $("<input type='checkbox' />");
+
+					$checkbox.click(function() {
+						$tbody.find(".checkbox").prop("checked", $checkbox.prop("checked"));
+					});
+
+					$tbody.on("change", ".checkbox", function() {
+						$checkbox.prop("checked", $tbody.find(".checkbox").not(":checked").size() == 0);
+
+						var $current = $(this).parents("tr:first");
+						var $parent = $current.treegrid("getParentNode");
+						var $next = $current.next();
+						var depth = $current.treegrid("getDepth");
+						var checked = $(this).prop("checked");
+
+						while ($parent != null) {
+							var $checkboxs = $parent.treegrid("getChildNodes").find(".checkbox");
+							$parent.find(".checkbox").prop("checked", $checkboxs.not(":checked").size() == 0);
+							$parent = $parent.treegrid("getParentNode");
+						}
+
+						while ($next.size() > 0 && depth < $next.treegrid("getDepth")) {
+							$next.find(".checkbox").prop("checked", checked);
+							$next = $next.next();
+						}
+					});
+
+					$e.append($checkbox);
+				}
+
 				columns.push(column);
 			});
-
-			var $div = $("<div></div>");
-			var $table = $("<table></table>");
-			var $tbody = $("<tbody></tbody>");
 
 			$div.append($table);
 			$div.css("overflow-y", "auto");
@@ -111,6 +154,12 @@
 				columns : columns,
 				$tbody : $tbody
 			});
+
+			if (opts.height != null) {
+				$div.css("height", opts.height);
+			} else {
+				$div._autoHeight();
+			}
 
 			methods.reload.apply(this);
 		};
@@ -128,13 +177,11 @@
 				success : function(result) {
 					var data = opts.load(result);
 
-					console.log(data);
-
 					$tbody.empty();
 					appendRows($this, data.rows);
 
 					if (opts.tree) {
-						$this.treegrid(opts);
+						$tbody.parent().treegrid(opts);
 					}
 				}
 			}));
@@ -154,10 +201,13 @@
 			id : "id",
 			tree : false,
 			saveState : true,
+			treeColumn : 1,
 			formatters : {},
 			commands : {},
 			load : function(result) {
 				return result.data;
+			},
+			clickRow : function() {
 			}
 		};
 	})(jQuery);

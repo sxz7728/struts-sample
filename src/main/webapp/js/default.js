@@ -7,10 +7,9 @@ jQuery.validator.setDefaults({
 
 (function($) {
 	$._edit = function(options) {
-		var opts = $.extend({}, $._edit.defaults, options);
+		var opts = $.extend(true, {}, $._edit.defaults, options);
 		var url = $._url(opts.url, opts.params);
-		opts.message = "<iframe src='{0}' style='height:{1}px'/>".format(url,
-				opts.height);
+		opts.message = "<iframe src='{0}' style='height:{1}px'/>".format(url, opts.height);
 
 		opts.buttons = {
 			OK : {
@@ -25,7 +24,7 @@ jQuery.validator.setDefaults({
 						url : opts.saveUrl,
 						async : false,
 						success : function(result) {
-							close = opts.success.apply($this[0], arguments);
+							close = opts.success.apply($this, arguments);
 
 							$._notify({
 								message : "保存成功!",
@@ -33,7 +32,7 @@ jQuery.validator.setDefaults({
 							});
 						},
 						failed : function(result) {
-							close = opts.failed.apply($this[0], arguments);
+							close = opts.failed.apply($this, arguments);
 
 							$._notify({
 								message : "保存失败!",
@@ -68,7 +67,7 @@ jQuery.validator.setDefaults({
 	};
 
 	$._delete = function(options) {
-		var opts = $.extend({}, $._delete.defaults, options);
+		var opts = $.extend(true, {}, $._delete.defaults, options);
 
 		$._confirm({
 			title : "确认",

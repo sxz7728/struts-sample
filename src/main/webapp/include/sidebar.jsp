@@ -59,9 +59,9 @@
 
 		$.fn._sidebar = function(options) {
 			var $this = $(this);
-			var opts = jQuery.extend({}, $.fn._sidebar.defaults, options);
+			var opts = $.extend(true, {}, $.fn._sidebar.defaults, options);
 
-			$._ajax(jQuery.extend({}, opts, {
+			$._ajax($.extend({}, opts, {
 				success : function(result) {
 					$this.hide().html(template({
 						rows : $._tree({

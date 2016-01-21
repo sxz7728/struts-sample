@@ -52,7 +52,7 @@ String.prototype.format = function(args) {
 	};
 
 	$._notify = function(options) {
-		var opts = $.extend({}, $._notify.defaults, options);
+		var opts = $.extend(true, {}, $._notify.defaults, options);
 		top.$.notify(opts.message, opts);
 	};
 
@@ -62,7 +62,7 @@ String.prototype.format = function(args) {
 	};
 
 	$._confirm = function(options) {
-		var opts = $.extend({}, $._confirm.defaults, options);
+		var opts = $.extend(true, {}, $._confirm.defaults, options);
 		top.bootbox.confirm(opts);
 	};
 
@@ -80,7 +80,7 @@ String.prototype.format = function(args) {
 	};
 
 	$._ajax = function(options) {
-		var opts = $.extend({}, $._ajax.defaults, options);
+		var opts = $.extend(true, {}, $._ajax.defaults, options);
 
 		opts.url = $._url(opts.url);
 		opts.data = opts.params;
@@ -115,17 +115,20 @@ String.prototype.format = function(args) {
 
 	};
 
-	$._tree = function(options) {
-		var opts = $.extend({}, $._tree.defaults, options);
+	$._tree = function(rows, options) {
+		var opts = $.extend(true, {}, $._tree.defaults, options);
 		var tree = [];
 		var map = {};
 
-		$.each(opts.rows, function(i, e) {
+		$.each(rows, function(i, e) {
 			map[e[opts.id]] = e;
-			e[opts.children] = [];
+
+			if (e[opts.children] == null) {
+				e[opts.children] = [];
+			}
 		});
 
-		$.each(opts.rows, function(i, e) {
+		$.each(rows, function(i, e) {
 			if (e[opts.parentId] != null && map[e[opts.parentId]] != null) {
 				map[e[opts.parentId]][opts.children].push(e);
 			} else {
@@ -143,7 +146,7 @@ String.prototype.format = function(args) {
 	};
 
 	$._dialog = function(options) {
-		var opts = $.extend({}, $._dialog.defaults, options);
+		var opts = $.extend(true, {}, $._dialog.defaults, options);
 		top.bootbox.dialog(opts);
 	};
 
@@ -155,8 +158,35 @@ String.prototype.format = function(args) {
 		$this.attr("src", url);
 	};
 
+	$.fn._autoHeight = function() {
+		$(this).each(function() {
+			var $this = $(this);
+			var height = $this.height();
+			var $child = $(this);
+
+			$this.parents().each(function(i, e) {
+				var bottom = $child.offset().top + $child.outerHeight(true);
+
+				$(e).children().each(function(i, e) {
+					if ($(e).offset().top > bottom) {
+						bottom = Math.max(bottom, $(e).offset().top + $(e).outerHeight(true));
+					}
+				});
+
+				bottom = $(e).offset().top + $(e).height() - bottom;
+
+				if (bottom > 10) {
+					$this.height(Math.floor($this.height() + bottom));
+					return false;
+				}
+
+				$child = $(e);
+			});
+		});
+	};
+
 	$.fn._ajaxSubmit = function(options) {
-		var opts = $.extend({}, $.fn._ajaxSubmit.defaults, options);
+		var opts = $.extend(true, {}, $.fn._ajaxSubmit.defaults, options);
 		var $this = $(this);
 
 		opts.url = $._url(opts.url);
@@ -192,7 +222,7 @@ String.prototype.format = function(args) {
 	};
 
 	$.fn._jsonSelect = function(options) {
-		var opts = $.extend({}, $.fn._jsonSelect.defaults, options);
+		var opts = $.extend(true, {}, $.fn._jsonSelect.defaults, options);
 		var $this = $(this);
 
 		$this.find("option[value != '']").remove();
@@ -214,7 +244,7 @@ String.prototype.format = function(args) {
 	};
 
 	$.fn._ajaxSelect = function(options) {
-		var opts = $.extend({}, $.fn._ajaxSelect.defaults, options);
+		var opts = $.extend(true, {}, $.fn._ajaxSelect.defaults, options);
 		var $this = $(this);
 
 		opts.success = function(result) {

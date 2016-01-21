@@ -51,22 +51,30 @@
 	$(function() {
 		$("#datagrid")._datagrid({
 			url : "moduleDatagrid",
+			tree : true,
 			load : function(result) {
-				var modules = result.data.modules;
-				var menus = result.data.menus;
-				return modules;
+				var modules = result.data.modules.rows;
+
+				$.each(modules, function(i, e) {
+					e.id = "module-" + e.id;
+				});
+
+				var menus = result.data.menus.rows;
+
+				$.each(menus, function(i, e) {
+					e.moduleId = "module-" + e.moduleId;
+				});
+
+				var rows = $._tree(menus);
+				rows = $._tree(modules.concat(rows), {
+					parentId : "moduleId"
+				});
+
+				return {
+					rows : rows
+				};
 			},
-			commands : {
-				"command-add" : function() {
-					edit(null, $(this).data("id"));
-				},
-				"command-edit" : function() {
-					edit($(this).data("id"));
-				},
-				"command-delete" : function() {
-					del($(this).data("id"));
-				}
-			}
+
 		});
 
 		$("#add").click(function() {
@@ -75,20 +83,6 @@
 
 		$("#refresh").click(function() {
 			$("#datagrid")._datagrid("reload");
-		});
-
-		$("#expand").click(function() {
-			$("#datagrid")._datagrid("expandAll");
-		});
-
-		$("#collapse").click(function() {
-			$("#datagrid")._datagrid("collapseAll");
-		});
-
-		$("#module").change(function() {
-			$("#datagrid")._datagrid("reload", {
-				moduleId : $("#module").val()
-			});
 		});
 	});
 </script>
@@ -121,9 +115,9 @@
 							<table id="datagrid" class="table table-hover table-striped">
 								<thead>
 									<tr>
-										<th data-column="id:'index',formatter:'index',width:'200px'">序号</th>
+										<th data-column="id:'index',formatter:'checkbox',width:'50px'"></th>
 										<th data-column="id:'name',width:'20%'">名称</th>
-										<th data-column="id:'url',width:'20%'">链接</th>
+										<th data-column="id:'url'">链接</th>
 										<th data-column="id:'cssClass',width:'20%'">样式</th>
 										<th data-column="id:'sequence',width:'20%'">顺序</th>
 										<th data-column="id:'commands',width:'100px'">操作</th>
