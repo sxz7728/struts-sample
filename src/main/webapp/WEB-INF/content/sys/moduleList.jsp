@@ -26,12 +26,12 @@
 					$(this).find("iframe")._refresh();
 					return false;
 				} else {
-					$("#datagrid")._treegrid("reload");
+					$("#datagrid")._datagrid("reload");
 					return true;
 				}
 			},
 			cancel : function() {
-				$("#datagrid")._treegrid("reload");
+				$("#datagrid")._datagrid("reload");
 			}
 		});
 	}
@@ -43,7 +43,7 @@
 				id : id
 			},
 			success : function() {
-				$("#datagrid")._treegrid("reload");
+				$("#datagrid")._datagrid("reload");
 			}
 		});
 	}
@@ -54,10 +54,7 @@
 			load : function(result) {
 				var modules = result.data.modules;
 				var menus = result.data.menus;
-
-				return {
-					rows : modules
-				};
+				return modules;
 			},
 			commands : {
 				"command-add" : function() {
@@ -77,19 +74,19 @@
 		});
 
 		$("#refresh").click(function() {
-			$("#datagrid")._treegrid("reload");
+			$("#datagrid")._datagrid("reload");
 		});
 
 		$("#expand").click(function() {
-			$("#datagrid")._treegrid("expandAll");
+			$("#datagrid")._datagrid("expandAll");
 		});
 
 		$("#collapse").click(function() {
-			$("#datagrid")._treegrid("collapseAll");
+			$("#datagrid")._datagrid("collapseAll");
 		});
 
 		$("#module").change(function() {
-			$("#datagrid")._treegrid("reload", {
+			$("#datagrid")._datagrid("reload", {
 				moduleId : $("#module").val()
 			});
 		});
@@ -108,37 +105,32 @@
 				<div class="col-lg-12">
 					<div class="panel panel-default">
 						<div id="auto-min-height" class="panel-body">
-							<div class="treegrid-header container-fluid">
+							<div class="table-header container-fluid">
 								<div class="row">
 									<div class="col-sm-12 actionBar">
 										<div class="btn-group">
 											<button id="add" type="button" class="btn btn-default">新增</button>
+
 											<button id="refresh" type="button" class="btn btn-default">
-												<span class="icon glyphicon glyphicon-refresh"></span>
-											</button>
-											<button id="expand" type="button" class="btn btn-default">
-												<span class="icon glyphicon glyphicon-zoom-in"></span>
-											</button>
-											<button id="collapse" type="button" class="btn btn-default">
-												<span class="icon glyphicon glyphicon-zoom-out"></span>
-											</button>
+												刷新</button>
 										</div>
 									</div>
 								</div>
 							</div>
+
 							<table id="datagrid" class="table table-hover table-striped">
 								<thead>
 									<tr>
-										<th data-column="id:'index',formatter:'index'"
-											style="width: 200px">序号</th>
-										<th data-column="id:'name'" style="width: 20%">名称</th>
-										<th data-column="id:'url'" style="width: 20%">链接</th>
-										<th data-column="id:'cssClass'" style="width: 20%">样式</th>
-										<th data-column="id:'sequence'" style="width: 20%">顺序</th>
-										<th data-column="id:'commands'" style="width: 100px">操作</th>
+										<th data-column="id:'index',formatter:'index',width:'200px'">序号</th>
+										<th data-column="id:'name',width:'20%'">名称</th>
+										<th data-column="id:'url',width:'20%'">链接</th>
+										<th data-column="id:'cssClass',width:'20%'">样式</th>
+										<th data-column="id:'sequence',width:'20%'">顺序</th>
+										<th data-column="id:'commands',width:'100px'">操作</th>
 									</tr>
 								</thead>
 							</table>
+
 						</div>
 					</div>
 				</div>

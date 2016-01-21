@@ -36,17 +36,17 @@ iframe {
 	color: red;
 }
 
-.treegrid-header {
+.table-header {
 	margin: 15px 0;
 }
 
-.treegrid-header .search {
+.table-header .search {
 	display: inline-block;
 	margin: 0 20px 0 0;
 	vertical-align: middle;
 	width: 180px;
 }
 
-.treegrid-header .actionBar {
+.table-header .actionBar {
 	text-align: right;
 }

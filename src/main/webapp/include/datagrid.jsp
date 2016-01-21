@@ -10,8 +10,6 @@
 	<script
 		src="<%=request.getContextPath()%>/js/jquery.treegrid.bootstrap3.js"
 		type="text/javascript"></script>
-	<script src="<%=request.getContextPath()%>/js/jquery.scrolltable.js"
-		type="text/javascript"></script>
 </s:if>
 <s:else>
 	<link href="<%=request.getContextPath()%>/css/jquery.treegrid.css"
@@ -21,8 +19,6 @@
 	<script
 		src="<%=request.getContextPath()%>/js/jquery.treegrid.bootstrap3.js"
 		type="text/javascript"></script>
-	<script src="<%=request.getContextPath()%>/js/jquery.scrolltable.js"
-		type="text/javascript"></script>
 </s:else>
 
 <script type="text/javascript">
@@ -30,7 +26,7 @@
 
 	(function($) {
 		var namespace = "_datagrid";
-		
+
 		function appendRows($this, rows, parentId, parentIndex) {
 			var opts = $this.data(namespace).opts;
 			var columns = $this.data(namespace).columns;
@@ -51,6 +47,10 @@
 				for (var j = 0; j < columns.length; ++j) {
 					var column = columns[j];
 					var $td = $("<td></td>");
+
+					if (column.width != null) {
+						$td.css("width", column.width);
+					}
 
 					if (column.formatter != null) {
 						var formatter = opts.formatters[column.formatter];
@@ -84,13 +84,28 @@
 			}
 
 			$this.find("th").each(function(i, e) {
-				columns.push(eval("({" + $(e).data("column") + "})"));
+				var $e = $(e);
+				var column = eval("({" + $e.data("column") + "})");
+
+				if (column.width != null) {
+					$e.css("width", column.width);
+				}
+
+				columns.push(column);
 			});
 
-			$this.scrolltable(opts);
+			var $div = $("<div></div>");
+			var $table = $("<table></table>");
+			var $tbody = $("<tbody></tbody>");
 
-			var $tbody = $this.children("tbody").find("tbody");
+			$div.append($table);
+			$div.css("overflow-y", "auto");
 
+			$table.append($tbody);
+			$table.attr("class", $this.attr("class"));
+
+			$this.after($div);
+			$this.css("margin-bottom", "-1px");
 			$this.data(namespace, {
 				opts : opts,
 				columns : columns,
@@ -112,8 +127,11 @@
 			$._ajax($.extend({}, opts, {
 				success : function(result) {
 					var data = opts.load(result);
+
+					console.log(data);
+
 					$tbody.empty();
-					appendRows($this, data.rows, opts);
+					appendRows($this, data.rows);
 
 					if (opts.tree) {
 						$this.treegrid(opts);
