@@ -28,9 +28,9 @@ public interface SystemService {
 	public SysModule saveModule(String name, Integer sequence, UserInfo userInfo);
 
 	public SysModule updateModule(Integer id, String name, Integer sequence, UserInfo userInfo);
-	
-	public void deleteModule(Collection<Integer> ids);
-	
+
+	public void deleteModule(Collection<Integer> ids, UserInfo userInfo);
+
 	// Menu
 	public SysMenu loadMenu(Integer id);
 
@@ -46,7 +46,7 @@ public interface SystemService {
 	public SysMenu updateMenu(Integer id, Integer parentId, String name, String url, Integer sequence, String cssClass,
 			UserInfo userInfo);
 
-	public void deleteMenu(Collection<Integer> ids);
+	public void deleteMenu(Collection<Integer> ids, UserInfo userInfo);
 
 	// Role
 	public SysRole loadRole(Integer id);
@@ -87,7 +87,7 @@ public interface SystemService {
 	public SysDict updateDict(Integer id, String dictKey, String dictValue, String parentKey, Integer sequence,
 			UserInfo userInfo);
 
-	public Integer deleteDict(Integer id);
+	public void deleteDict(Collection<Integer> ids, UserInfo userInfo);
 
 	// Area
 	public SysArea loadArea(Integer id);

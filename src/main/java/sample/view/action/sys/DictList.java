@@ -30,7 +30,7 @@ public class DictList extends BaseAction {
 		QueryUtils.addColumn(qb, "t.dictKey");
 		QueryUtils.addColumn(qb, "t.dictValue");
 		QueryUtils.addColumn(qb, "t.sequence");
-		QueryUtils.addWhere(qb, "and t.deleted = {0}", DictUtils.NO);
+		QueryUtils.addWhere(qb, "and t.delFlag = {0}", DictUtils.NO);
 		QueryUtils.addWhere(qb, "and t.type = {0}", type);
 		QueryUtils.addWhereIfNotEmpty(qb, "and (t.dictKey like {0} or t.dictValue like {0})", getQueryName());
 		QueryUtils.addOrder(qb, "t.sequence");
@@ -41,7 +41,7 @@ public class DictList extends BaseAction {
 	@Action("dictDictionary")
 	public void dictionary() {
 		QueryBuilder qb = new QueryBuilder();
-		QueryUtils.addWhere(qb, "and t.deleted = {0}", DictUtils.NO);
+		QueryUtils.addWhere(qb, "and t.delFlag = {0}", DictUtils.NO);
 		QueryUtils.addWhere(qb, "and t.type = {0}", type);
 		QueryUtils.addWhereIfNotEmpty(qb, "and t.parentKey = {0}", parentKey);
 		QueryUtils.addOrder(qb, "t.sequence");

@@ -16,30 +16,20 @@ jQuery.validator.setDefaults({
 				label : "保存",
 				className : "btn-primary",
 				callback : function() {
+					var $this = $(this);
 					var close = false;
 
-					$this = $(this);
-					frame = $this.find("iframe")[0];
-					frame.contentWindow.$("form")._ajaxSubmit({
+					$this.find("iframe")._save({
 						url : opts.saveUrl,
 						async : false,
 						success : function(result) {
 							close = opts.success.apply($this, arguments);
-
-							$._notify({
-								message : "保存成功!",
-								className : "success"
-							});
 						},
 						failed : function(result) {
 							close = opts.failed.apply($this, arguments);
-
-							$._notify({
-								message : "保存失败!",
-								className : "error"
-							});
 						}
 					});
+
 					return close;
 				}
 			},
@@ -69,11 +59,22 @@ jQuery.validator.setDefaults({
 	$._delete = function(options) {
 		var opts = $.extend(true, {}, $._delete.defaults, options);
 
+		if (opts.ids.length == 0) {
+			$._notify({
+				message : "请勾选要删除的记录!",
+				className : "warning"
+			});
+
+			return;
+		}
+
 		$._confirm({
 			title : "确认",
 			message : "是否要删除当前记录?",
 			callback : function(result) {
 				if (result) {
+					opts.params.ids = opts.ids;
+
 					$._ajax($.extend({}, opts, {
 						success : function(result) {
 							opts.success.apply(this, arguments);
@@ -98,11 +99,76 @@ jQuery.validator.setDefaults({
 	};
 
 	$._delete.defaults = {
+		ids : [],
+		params : {},
 		success : function() {
 		},
 		failed : function() {
 		}
 	};
+
+	$._save = function(options) {
+		var opts = $.extend(true, {}, $._save.defaults, options);
+
+		if (opts.formId == null) {
+			opts.formId = "form";
+		} else {
+			opts.formId = "#" + opts.formId;
+		}
+
+		$(opts.formId)._ajaxSubmit($.extend({}, opts, {
+			success : function(result) {
+				$._notify({
+					message : "保存成功!",
+					className : "success"
+				});
+
+				opts.success.apply(this, arguments);
+			},
+			failed : function(result) {
+				$._notify({
+					message : "保存失败!",
+					className : "error"
+				});
+
+				opts.failed.apply(this, arguments);
+			}
+		}));
+	};
+
+	$._save.defaults = {
+		formId : null,
+		success : function() {
+		},
+		failed : function() {
+		}
+	};
+
+	$._valid = function() {
+		if ($("form").size() > 0) {
+			return $("form").valid();
+		}
+
+		return true;
+	};
+
+	$.fn._save = function(options) {
+		var opts = $.extend(true, {}, $.fn._save.defaults, options);
+
+		if (this[0].contentWindow.$ != null) {
+			this[0].contentWindow.$._save(opts);
+		}
+	};
+
+	$.fn._valid = function() {
+		if (this[0].contentWindow.$ != null) {
+			return this[0].contentWindow.$._valid();
+		}
+
+		return true;
+	};
+
+	$.fn._save.defaults = {};
 })(jQuery);
 
 $(function() {

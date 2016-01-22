@@ -9,13 +9,9 @@
 <s:head />
 <%@ include file="/include/datagrid.jsp"%>
 
-<script id="typeTemplate" type="text/template">
-<s:select id="type" name="type" list="findDict(DictUtils.DICT_TYPE)"
-	listKey="key" listValue="value" cssClass="form-control"
-	cssStyle="width: 120px;"></s:select>
-</script>
-
 <script type="text/javascript">
+	"use strict";
+
 	function edit(id) {
 		$._edit({
 			title : id == null ? "新增字典" : "编辑字典",
@@ -54,24 +50,9 @@
 	}
 
 	$(function() {
-		$("#datagrid")._bootgrid({
+		$("#datagrid")._datagrid({
 			url : "dictDatagrid",
-			searches : {
-				"类型" : $("#typeTemplate").html()
-			},
-			buttons : {
-				"新增" : function() {
-					edit();
-				}
-			},
-			commands : {
-				"command-edit" : function() {
-					edit($(this).data("id"));
-				},
-				"command-delete" : function() {
-					del($(this).data("id"));
-				}
-			}
+			
 		});
 	});
 </script>
@@ -88,17 +69,27 @@
 				<div class="col-lg-12">
 					<div class="panel panel-default">
 						<div id="auto-min-height" class="panel-body">
-							<table id="datagrid"
-								class="table table-hover table-striped">
+							<div class="table-header container-fluid">
+								<div class="row">
+									<div class="col-sm-12 actionBar">
+										<div class="btn-group">
+											<button id="add" type="button" class="btn btn-default">新增</button>
+
+											<button id="refresh" type="button" class="btn btn-default">
+												刷新</button>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<table id="datagrid" class="table table-hover table-striped">
 								<thead>
 									<tr>
-										<th data-column-id="index" data-formatter="index"
-											style="width: 100px">序号</th>
-										<th data-column-id="dictKey">字典键</th>
-										<th data-column-id="dictValue">字典值</th>
-										<th data-column-id="sequence">顺序</th>
-										<th data-column-id="commands" data-formatter="commands"
-											style="width: 100px">操作</th>
+										<th data-column="formatter:'checkbox',width:'50px'"></th>
+										<th data-column="id:'dictKey'">字典键</th>
+										<th data-column="id:'dictValue'">字典值</th>
+										<th data-column="id:'sequence'">顺序</th>
+										<th data-column="id:'commands',width:'100px'">操作</th>
 									</tr>
 								</thead>
 							</table>

@@ -44,6 +44,14 @@
 					$tr.addClass("treegrid-parent-" + parentId);
 				}
 
+				if (e.trClass != null) {
+					$tr.addClass(e.trClass);
+				}
+
+				if (e.trStyle != null) {
+					$tr.attr("style", e.trStyle);
+				}
+
 				for (var j = 0; j < columns.length; ++j) {
 					var column = columns[j];
 					var $td = $("<td></td>");
@@ -117,7 +125,7 @@
 					$tbody.on("change", ".checkbox", function() {
 						$checkbox.prop("checked", $tbody.find(".checkbox").not(":checked").size() == 0);
 
-						var $current = $(this).parents("tr:first");
+						var $current = $(this).closest("tr");
 						var $parent = $current.treegrid("getParentNode");
 						var $next = $current.next();
 						var depth = $current.treegrid("getDepth");
@@ -187,6 +195,19 @@
 			}));
 		};
 
+		methods.getChecked = function(callback) {
+			var $this = $(this);
+			var $tbody = $this.data(namespace).$tbody;
+
+			return $tbody.find(".checkbox:checked").map(function(i, e) {
+				if (callback) {
+					return callback($(e).closest("tr").data(namespace));
+				} else {
+					return $(e).closest("tr").data(namespace);
+				}
+			}).get();
+		};
+
 		$.fn._datagrid = function(method) {
 			if (methods[method]) {
 				return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
@@ -203,7 +224,6 @@
 			saveState : true,
 			treeColumn : 1,
 			formatters : {},
-			commands : {},
 			load : function(result) {
 				return result.data;
 			},

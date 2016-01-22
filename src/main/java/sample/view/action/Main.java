@@ -26,7 +26,7 @@ public class Main extends BaseAction {
 	@Action("main")
 	public String execute() {
 		QueryBuilder qb = new QueryBuilder();
-		QueryUtils.addWhere(qb, "and t.deleted = {0}", DictUtils.NO);
+		QueryUtils.addWhere(qb, "and t.delFlag = {0}", DictUtils.NO);
 		QueryUtils.addWhereWithDefault(qb, "and t.id in {0}", getUserInfo().getModuleIds(), -1);
 		QueryUtils.addOrder(qb, "t.sequence");
 		sysModules = systemService.findModule(qb);
@@ -40,7 +40,7 @@ public class Main extends BaseAction {
 		QueryUtils.addColumn(qb, "t.name");
 		QueryUtils.addColumn(qb, "t.url");
 		QueryUtils.addColumn(qb, "t.cssClass");
-		QueryUtils.addWhere(qb, "and t.deleted = {0}", DictUtils.NO);
+		QueryUtils.addWhere(qb, "and t.delFlag = {0}", DictUtils.NO);
 		QueryUtils.addWhere(qb, "and t.sysModule.id = {0}", moduleId);
 		QueryUtils.addWhereWithDefault(qb, "and t.id in {0}", getUserInfo().getMenuIds(), -1);
 		QueryUtils.addOrder(qb, "t.sequence");

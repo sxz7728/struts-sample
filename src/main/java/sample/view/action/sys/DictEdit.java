@@ -1,5 +1,7 @@
 package sample.view.action.sys;
 
+import java.util.List;
+
 import org.apache.struts2.convention.annotation.Action;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -19,6 +21,8 @@ public class DictEdit extends BaseAction {
 	private String type;
 
 	private SysDict sysDict;
+
+	private List<Integer> ids;
 
 	@Action("dictEdit")
 	public String execute() {
@@ -45,7 +49,8 @@ public class DictEdit extends BaseAction {
 
 	@Action("dictDelete")
 	public void delete() {
-		writeJson(systemService.deleteDict(id));
+		systemService.deleteDict(ids, getUserInfo());
+		writeJson();
 	}
 
 	public Integer getId() {

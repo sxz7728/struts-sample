@@ -5,6 +5,8 @@ import java.util.Collection;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 
+import sample.core.info.UserInfo;
+
 import com.google.common.collect.Lists;
 
 public class QueryUtils {
@@ -30,6 +32,12 @@ public class QueryUtils {
 
 	public static QueryBuilder addSetColumn(QueryBuilder qb, String name, Object param) {
 		return qb.addColumn(name + " = {0}", param);
+	}
+
+	public static QueryBuilder addSetColumn(QueryBuilder qb, UserInfo userInfo) {
+		qb.addColumn("t.operatorId = {0}", userInfo.getUserId());
+		qb.addColumn("t.operateDate = {0}", userInfo.getOperateDate());
+		return qb;
 	}
 
 	public static QueryBuilder addWhere(QueryBuilder qb, String str, Object... params) {

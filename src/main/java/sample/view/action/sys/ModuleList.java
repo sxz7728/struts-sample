@@ -30,7 +30,7 @@ public class ModuleList extends BaseAction {
 
 		QueryBuilder qb = new QueryBuilder();
 		QueryUtils.addColumn(qb, "t.name");
-		QueryUtils.addWhere(qb, "and t.deleted = {0}", DictUtils.NO);
+		QueryUtils.addWhere(qb, "and t.delFlag = {0}", DictUtils.NO);
 		QueryUtils.addOrder(qb, "t.sequence");
 		QueryUtils.addOrder(qb, "t.id");
 		data.put("modules", systemService.datagridModule(qb));
@@ -42,7 +42,7 @@ public class ModuleList extends BaseAction {
 		QueryUtils.addColumn(qb, "t.url");
 		QueryUtils.addColumn(qb, "t.sequence");
 		QueryUtils.addColumn(qb, "t.cssClass");
-		QueryUtils.addWhere(qb, "and t.deleted = {0}", DictUtils.NO);
+		QueryUtils.addWhere(qb, "and t.delFlag = {0}", DictUtils.NO);
 		QueryUtils.addOrder(qb, "t.sequence");
 		QueryUtils.addOrder(qb, "t.id");
 		data.put("menus", systemService.datagridMenu(qb));

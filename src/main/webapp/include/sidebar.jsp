@@ -64,11 +64,10 @@
 			$._ajax($.extend({}, opts, {
 				success : function(result) {
 					$this.hide().html(template({
-						rows : $._tree({
-							rows : result.data.rows
-						}),
+						rows : $._tree(result.data.rows),
 						target : opts.target
 					})).fadeIn(opts.dual);
+					
 					$("#side-menu").metisMenu();
 
 					$this.find("a").each(function(i, e) {

@@ -10,13 +10,49 @@
 <%@ include file="/include/datagrid.jsp"%>
 
 <script type="text/javascript">
-	function edit(id, parentId) {
+	"use strict";
+
+	function moduleEdit(id) {
+		$._edit({
+			title : id == null ? "新增模块" : "编辑模块",
+			url : "moduleEdit",
+			params : {
+				id : id
+			},
+			saveUrl : "moduleSave",
+			height : 300,
+			success : function() {
+				if (id == null) {
+					$(this).find("iframe")._refresh();
+					return false;
+				} else {
+					$("#datagrid")._datagrid("reload");
+					return true;
+				}
+			},
+			cancel : function() {
+				$("#datagrid")._datagrid("reload");
+			}
+		});
+	}
+
+	function moduleDelete(ids) {
+		$._delete({
+			url : "moduleDelete",
+			ids : ids,
+			success : function() {
+				$("#datagrid")._datagrid("reload");
+			}
+		});
+	}
+
+	function menuEdit(id, moduleId, parentId) {
 		$._edit({
 			title : id == null ? "新增菜单" : "编辑菜单",
 			url : "menuEdit",
 			params : {
-				moduleId : $("#module").val(),
 				id : id,
+				moduleId : moduleId,
 				parentId : parentId,
 			},
 			saveUrl : "menuSave",
@@ -36,12 +72,10 @@
 		});
 	}
 
-	function del(id) {
+	function menuDelete(ids) {
 		$._delete({
 			url : "menuDelete",
-			params : {
-				id : id
-			},
+			ids : ids,
 			success : function() {
 				$("#datagrid")._datagrid("reload");
 			}
@@ -56,13 +90,16 @@
 				var modules = result.data.modules.rows;
 
 				$.each(modules, function(i, e) {
+					e._id = e.id;
 					e.id = "module-" + e.id;
 				});
 
 				var menus = result.data.menus.rows;
 
 				$.each(menus, function(i, e) {
+					e._moduleId = e.moduleId;
 					e.moduleId = "module-" + e.moduleId;
+					e.trStyle = "color:#006699";
 				});
 
 				var rows = $._tree(menus);
@@ -75,10 +112,65 @@
 				};
 			},
 
+			formatters : {
+				commands : function(row, value, index) {
+					var $add = $("<button type='button' class='btn btn-default btn-xs'></button>");
+					$add.html("<span class='glyphicon glyphicon glyphicon-plus'></span>");
+
+					$add.click(function() {
+						if (row.id > 0) {
+							menuEdit(null, row._moduleId, row.id);
+						} else {
+							menuEdit(null, row._id);
+						}
+					});
+
+					var $edit = $("<button type='button' class='btn btn-default btn-xs'></button>");
+					$edit.html("<span class='glyphicon glyphicon glyphicon-edit'></span>");
+
+					$edit.click(function() {
+						if (row.id > 0) {
+							menuEdit(row.id);
+						} else {
+							moduleEdit(row._id);
+						}
+					});
+
+					var $del = $("<button type='button' class='btn btn-default btn-xs'></button>");
+					$del.html("<span class='glyphicon glyphicon glyphicon-trash'></span>");
+
+					$del.click(function() {
+						if (row.id > 0) {
+							menuDelete(row.id);
+						} else {
+							moduleDelete(row._id);
+						}
+					});
+
+					return [ $add, "&nbsp;", $edit, "&nbsp;", $del ];
+				}
+			}
+
 		});
 
-		$("#add").click(function() {
-			edit();
+		$("#moduleAdd").click(function() {
+			moduleEdit();
+		});
+
+		$("#moduleDelete").click(function() {
+			var ids = $("#datagrid")._datagrid("getChecked", function(row) {
+				return !(row.id > 0) ? row._id : null;
+			});
+
+			moduleDelete(ids);
+		});
+
+		$("#menuDelete").click(function() {
+			var ids = $("#datagrid")._datagrid("getChecked", function(row) {
+				return row.id > 0 ? row.id : null;
+			});
+
+			menuDelete(ids);
 		});
 
 		$("#refresh").click(function() {
@@ -103,10 +195,11 @@
 								<div class="row">
 									<div class="col-sm-12 actionBar">
 										<div class="btn-group">
-											<button id="add" type="button" class="btn btn-default">新增</button>
-
-											<button id="refresh" type="button" class="btn btn-default">
-												刷新</button>
+											<button id="moduleAdd" type="button" class="btn btn-default">新增模块</button>
+											<button id="moduleDelete" type="button"
+												class="btn btn-default">删除模块</button>
+											<button id="menuDelete" type="button" class="btn btn-default">删除菜单</button>
+											<button id="refresh" type="button" class="btn btn-default">刷新</button>
 										</div>
 									</div>
 								</div>
@@ -115,12 +208,12 @@
 							<table id="datagrid" class="table table-hover table-striped">
 								<thead>
 									<tr>
-										<th data-column="id:'index',formatter:'checkbox',width:'50px'"></th>
+										<th data-column="formatter:'checkbox',width:'50px'"></th>
 										<th data-column="id:'name',width:'20%'">名称</th>
 										<th data-column="id:'url'">链接</th>
 										<th data-column="id:'cssClass',width:'20%'">样式</th>
 										<th data-column="id:'sequence',width:'20%'">顺序</th>
-										<th data-column="id:'commands',width:'100px'">操作</th>
+										<th data-column="formatter:'commands',width:'100px'">操作</th>
 									</tr>
 								</thead>
 							</table>

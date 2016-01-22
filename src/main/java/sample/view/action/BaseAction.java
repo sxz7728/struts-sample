@@ -17,7 +17,7 @@ import org.apache.struts2.interceptor.ServletResponseAware;
 import org.apache.struts2.util.ServletContextAware;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import sample.core.exception.AuthFailedException;
+import sample.core.exception.NotLoginException;
 import sample.core.info.UserInfo;
 import sample.core.service.SystemService;
 import sample.core.utils.DictUtils;
@@ -101,7 +101,7 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
 			userInfo = (UserInfo) getSession().getAttribute(SESSION_USER_INFO);
 
 			if (userInfo == null) {
-				throw new AuthFailedException("not logged in.");
+				throw new NotLoginException();
 			}
 
 			userInfo.setOperateDate(new Date());
@@ -155,7 +155,7 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
 
 	public List<Map<String, ?>> findDict(String type) {
 		QueryBuilder qb = new QueryBuilder();
-		QueryUtils.addWhere(qb, "and t.deleted = {0}", DictUtils.NO);
+		QueryUtils.addWhere(qb, "and t.delFlag = {0}", DictUtils.NO);
 		QueryUtils.addWhere(qb, "and t.type = {0}", type);
 		QueryUtils.addOrder(qb, "t.sequence");
 		QueryUtils.addOrder(qb, "t.id");
@@ -189,5 +189,9 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
 		result.setSuccess(false);
 		result.setError(error.getMessage());
 		writeJson(result);
+	}
+
+	public void writeJson() {
+		writeJson(true);
 	}
 }

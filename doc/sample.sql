@@ -30,7 +30,7 @@ CREATE TABLE `sys_area` (
   `area_key` varchar(10) DEFAULT NULL,
   `area_value` varchar(50) DEFAULT NULL,
   `parent_key` varchar(10) DEFAULT NULL,
-  `deleted` char(1) DEFAULT NULL,
+  `del_flag` char(1) DEFAULT NULL,
   `operator_id` int(11) DEFAULT NULL,
   `operate_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -60,12 +60,11 @@ CREATE TABLE `sys_dict` (
   `dict_value` varchar(50) DEFAULT NULL,
   `parent_key` varchar(10) DEFAULT NULL,
   `sequence` int(11) DEFAULT NULL,
-  `deleted` char(1) DEFAULT NULL,
+  `del_flag` char(1) DEFAULT NULL,
   `operator_id` int(11) DEFAULT NULL,
   `operate_date` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `index2` (`type`,`dict_key`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -95,7 +94,7 @@ CREATE TABLE `sys_file` (
   `suffix` varchar(50) DEFAULT NULL,
   `size` int(11) DEFAULT NULL,
   `sequence` int(11) DEFAULT NULL,
-  `deleted` char(1) DEFAULT NULL,
+  `del_flag` char(1) DEFAULT NULL,
   `operator_id` int(11) DEFAULT NULL,
   `operate_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -126,13 +125,13 @@ CREATE TABLE `sys_menu` (
   `url` varchar(100) DEFAULT NULL,
   `sequence` int(11) DEFAULT NULL,
   `css_class` varchar(50) DEFAULT NULL,
-  `deleted` char(1) DEFAULT NULL,
+  `del_flag` char(1) DEFAULT NULL,
   `operator_id` int(11) DEFAULT NULL,
   `operate_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_sys_menu1_idx` (`module_id`),
   CONSTRAINT `fk_sys_menu1` FOREIGN KEY (`module_id`) REFERENCES `sys_module` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -141,7 +140,7 @@ CREATE TABLE `sys_menu` (
 
 LOCK TABLES `sys_menu` WRITE;
 /*!40000 ALTER TABLE `sys_menu` DISABLE KEYS */;
-INSERT INTO `sys_menu` VALUES (1,1,NULL,'测试1','test/helloWorld',100,'fa fa-sitemap fa-fw','0',NULL,NULL),(2,1,NULL,'测试2',NULL,200,'fa fa-bar-chart-o fa-fw','0',NULL,NULL),(3,1,2,'测试3',NULL,100,'','0',NULL,NULL),(4,1,2,'测试5','',200,'','0',1,'2015-04-14 17:26:39'),(5,1,3,'测试4','test/helloWorld',100,NULL,'0',NULL,NULL),(6,1,NULL,'字典维护','system/dictList',10,NULL,'0',NULL,NULL),(7,1,NULL,'菜单维护','system/menuList',20,NULL,'0',NULL,NULL);
+INSERT INTO `sys_menu` VALUES (1,1,NULL,'测试1','test/helloWorld',100,'fa fa-sitemap fa-fw','0',NULL,NULL),(2,1,NULL,'测试2',NULL,200,'fa fa-bar-chart-o fa-fw','0',NULL,NULL),(3,1,2,'测试3',NULL,100,'','0',NULL,NULL),(4,1,2,'测试5','',200,'','0',1,'2015-04-14 17:26:39'),(5,1,3,'测试4','test/helloWorld',100,NULL,'0',NULL,NULL),(6,1,NULL,'字典维护','sys/dictList',10,'','0',1,'2016-01-22 14:43:04'),(7,1,NULL,'菜单维护','sys/moduleList',20,NULL,'0',NULL,NULL);
 /*!40000 ALTER TABLE `sys_menu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -156,7 +155,7 @@ CREATE TABLE `sys_module` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) DEFAULT NULL,
   `sequence` int(11) DEFAULT NULL,
-  `deleted` char(1) DEFAULT NULL,
+  `del_flag` char(1) DEFAULT NULL,
   `operator_id` int(11) DEFAULT NULL,
   `operate_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -184,7 +183,7 @@ CREATE TABLE `sys_role` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) DEFAULT NULL,
   `sequence` int(11) DEFAULT NULL,
-  `deleted` char(1) DEFAULT NULL,
+  `del_flag` char(1) DEFAULT NULL,
   `operator_id` int(11) DEFAULT NULL,
   `operate_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -245,7 +244,7 @@ CREATE TABLE `sys_user` (
   `state` varchar(10) DEFAULT NULL,
   `nickname` varchar(50) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
-  `deleted` char(1) DEFAULT NULL,
+  `del_flag` char(1) DEFAULT NULL,
   `operator_id` int(11) DEFAULT NULL,
   `operate_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -307,4 +306,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-04-14 17:31:09
+-- Dump completed on 2016-01-22 15:04:43

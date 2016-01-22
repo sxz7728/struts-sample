@@ -19,8 +19,8 @@ public abstract class BaseModel {
 	@Access(AccessType.PROPERTY)
 	private Integer id;
 
-	@Column(name = "deleted")
-	private String deleted;
+	@Column(name = "del_flag")
+	private String delFlag;
 
 	@Column(name = "operator_id")
 	private Integer operatorId;
@@ -37,12 +37,12 @@ public abstract class BaseModel {
 		this.id = id;
 	}
 
-	public String getDeleted() {
-		return deleted;
+	public String getDelFlag() {
+		return delFlag;
 	}
 
-	public void setDeleted(String deleted) {
-		this.deleted = deleted;
+	public void setDelFlag(String delFlag) {
+		this.delFlag = delFlag;
 	}
 
 	public Integer getOperatorId() {

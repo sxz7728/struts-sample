@@ -99,8 +99,20 @@ public class SystemServiceImpl implements SystemService {
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
-	public void deleteModule(Collection<Integer> ids) {
+	public void deleteModule(Collection<Integer> ids, UserInfo userInfo) {
+		QueryBuilder qb = new QueryBuilder();
+		QueryUtils.addSetColumn(qb, "t.delFlag", DictUtils.YES);
+		QueryUtils.addSetColumn(qb, userInfo);
+		QueryUtils.addWhere(qb, "and t.delFlag = {0}", DictUtils.NO);
+		QueryUtils.addWhere(qb, "and t.id in {0}", ids);
+		sysModuleDao.update(qb);
 
+		qb = new QueryBuilder();
+		QueryUtils.addSetColumn(qb, "t.delFlag", DictUtils.YES);
+		QueryUtils.addSetColumn(qb, userInfo);
+		QueryUtils.addWhere(qb, "and t.delFlag = {0}", DictUtils.NO);
+		QueryUtils.addWhere(qb, "and t.moduleId in {0}", ids);
+		sysMenuDao.update(qb);
 	}
 
 	// Menu
@@ -152,14 +164,14 @@ public class SystemServiceImpl implements SystemService {
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
-	public void deleteMenu(Collection<Integer> ids) {
+	public void deleteMenu(Collection<Integer> ids, UserInfo userInfo) {
 		List<Integer> deleteIds = Lists.newArrayList(ids);
 		List<Integer> parentIds = Lists.newArrayList(ids);
 		QueryBuilder qb = null;
 
 		for (int i = 0; i < 10; ++i) {
 			qb = new QueryBuilder();
-			QueryUtils.addWhere(qb, "and t.deleted = {0}", DictUtils.NO);
+			QueryUtils.addWhere(qb, "and t.delFlag = {0}", DictUtils.NO);
 			QueryUtils.addWhere(qb, "and t.parentId in {0}", parentIds);
 
 			List<SysMenu> sysMenus = sysMenuDao.find(qb);
@@ -177,7 +189,8 @@ public class SystemServiceImpl implements SystemService {
 		}
 
 		qb = new QueryBuilder();
-		QueryUtils.addSetColumn(qb, "t.deleted", DictUtils.YES);
+		QueryUtils.addSetColumn(qb, "t.delFlag", DictUtils.YES);
+		QueryUtils.addSetColumn(qb, userInfo);
 		QueryUtils.addWhere(qb, "and t.id in {0}", deleteIds);
 		sysMenuDao.update(qb);
 	}
@@ -210,7 +223,7 @@ public class SystemServiceImpl implements SystemService {
 		sysRole.setSequence(sequence);
 
 		QueryBuilder qb = new QueryBuilder();
-		QueryUtils.addWhere(qb, "and t.deleted = {0}", DictUtils.NO);
+		QueryUtils.addWhere(qb, "and t.delFlag = {0}", DictUtils.NO);
 		QueryUtils.addWhereWithDefault(qb, "and t.id in {0}", menuIds, -1);
 		List<SysMenu> sysMenus = sysMenuDao.find(qb);
 		sysRole.setSysMenus(sysMenus);
@@ -225,7 +238,7 @@ public class SystemServiceImpl implements SystemService {
 		sysRole.setSequence(sequence);
 
 		QueryBuilder qb = new QueryBuilder();
-		QueryUtils.addWhere(qb, "and t.deleted = {0}", DictUtils.NO);
+		QueryUtils.addWhere(qb, "and t.delFlag = {0}", DictUtils.NO);
 		QueryUtils.addWhereWithDefault(qb, "and t.id in {0}", menuIds, -1);
 		List<SysMenu> sysMenus = sysMenuDao.find(qb);
 		sysRole.setSysMenus(sysMenus);
@@ -308,11 +321,12 @@ public class SystemServiceImpl implements SystemService {
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
-	public Integer deleteDict(Integer id) {
+	public void deleteDict(Collection<Integer> ids, UserInfo userInfo) {
 		QueryBuilder qb = new QueryBuilder();
-		QueryUtils.addSetColumn(qb, "t.deleted", DictUtils.YES);
-		QueryUtils.addWhere(qb, "and t.id = {0}", id);
-		return sysDictDao.update(qb);
+		QueryUtils.addSetColumn(qb, "t.delFlag", DictUtils.YES);
+		QueryUtils.addSetColumn(qb, userInfo);
+		QueryUtils.addWhere(qb, "and t.id in {0}", ids);
+		sysDictDao.update(qb);
 	}
 
 	// Area
@@ -361,7 +375,7 @@ public class SystemServiceImpl implements SystemService {
 	@Transactional(propagation = Propagation.REQUIRED)
 	public UserInfo login(String username, String password) {
 		QueryBuilder qb = new QueryBuilder();
-		QueryUtils.addWhere(qb, "and t.deleted = {0}", DictUtils.NO);
+		QueryUtils.addWhere(qb, "and t.delFlag = {0}", DictUtils.NO);
 		QueryUtils.addWhere(qb, "and t.username = {0}", username);
 
 		List<SysUser> sysUsers = sysUserDao.find(qb);
@@ -379,7 +393,7 @@ public class SystemServiceImpl implements SystemService {
 
 				if (userInfo.isAdmin()) {
 					qb = new QueryBuilder();
-					QueryUtils.addWhere(qb, "and t.deleted = {0}", DictUtils.NO);
+					QueryUtils.addWhere(qb, "and t.delFlag = {0}", DictUtils.NO);
 					sysMenus = sysMenuDao.find(qb);
 				} else {
 					sysMenus = Lists.newArrayList();
@@ -393,7 +407,7 @@ public class SystemServiceImpl implements SystemService {
 				List<Integer> menuIds = Lists.newArrayList();
 
 				for (SysMenu sysMenu : sysMenus) {
-					if (!Utilities.getYesNo(sysMenu.getDeleted())) {
+					if (!Utilities.getYesNo(sysMenu.getDelFlag())) {
 						if (!menuIds.contains(sysMenu.getId())) {
 							menuIds.add(sysMenu.getId());
 						}

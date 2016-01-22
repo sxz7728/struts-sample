@@ -1,5 +1,7 @@
 package sample.view.action.sys;
 
+import java.util.List;
+
 import org.apache.struts2.convention.annotation.Action;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -21,6 +23,8 @@ public class MenuEdit extends BaseAction {
 	private Integer parentId;
 
 	private SysMenu sysMenu;
+
+	private List<Integer> ids;
 
 	@Action("menuEdit")
 	public String execute() {
@@ -44,6 +48,12 @@ public class MenuEdit extends BaseAction {
 		}
 
 		writeJson(sysMenu);
+	}
+
+	@Action("menuDelete")
+	public void delete() {
+		systemService.deleteMenu(ids, getUserInfo());
+		writeJson();
 	}
 
 	public Integer getId() {
@@ -76,6 +86,14 @@ public class MenuEdit extends BaseAction {
 
 	public void setSysMenu(SysMenu sysMenu) {
 		this.sysMenu = sysMenu;
+	}
+
+	public List<Integer> getIds() {
+		return ids;
+	}
+
+	public void setIds(List<Integer> ids) {
+		this.ids = ids;
 	}
 
 }

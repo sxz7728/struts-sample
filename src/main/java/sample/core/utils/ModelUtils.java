@@ -11,7 +11,7 @@ public class ModelUtils {
 		}
 
 		if (!Utilities.isValidId(model.getId())) {
-			model.setDeleted(DictUtils.NO);
+			model.setDelFlag(DictUtils.NO);
 		}
 	}
 }

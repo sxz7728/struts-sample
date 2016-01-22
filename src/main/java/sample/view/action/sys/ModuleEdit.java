@@ -1,5 +1,7 @@
 package sample.view.action.sys;
 
+import java.util.List;
+
 import org.apache.struts2.convention.annotation.Action;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -17,6 +19,8 @@ public class ModuleEdit extends BaseAction {
 	private Integer id;
 
 	private SysModule sysModule;
+
+	private List<Integer> ids;
 
 	@Action("moduleEdit")
 	public String execute() {
@@ -38,6 +42,12 @@ public class ModuleEdit extends BaseAction {
 		writeJson(sysModule);
 	}
 
+	@Action("moduleDelete")
+	public void delete() {
+		systemService.deleteModule(ids, getUserInfo());
+		writeJson();
+	}
+
 	public Integer getId() {
 		return id;
 	}
@@ -52,5 +62,13 @@ public class ModuleEdit extends BaseAction {
 
 	public void setSysModule(SysModule sysModule) {
 		this.sysModule = sysModule;
+	}
+
+	public List<Integer> getIds() {
+		return ids;
+	}
+
+	public void setIds(List<Integer> ids) {
+		this.ids = ids;
 	}
 }
