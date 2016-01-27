@@ -9,6 +9,10 @@
 <s:head />
 <script type="text/javascript">
 	$(function() {
+		if (top != window) {
+			top.$._location("/index");
+		}
+
 		$("#login").click(function() {
 			$("form")._ajaxSubmit({
 				url : "login",

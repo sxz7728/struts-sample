@@ -80,6 +80,11 @@ public class SystemServiceImpl implements SystemService {
 		return sysModuleDao.datagrid(qb);
 	}
 
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public SysModule getModule(QueryBuilder qb) {
+		return sysModuleDao.get(qb);
+	}
+
 	@Transactional(propagation = Propagation.REQUIRED)
 	public SysModule saveModule(String name, Integer sequence, UserInfo userInfo) {
 		SysModule sysModule = new SysModule();
@@ -134,6 +139,11 @@ public class SystemServiceImpl implements SystemService {
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public Datagrid datagridMenu(QueryBuilder qb) {
 		return sysMenuDao.datagrid(qb);
+	}
+
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public SysMenu getMenu(QueryBuilder qb) {
+		return sysMenuDao.get(qb);
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
@@ -216,6 +226,11 @@ public class SystemServiceImpl implements SystemService {
 		return sysRoleDao.datagrid(qb);
 	}
 
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public SysRole getRole(QueryBuilder qb) {
+		return sysRoleDao.get(qb);
+	}
+
 	@Transactional(propagation = Propagation.REQUIRED)
 	public SysRole saveRole(String name, Integer sequence, List<Integer> menuIds, UserInfo userInfo) {
 		SysRole sysRole = new SysRole();
@@ -268,6 +283,11 @@ public class SystemServiceImpl implements SystemService {
 		return sysUserDao.datagrid(qb);
 	}
 
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public SysUser getUser(QueryBuilder qb) {
+		return sysUserDao.get(qb);
+	}
+
 	// Dict
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public SysDict loadDict(Integer id) {
@@ -287,6 +307,11 @@ public class SystemServiceImpl implements SystemService {
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public Datagrid datagridDict(QueryBuilder qb) {
 		return sysDictDao.datagrid(qb);
+	}
+
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public SysDict getDict(QueryBuilder qb) {
+		return sysDictDao.get(qb);
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
@@ -350,6 +375,11 @@ public class SystemServiceImpl implements SystemService {
 		return sysAreaDao.datagrid(qb);
 	}
 
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public SysArea getArea(QueryBuilder qb) {
+		return sysAreaDao.get(qb);
+	}
+
 	// File
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public SysFile loadFile(Integer id) {
@@ -371,59 +401,60 @@ public class SystemServiceImpl implements SystemService {
 		return sysFileDao.datagrid(qb);
 	}
 
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public SysFile getFile(QueryBuilder qb) {
+		return sysFileDao.get(qb);
+	}
+
 	// Other
 	@Transactional(propagation = Propagation.REQUIRED)
 	public UserInfo login(String username, String password) {
 		QueryBuilder qb = new QueryBuilder();
 		QueryUtils.addWhere(qb, "and t.delFlag = {0}", DictUtils.NO);
 		QueryUtils.addWhere(qb, "and t.username = {0}", username);
+		SysUser sysUser = sysUserDao.get(qb);
 
-		List<SysUser> sysUsers = sysUserDao.find(qb);
+		if (sysUser != null && StringUtils.equals(password, sysUser.getPassword())) {
 
-		if (sysUsers.size() == 1) {
-			SysUser sysUser = sysUsers.get(0);
+			UserInfo userInfo = new UserInfo();
+			userInfo.setUserId(sysUser.getId());
+			userInfo.setUserName(sysUser.getUsername());
+			userInfo.setUserType(sysUser.getType());
 
-			if (StringUtils.equals(password, sysUser.getPassword())) {
-				UserInfo userInfo = new UserInfo();
-				userInfo.setUserId(sysUser.getId());
-				userInfo.setUserName(sysUser.getUsername());
-				userInfo.setUserType(sysUser.getType());
+			List<SysMenu> sysMenus = null;
 
-				List<SysMenu> sysMenus = null;
+			if (userInfo.isAdmin()) {
+				qb = new QueryBuilder();
+				QueryUtils.addWhere(qb, "and t.delFlag = {0}", DictUtils.NO);
+				sysMenus = sysMenuDao.find(qb);
+			} else {
+				sysMenus = Lists.newArrayList();
 
-				if (userInfo.isAdmin()) {
-					qb = new QueryBuilder();
-					QueryUtils.addWhere(qb, "and t.delFlag = {0}", DictUtils.NO);
-					sysMenus = sysMenuDao.find(qb);
-				} else {
-					sysMenus = Lists.newArrayList();
-
-					for (SysRole sysRole : sysUser.getSysRoles()) {
-						sysMenus = ListUtils.union(sysMenus, sysRole.getSysMenus());
-					}
+				for (SysRole sysRole : sysUser.getSysRoles()) {
+					sysMenus = ListUtils.union(sysMenus, sysRole.getSysMenus());
 				}
-
-				List<Integer> moduleIds = Lists.newArrayList();
-				List<Integer> menuIds = Lists.newArrayList();
-
-				for (SysMenu sysMenu : sysMenus) {
-					if (!Utilities.getYesNo(sysMenu.getDelFlag())) {
-						if (!menuIds.contains(sysMenu.getId())) {
-							menuIds.add(sysMenu.getId());
-						}
-
-						SysModule sysModule = sysMenu.getSysModule();
-
-						if (!moduleIds.contains(sysModule.getId())) {
-							moduleIds.add(sysModule.getId());
-						}
-					}
-				}
-
-				userInfo.setModuleIds(moduleIds);
-				userInfo.setMenuIds(menuIds);
-				return userInfo;
 			}
+
+			List<Integer> moduleIds = Lists.newArrayList();
+			List<Integer> menuIds = Lists.newArrayList();
+
+			for (SysMenu sysMenu : sysMenus) {
+				if (!Utilities.getYesNo(sysMenu.getDelFlag())) {
+					if (!menuIds.contains(sysMenu.getId())) {
+						menuIds.add(sysMenu.getId());
+					}
+
+					SysModule sysModule = sysMenu.getSysModule();
+
+					if (!moduleIds.contains(sysModule.getId())) {
+						moduleIds.add(sysModule.getId());
+					}
+				}
+			}
+
+			userInfo.setModuleIds(moduleIds);
+			userInfo.setMenuIds(menuIds);
+			return userInfo;
 		}
 
 		return null;

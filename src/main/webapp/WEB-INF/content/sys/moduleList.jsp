@@ -36,7 +36,7 @@
 		});
 	}
 
-	function moduleDelete(ids) {
+	function moduleDel(ids) {
 		$._delete({
 			url : "moduleDelete",
 			ids : ids,
@@ -72,7 +72,7 @@
 		});
 	}
 
-	function menuDelete(ids) {
+	function menuDel(ids) {
 		$._delete({
 			url : "menuDelete",
 			ids : ids,
@@ -141,9 +141,9 @@
 
 					$del.click(function() {
 						if (row.id > 0) {
-							menuDelete(row.id);
+							menuDel(row.id);
 						} else {
-							moduleDelete(row._id);
+							moduleDel(row._id);
 						}
 					});
 
@@ -157,20 +157,20 @@
 			moduleEdit();
 		});
 
-		$("#moduleDelete").click(function() {
+		$("#moduleDel").click(function() {
 			var ids = $("#datagrid")._datagrid("getChecked", function(row) {
 				return !(row.id > 0) ? row._id : null;
 			});
 
-			moduleDelete(ids);
+			moduleDel(ids);
 		});
 
-		$("#menuDelete").click(function() {
+		$("#menuDel").click(function() {
 			var ids = $("#datagrid")._datagrid("getChecked", function(row) {
 				return row.id > 0 ? row.id : null;
 			});
 
-			menuDelete(ids);
+			menuDel(ids);
 		});
 
 		$("#refresh").click(function() {
@@ -196,9 +196,9 @@
 									<div class="col-sm-12 actionBar">
 										<div class="btn-group">
 											<button id="moduleAdd" type="button" class="btn btn-default">新增模块</button>
-											<button id="moduleDelete" type="button"
+											<button id="moduleDel" type="button"
 												class="btn btn-default">删除模块</button>
-											<button id="menuDelete" type="button" class="btn btn-default">删除菜单</button>
+											<button id="menuDel" type="button" class="btn btn-default">删除菜单</button>
 											<button id="refresh" type="button" class="btn btn-default">刷新</button>
 										</div>
 									</div>

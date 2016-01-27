@@ -19,7 +19,7 @@
 			<interceptor name="customInterceptor" class="sample.view.utils.CustomInterceptor"></interceptor>
 
 			<interceptor-stack name="defaultStack">
-				<!-- <interceptor-ref name="exception" /> -->
+				<interceptor-ref name="exception" />
 				<interceptor-ref name="alias" />
 				<interceptor-ref name="servletConfig" />
 				<interceptor-ref name="i18n" />
@@ -49,8 +49,15 @@
 			</interceptor-stack>
 		</interceptors>
 
+		<global-results>
+			<result name="index" type="redirect">/index</result>
+		</global-results>
+
 		<global-exception-mappings>
-			<exception-mapping result="error" exception="java.lang.Exception" />
+			<exception-mapping result="index"
+				exception="sample.core.exception.NotLoginException" />
+			<!-- <exception-mapping result="error" exception="java.lang.Exception" 
+				/> -->
 		</global-exception-mappings>
 	</package>
 </struts>

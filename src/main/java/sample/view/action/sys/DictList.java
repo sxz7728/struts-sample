@@ -1,8 +1,10 @@
 package sample.view.action.sys;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.convention.annotation.Action;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import sample.core.model.SysDict;
 import sample.core.service.SystemService;
 import sample.core.utils.DictUtils;
 import sample.core.utils.QueryBuilder;
@@ -18,7 +20,7 @@ public class DictList extends BaseAction {
 	private String type;
 
 	private String parentKey;
-	
+
 	private String typeName;
 
 	@Action("dictList")
@@ -26,7 +28,9 @@ public class DictList extends BaseAction {
 		QueryBuilder qb = new QueryBuilder();
 		QueryUtils.addWhere(qb, "and t.delFlag = {0}", DictUtils.NO);
 		QueryUtils.addWhere(qb, "and t.type = {0}", DictUtils.DICT_TYPE);
-		QueryUtils.addWhere(qb, "and t.dictValue = {0}", DictUtils.DICT_TYPE);
+		QueryUtils.addWhere(qb, "and t.dictKey = {0}", type);
+		SysDict sysDict = systemService.getDict(qb);
+		typeName = sysDict.getDictValue();
 		return INPUT;
 	}
 
@@ -38,7 +42,11 @@ public class DictList extends BaseAction {
 		QueryUtils.addColumn(qb, "t.sequence");
 		QueryUtils.addWhere(qb, "and t.delFlag = {0}", DictUtils.NO);
 		QueryUtils.addWhere(qb, "and t.type = {0}", type);
-		QueryUtils.addWhereIfNotEmpty(qb, "and (t.dictKey like {0} or t.dictValue like {0})", getQueryName());
+
+		if (!StringUtils.isBlank(getQueryName())) {
+			QueryUtils.addWhere(qb, "and (t.dictKey like {0} or t.dictValue like {0})", "%" + getQueryName() + "%");
+		}
+
 		QueryUtils.addOrder(qb, "t.sequence");
 		QueryUtils.addOrder(qb, "t.id");
 		writeJson(systemService.datagridDict(qb));

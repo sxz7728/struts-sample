@@ -25,6 +25,8 @@ public interface SystemService {
 
 	public Datagrid datagridModule(QueryBuilder qb);
 
+	public SysModule getModule(QueryBuilder qb);
+
 	public SysModule saveModule(String name, Integer sequence, UserInfo userInfo);
 
 	public SysModule updateModule(Integer id, String name, Integer sequence, UserInfo userInfo);
@@ -39,6 +41,8 @@ public interface SystemService {
 	public Integer countMenu(QueryBuilder qb);
 
 	public Datagrid datagridMenu(QueryBuilder qb);
+
+	public SysMenu getMenu(QueryBuilder qb);
 
 	public SysMenu saveMenu(Integer moduleId, Integer parentId, String name, String url, Integer sequence,
 			String cssClass, UserInfo userInfo);
@@ -57,6 +61,8 @@ public interface SystemService {
 
 	public Datagrid datagridRole(QueryBuilder qb);
 
+	public SysRole getRole(QueryBuilder qb);
+
 	public SysRole saveRole(String name, Integer sequence, List<Integer> menuIds, UserInfo userInfo);
 
 	public SysRole updateRole(Integer id, String name, Integer sequence, List<Integer> menuIds, UserInfo userInfo);
@@ -70,6 +76,8 @@ public interface SystemService {
 
 	public Datagrid datagridUser(QueryBuilder qb);
 
+	public SysUser getUser(QueryBuilder qb);
+
 	// Dict
 	public SysDict loadDict(Integer id);
 
@@ -78,6 +86,8 @@ public interface SystemService {
 	public Integer countDict(QueryBuilder qb);
 
 	public Datagrid datagridDict(QueryBuilder qb);
+
+	public SysDict getDict(QueryBuilder qb);
 
 	public List<Map<String, ?>> dictionaryDict(QueryBuilder qb);
 
@@ -98,6 +108,8 @@ public interface SystemService {
 
 	public Datagrid datagridArea(QueryBuilder qb);
 
+	public SysArea getArea(QueryBuilder qb);
+
 	// File
 	public SysFile loadFile(Integer id);
 
@@ -106,6 +118,8 @@ public interface SystemService {
 	public Integer countFile(QueryBuilder qb);
 
 	public Datagrid datagridFile(QueryBuilder qb);
+
+	public SysFile getFile(QueryBuilder qb);
 
 	// Other
 	public UserInfo login(String username, String password);

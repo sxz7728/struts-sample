@@ -177,10 +177,8 @@
 			var opts = $this.data(namespace).opts;
 			var $tbody = $this.data(namespace).$tbody;
 
-			if (params != null) {
-				opts.params = params;
-			}
-
+			$.extend(opts.params, params);
+			
 			$._ajax($.extend({}, opts, {
 				success : function(result) {
 					var data = opts.load(result);

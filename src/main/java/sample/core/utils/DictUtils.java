@@ -13,7 +13,7 @@ public class DictUtils {
 		return NO;
 	}
 
-	// Dict
+	// Dict Type
 	public static final String DICT_TYPE = "dict_type";
 
 	public String getDICT_TYPE() {
@@ -21,10 +21,10 @@ public class DictUtils {
 	}
 
 	// User Type
-	public static final String USER_TYPE = "user_type";
+	public static final String DICT_USER_TYPE = "user_type";
 
-	public String getUSER_TYPE() {
-		return USER_TYPE;
+	public String getDICT_USER_TYPE() {
+		return DICT_USER_TYPE;
 	}
 
 	public static final String USER_TYPE_ADMIN = "01";
@@ -38,4 +38,7 @@ public class DictUtils {
 	public String getUSER_TYPE_ORDINARY() {
 		return USER_TYPE_ORDINARY;
 	}
+
+	// Sex
+	public static final String DICT_SEX = "sex";
 }

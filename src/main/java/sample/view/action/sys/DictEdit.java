@@ -76,4 +76,12 @@ public class DictEdit extends BaseAction {
 	public void setSysDict(SysDict sysDict) {
 		this.sysDict = sysDict;
 	}
+
+	public List<Integer> getIds() {
+		return ids;
+	}
+
+	public void setIds(List<Integer> ids) {
+		this.ids = ids;
+	}
 }
