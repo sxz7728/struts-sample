@@ -57,7 +57,6 @@
 								<a id="login" href="javascript:void(0);"
 									class="btn btn-lg btn-success btn-block">登录</a>
 							</fieldset>
-
 						</div>
 					</div>
 				</div>
