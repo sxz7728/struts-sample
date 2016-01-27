@@ -17,6 +17,12 @@ public class QueryBuilder {
 
 	private StringBuilder order = new StringBuilder();
 
+	private StringBuilder group = new StringBuilder();
+
+	private StringBuilder having = new StringBuilder();
+
+	private StringBuilder join = new StringBuilder();
+
 	private List<Object> columnParams = Lists.newArrayList();
 
 	private List<Object> whereParams = Lists.newArrayList();
@@ -108,6 +114,31 @@ public class QueryBuilder {
 		return this;
 	}
 
+	public QueryBuilder addGroup(String str) {
+		if (group.length() > 0) {
+			group.append(",");
+		} else {
+			group.append(" group by ");
+		}
+
+		group.append(str);
+		return this;
+	}
+
+	public QueryBuilder addHaving(String str) {
+		if (having.length() == 0) {
+			having.append(" having ");
+		}
+
+		having.append(" ").append(str);
+		return this;
+	}
+
+	public QueryBuilder addJoin(String str) {
+		join.append(" ").append(str).append(" ");
+		return this;
+	}
+
 	public String getColumn() {
 		return column.toString();
 	}
@@ -126,6 +157,18 @@ public class QueryBuilder {
 
 	public String getOrder() {
 		return order.toString();
+	}
+
+	public String getGroup() {
+		return group.toString();
+	}
+
+	public String getHaving() {
+		return having.toString();
+	}
+
+	public String getJoin() {
+		return join.toString();
 	}
 
 	public List<Object> getColumnParams() {

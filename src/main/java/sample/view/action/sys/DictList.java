@@ -18,9 +18,15 @@ public class DictList extends BaseAction {
 	private String type;
 
 	private String parentKey;
+	
+	private String typeName;
 
 	@Action("dictList")
 	public String execute() {
+		QueryBuilder qb = new QueryBuilder();
+		QueryUtils.addWhere(qb, "and t.delFlag = {0}", DictUtils.NO);
+		QueryUtils.addWhere(qb, "and t.type = {0}", DictUtils.DICT_TYPE);
+		QueryUtils.addWhere(qb, "and t.dictValue = {0}", DictUtils.DICT_TYPE);
 		return INPUT;
 	}
 
@@ -65,4 +71,11 @@ public class DictList extends BaseAction {
 		this.parentKey = parentKey;
 	}
 
+	public String getTypeName() {
+		return typeName;
+	}
+
+	public void setTypeName(String typeName) {
+		this.typeName = typeName;
+	}
 }

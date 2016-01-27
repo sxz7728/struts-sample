@@ -14,14 +14,14 @@ public class DictUtils {
 	}
 
 	// Dict
-	public static final String DICT_TYPE = "01";
+	public static final String DICT_TYPE = "dict_type";
 
 	public String getDICT_TYPE() {
 		return DICT_TYPE;
 	}
 
-	// User
-	public static final String USER_TYPE = "02";
+	// User Type
+	public static final String USER_TYPE = "user_type";
 
 	public String getUSER_TYPE() {
 		return USER_TYPE;
@@ -31,5 +31,11 @@ public class DictUtils {
 
 	public String getUSER_TYPE_ADMIN() {
 		return USER_TYPE_ADMIN;
+	}
+
+	public static final String USER_TYPE_ORDINARY = "02";
+
+	public String getUSER_TYPE_ORDINARY() {
+		return USER_TYPE_ORDINARY;
 	}
 }

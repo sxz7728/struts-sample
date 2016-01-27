@@ -95,5 +95,4 @@ public class MenuEdit extends BaseAction {
 	public void setIds(List<Integer> ids) {
 		this.ids = ids;
 	}
-
 }

@@ -75,4 +75,16 @@ public class QueryUtils {
 	public static QueryBuilder addOrder(QueryBuilder qb, String str) {
 		return qb.addOrder(str);
 	}
+
+	public static QueryBuilder addGroup(QueryBuilder qb, String str) {
+		return qb.addGroup(str);
+	}
+
+	public static QueryBuilder addHaving(QueryBuilder qb, String str) {
+		return qb.addHaving(str);
+	}
+
+	public static QueryBuilder addJoin(QueryBuilder qb, String str) {
+		return qb.addJoin(str);
+	}
 }

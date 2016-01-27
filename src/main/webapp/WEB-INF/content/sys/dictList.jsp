@@ -18,7 +18,7 @@
 			url : "dictEdit",
 			params : {
 				id : id,
-				type : $("#type").val()
+				type : "${type}"
 			},
 			saveUrl : "dictSave",
 			height : 300,
