@@ -12,6 +12,8 @@ public class ModelUtils {
 
 		if (!Utilities.isValidId(model.getId())) {
 			model.setDelFlag(DictUtils.NO);
+			model.setCreatorId(model.getOperatorId());
+			model.setCreateDate(model.getOperateDate());
 		}
 	}
 }

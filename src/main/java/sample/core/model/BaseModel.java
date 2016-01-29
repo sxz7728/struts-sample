@@ -22,8 +22,15 @@ public abstract class BaseModel {
 	@Column(name = "del_flag")
 	private String delFlag;
 
+	@Column(name = "creator_id")
+	private Integer creatorId;
+
 	@Column(name = "operator_id")
 	private Integer operatorId;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "create_date")
+	private Date createDate;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "operate_date")
@@ -45,12 +52,28 @@ public abstract class BaseModel {
 		this.delFlag = delFlag;
 	}
 
+	public Integer getCreatorId() {
+		return creatorId;
+	}
+
+	public void setCreatorId(Integer creatorId) {
+		this.creatorId = creatorId;
+	}
+
 	public Integer getOperatorId() {
 		return operatorId;
 	}
 
 	public void setOperatorId(Integer operatorId) {
 		this.operatorId = operatorId;
+	}
+
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
 	}
 
 	public Date getOperateDate() {
