@@ -1,6 +1,4 @@
-CREATE DATABASE  IF NOT EXISTS `sample` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `sample`;
--- MySQL dump 10.13  Distrib 5.6.17, for Win32 (x86)
+-- MySQL dump 10.13  Distrib 5.7.12, for Win32 (AMD64)
 --
 -- Host: 127.0.0.1    Database: sample
 -- ------------------------------------------------------
@@ -31,10 +29,11 @@ CREATE TABLE `sys_area` (
   `area_value` varchar(50) DEFAULT NULL,
   `parent_key` varchar(10) DEFAULT NULL,
   `del_flag` char(1) DEFAULT NULL,
-  `creator_id` int(11) DEFAULT NULL,
-  `operator_id` int(11) DEFAULT NULL,
+  `creator` int(11) DEFAULT NULL,
+  `operator` int(11) DEFAULT NULL,
   `create_date` datetime DEFAULT NULL,
   `operate_date` datetime DEFAULT NULL,
+  `uuid` char(32) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -63,10 +62,11 @@ CREATE TABLE `sys_dict` (
   `parent_key` varchar(10) DEFAULT NULL,
   `sequence` int(11) DEFAULT NULL,
   `del_flag` char(1) DEFAULT NULL,
-  `creator_id` int(11) DEFAULT NULL,
-  `operator_id` int(11) DEFAULT NULL,
+  `creator` int(11) DEFAULT NULL,
+  `operator` int(11) DEFAULT NULL,
   `create_date` datetime DEFAULT NULL,
   `operate_date` datetime DEFAULT NULL,
+  `uuid` char(32) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -77,7 +77,7 @@ CREATE TABLE `sys_dict` (
 
 LOCK TABLES `sys_dict` WRITE;
 /*!40000 ALTER TABLE `sys_dict` DISABLE KEYS */;
-INSERT INTO `sys_dict` VALUES (21,'dict_type','user_type','用户类型',NULL,NULL,'0',NULL,NULL,NULL,NULL),(22,'user_type','01','管理员',NULL,NULL,'0',NULL,NULL,NULL,NULL),(23,'user_type','02','普通用户',NULL,NULL,'0',NULL,NULL,NULL,NULL),(24,'sex','01','男',NULL,10,'0',NULL,1,NULL,'2016-01-27 16:09:37'),(25,'sex','02','女',NULL,20,'0',NULL,1,NULL,'2016-01-27 16:09:42'),(26,'dict_type','sex','性别',NULL,NULL,'0',NULL,NULL,NULL,NULL);
+INSERT INTO `sys_dict` VALUES (21,'dict_type','user_type','用户类型',NULL,NULL,'0',NULL,NULL,NULL,NULL,NULL),(22,'user_type','01','管理员',NULL,NULL,'0',NULL,NULL,NULL,NULL,NULL),(23,'user_type','02','普通用户',NULL,NULL,'0',NULL,NULL,NULL,NULL,NULL),(24,'sex','01','男',NULL,10,'0',NULL,1,NULL,'2016-01-27 16:09:37',NULL),(25,'sex','02','女',NULL,20,'0',NULL,1,NULL,'2016-01-27 16:09:42',NULL),(26,'dict_type','sex','性别',NULL,NULL,'0',NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `sys_dict` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -99,10 +99,11 @@ CREATE TABLE `sys_file` (
   `size` int(11) DEFAULT NULL,
   `sequence` int(11) DEFAULT NULL,
   `del_flag` char(1) DEFAULT NULL,
-  `creator_id` int(11) DEFAULT NULL,
-  `operator_id` int(11) DEFAULT NULL,
+  `creator` int(11) DEFAULT NULL,
+  `operator` int(11) DEFAULT NULL,
   `create_date` datetime DEFAULT NULL,
   `operate_date` datetime DEFAULT NULL,
+  `uuid` char(32) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -132,10 +133,11 @@ CREATE TABLE `sys_menu` (
   `sequence` int(11) DEFAULT NULL,
   `css_class` varchar(50) DEFAULT NULL,
   `del_flag` char(1) DEFAULT NULL,
-  `creator_id` int(11) DEFAULT NULL,
-  `operator_id` int(11) DEFAULT NULL,
+  `creator` int(11) DEFAULT NULL,
+  `operator` int(11) DEFAULT NULL,
   `create_date` datetime DEFAULT NULL,
   `operate_date` datetime DEFAULT NULL,
+  `uuid` char(32) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_sys_menu1_idx` (`module_id`),
   CONSTRAINT `fk_sys_menu1` FOREIGN KEY (`module_id`) REFERENCES `sys_module` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
@@ -148,7 +150,7 @@ CREATE TABLE `sys_menu` (
 
 LOCK TABLES `sys_menu` WRITE;
 /*!40000 ALTER TABLE `sys_menu` DISABLE KEYS */;
-INSERT INTO `sys_menu` VALUES (6,1,NULL,'字典维护',NULL,10,'','0',NULL,1,NULL,'2016-01-27 10:14:48'),(7,1,NULL,'模块维护','sys/moduleList',20,NULL,'0',NULL,1,NULL,'2016-01-27 10:14:48'),(10,1,6,'性别维护','sys/dictList?type=sex',NULL,'','0',NULL,1,NULL,'2016-01-27 14:16:49');
+INSERT INTO `sys_menu` VALUES (6,1,NULL,'字典维护',NULL,10,'','0',NULL,1,NULL,'2016-01-27 10:14:48',NULL),(7,1,NULL,'模块维护','sys/moduleList',20,NULL,'0',NULL,1,NULL,'2016-01-27 10:14:48',NULL),(10,1,6,'性别维护','sys/dictList?type=sex',NULL,'','0',NULL,1,NULL,'2016-01-27 14:16:49',NULL);
 /*!40000 ALTER TABLE `sys_menu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -164,10 +166,11 @@ CREATE TABLE `sys_module` (
   `name` varchar(50) DEFAULT NULL,
   `sequence` int(11) DEFAULT NULL,
   `del_flag` char(1) DEFAULT NULL,
-  `creator_id` int(11) DEFAULT NULL,
-  `operator_id` int(11) DEFAULT NULL,
+  `creator` int(11) DEFAULT NULL,
+  `operator` int(11) DEFAULT NULL,
   `create_date` datetime DEFAULT NULL,
   `operate_date` datetime DEFAULT NULL,
+  `uuid` char(32) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -178,7 +181,7 @@ CREATE TABLE `sys_module` (
 
 LOCK TABLES `sys_module` WRITE;
 /*!40000 ALTER TABLE `sys_module` DISABLE KEYS */;
-INSERT INTO `sys_module` VALUES (1,'系统',10,'0',NULL,1,NULL,'2016-01-27 10:14:48');
+INSERT INTO `sys_module` VALUES (1,'系统',10,'0',NULL,1,NULL,'2016-01-27 10:14:48',NULL);
 /*!40000 ALTER TABLE `sys_module` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -194,10 +197,11 @@ CREATE TABLE `sys_role` (
   `name` varchar(50) DEFAULT NULL,
   `sequence` int(11) DEFAULT NULL,
   `del_flag` char(1) DEFAULT NULL,
-  `creator_id` int(11) DEFAULT NULL,
-  `operator_id` int(11) DEFAULT NULL,
+  `creator` int(11) DEFAULT NULL,
+  `operator` int(11) DEFAULT NULL,
   `create_date` datetime DEFAULT NULL,
   `operate_date` datetime DEFAULT NULL,
+  `uuid` char(32) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -255,10 +259,11 @@ CREATE TABLE `sys_user` (
   `nickname` varchar(50) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
   `del_flag` char(1) DEFAULT NULL,
-  `creator_id` int(11) DEFAULT NULL,
-  `operator_id` int(11) DEFAULT NULL,
+  `creator` int(11) DEFAULT NULL,
+  `operator` int(11) DEFAULT NULL,
   `create_date` datetime DEFAULT NULL,
   `operate_date` datetime DEFAULT NULL,
+  `uuid` char(32) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -269,7 +274,7 @@ CREATE TABLE `sys_user` (
 
 LOCK TABLES `sys_user` WRITE;
 /*!40000 ALTER TABLE `sys_user` DISABLE KEYS */;
-INSERT INTO `sys_user` VALUES (1,'admin@qq.com','123456',NULL,'01','01',NULL,NULL,'0',NULL,NULL,NULL,NULL);
+INSERT INTO `sys_user` VALUES (1,'admin@qq.com','123456',NULL,'01','01',NULL,NULL,'0',NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `sys_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -299,14 +304,6 @@ LOCK TABLES `sys_user_role` WRITE;
 /*!40000 ALTER TABLE `sys_user_role` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sys_user_role` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Dumping events for database 'sample'
---
-
---
--- Dumping routines for database 'sample'
---
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -317,4 +314,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-01-29 10:59:14
+-- Dump completed on 2016-11-03 16:56:18

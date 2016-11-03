@@ -23,7 +23,7 @@ import sample.service.SystemService;
 import sample.utils.DictUtils;
 import sample.utils.JsonResult;
 import sample.utils.JsonUtils;
-import sample.utils.Properties;
+import sample.utils.Global;
 import sample.utils.QueryBuilder;
 import sample.utils.QueryUtils;
 
@@ -50,7 +50,7 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
 	private ServletContext servletContext;
 
 	@Autowired
-	private Properties properties;
+	private Global global;
 
 	@Autowired
 	private DictUtils dictUtils;
@@ -145,8 +145,8 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
 		getSession().setAttribute(SESSION_USER_INFO, userInfo);
 	}
 
-	public Properties getProperties() {
-		return properties;
+	public Global getGlobal() {
+		return global;
 	}
 
 	public DictUtils getDictUtils() {

@@ -90,7 +90,7 @@ public class SystemServiceImpl implements SystemService {
 		SysModule sysModule = new SysModule();
 		sysModule.setName(name);
 		sysModule.setSequence(sequence);
-		ModelUtils.setInfo(sysModule, userInfo);
+		ModelUtils.setUserInfo(sysModule, userInfo);
 		return sysModuleDao.save(sysModule);
 	}
 
@@ -99,7 +99,7 @@ public class SystemServiceImpl implements SystemService {
 		SysModule sysModule = sysModuleDao.load(id);
 		sysModule.setName(name);
 		sysModule.setSequence(sequence);
-		ModelUtils.setInfo(sysModule, userInfo);
+		ModelUtils.setUserInfo(sysModule, userInfo);
 		return sysModuleDao.update(sysModule);
 	}
 
@@ -156,7 +156,7 @@ public class SystemServiceImpl implements SystemService {
 		sysMenu.setUrl(url);
 		sysMenu.setSequence(sequence);
 		sysMenu.setCssClass(cssClass);
-		ModelUtils.setInfo(sysMenu, userInfo);
+		ModelUtils.setUserInfo(sysMenu, userInfo);
 		return sysMenuDao.save(sysMenu);
 	}
 
@@ -169,7 +169,7 @@ public class SystemServiceImpl implements SystemService {
 		sysMenu.setUrl(url);
 		sysMenu.setSequence(sequence);
 		sysMenu.setCssClass(cssClass);
-		ModelUtils.setInfo(sysMenu, userInfo);
+		ModelUtils.setUserInfo(sysMenu, userInfo);
 		return sysMenuDao.update(sysMenu);
 	}
 
@@ -242,7 +242,7 @@ public class SystemServiceImpl implements SystemService {
 		QueryUtils.addWhereWithDefault(qb, "and t.id in {0}", menuIds, -1);
 		List<SysMenu> sysMenus = sysMenuDao.find(qb);
 		sysRole.setSysMenus(sysMenus);
-		ModelUtils.setInfo(sysRole, userInfo);
+		ModelUtils.setUserInfo(sysRole, userInfo);
 		return sysRoleDao.save(sysRole);
 	}
 
@@ -258,7 +258,7 @@ public class SystemServiceImpl implements SystemService {
 		List<SysMenu> sysMenus = sysMenuDao.find(qb);
 		sysRole.setSysMenus(sysMenus);
 
-		ModelUtils.setInfo(sysRole, userInfo);
+		ModelUtils.setUserInfo(sysRole, userInfo);
 		return sysRoleDao.save(sysRole);
 	}
 
@@ -328,7 +328,7 @@ public class SystemServiceImpl implements SystemService {
 		sysDict.setDictValue(dictValue);
 		sysDict.setParentKey(parentKey);
 		sysDict.setSequence(sequence);
-		ModelUtils.setInfo(sysDict, userInfo);
+		ModelUtils.setUserInfo(sysDict, userInfo);
 		return sysDictDao.save(sysDict);
 	}
 
@@ -341,7 +341,7 @@ public class SystemServiceImpl implements SystemService {
 		sysDict.setParentKey(parentKey);
 		sysDict.setSequence(sequence);
 
-		ModelUtils.setInfo(sysDict, userInfo);
+		ModelUtils.setUserInfo(sysDict, userInfo);
 		return sysDictDao.update(sysDict);
 	}
 

@@ -10,7 +10,7 @@
 
 	<context:annotation-config />
 
-	<context:component-scan base-package="sample.core,sample.view" />
+	<context:component-scan base-package="sample" />
 
 	<bean id="propertyConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -62,7 +62,7 @@
 
 	<tx:annotation-driven />
 
-	<bean class="sample.core.utils.Properties">
+	<bean class="sample.core.utils.Global">
 		<property name="DEV_MODE" value="${application.devMode}" />
 	</bean>
 

@@ -1,6 +1,6 @@
 package sample.utils;
 
-public class Properties {
+public class Global {
 	public static boolean DEV_MODE = false;
 
 	public boolean getDEV_MODE() {
