@@ -50,7 +50,7 @@
 		<property name="dataSource" ref="dataSource" />
 		<property name="packagesToScan">
 			<list>
-				<value>sample.core.model</value>
+				<value>sample.model</value>
 			</list>
 		</property>
 	</bean>
@@ -62,10 +62,10 @@
 
 	<tx:annotation-driven />
 
-	<bean class="sample.core.utils.Global">
+	<bean class="sample.utils.Globals">
 		<property name="DEV_MODE" value="${application.devMode}" />
 	</bean>
 
-	<bean class="sample.core.utils.DictUtils">
+	<bean class="sample.utils.DictUtils">
 	</bean>
 </beans>

@@ -16,7 +16,7 @@
 
 	<package name="default" extends="struts-default">
 		<interceptors>
-			<interceptor name="customInterceptor" class="sample.view.utils.CustomInterceptor"></interceptor>
+			<interceptor name="customInterceptor" class="sample.utils.CustomInterceptor"></interceptor>
 
 			<interceptor-stack name="defaultStack">
 				<interceptor-ref name="exception" />
@@ -55,7 +55,7 @@
 
 		<global-exception-mappings>
 			<exception-mapping result="index"
-				exception="sample.core.exception.NotLoginException" />
+				exception="sample.exception.NotLoginException" />
 			<!-- <exception-mapping result="error" exception="java.lang.Exception" 
 				/> -->
 		</global-exception-mappings>

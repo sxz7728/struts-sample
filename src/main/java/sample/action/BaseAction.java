@@ -21,9 +21,9 @@ import sample.exception.NotLoginException;
 import sample.info.UserInfo;
 import sample.service.SystemService;
 import sample.utils.DictUtils;
+import sample.utils.Globals;
 import sample.utils.JsonResult;
 import sample.utils.JsonUtils;
-import sample.utils.Global;
 import sample.utils.QueryBuilder;
 import sample.utils.QueryUtils;
 
@@ -50,7 +50,7 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
 	private ServletContext servletContext;
 
 	@Autowired
-	private Global global;
+	private Globals globals;
 
 	@Autowired
 	private DictUtils dictUtils;
@@ -145,8 +145,8 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
 		getSession().setAttribute(SESSION_USER_INFO, userInfo);
 	}
 
-	public Global getGlobal() {
-		return global;
+	public Globals getGlobals() {
+		return globals;
 	}
 
 	public DictUtils getDictUtils() {

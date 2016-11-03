@@ -1,6 +1,6 @@
 package sample.utils;
 
-public class Global {
+public class Globals {
 	public static boolean DEV_MODE = false;
 
 	public boolean getDEV_MODE() {
