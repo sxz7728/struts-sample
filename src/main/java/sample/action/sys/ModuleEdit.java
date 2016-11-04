@@ -39,7 +39,7 @@ public class ModuleEdit extends BaseAction {
 			sysModule = systemService.updateModule(id, sysModule.getName(), sysModule.getSequence(), getUserInfo());
 		}
 
-		writeJson(sysModule);
+		writeJson(sysModule.getId());
 	}
 
 	@Action("moduleDelete")
