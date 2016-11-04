@@ -7,4 +7,5 @@ import sample.model.SysModule;
 
 @Repository
 public class SysModuleDaoImpl extends BaseDaoImpl<SysModule> implements SysModuleDao {
+
 }

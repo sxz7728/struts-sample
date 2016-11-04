@@ -13,8 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.common.collect.Lists;
+
 import sample.dao.BaseDao;
-import sample.utils.ColumnUtils;
 import sample.utils.Datagrid;
 import sample.utils.QueryBuilder;
 import sample.utils.Utilities;
@@ -30,37 +31,38 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 
 	public final String HQL_COUNT;
 
-	public final String HQL_DATAGRID;
+	public final String HQL_LIST_MAP;
+
+	public final String PREFIX_PARAMS = "p";
 
 	@Autowired
 	private SessionFactory sessionFactory;
 
 	@SuppressWarnings("unchecked")
 	public BaseDaoImpl() {
-		super();
 		modelClass = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 
 		HQL_UPDATE = " update " + modelClass.getSimpleName() + " t set {0} where 1 = 1 {1} ";
 
 		HQL_DELETE = " delete " + modelClass.getSimpleName() + " t where 1 = 1 {0} ";
 
-		HQL_FIND = " from " + modelClass.getSimpleName() + " t where 1 = 1 {0} {1} ";
+		HQL_FIND = " select t from " + modelClass.getSimpleName() + " t {2} where 1 = 1 {0} {1} ";
 
-		HQL_COUNT = " select cast(count(*) as int) from " + modelClass.getSimpleName() + " t where 1 = 1 {0} ";
+		HQL_COUNT = " select cast(count(*) as int) from " + modelClass.getSimpleName() + " t {1} where 1 = 1 {0} ";
 
-		HQL_DATAGRID = " select " + ColumnUtils.column("t.id") + " {0} from " + modelClass.getSimpleName()
-				+ " t {5} where 1 = 1 {1} {3} {4} {2} ";
+		HQL_LIST_MAP = " select {0} from " + modelClass.getSimpleName() + " t {5} where 1 = 1 {1} {3} {4} {2} ";
 	}
 
 	protected Session getSession() {
 		return sessionFactory.getCurrentSession();
 	}
 
+	@SuppressWarnings("rawtypes")
 	protected Query setParams(Query query, List<Object> params, String prefix) {
 		if (params != null) {
 			for (int i = 0; i < params.size(); ++i) {
 				if (params.get(i) instanceof Collection) {
-					query.setParameterList(prefix + (i + 1), (Collection<?>) params.get(i));
+					query.setParameterList(prefix + (i + 1), (Collection) params.get(i));
 				} else {
 					query.setParameter(prefix + (i + 1), params.get(i));
 				}
@@ -106,6 +108,12 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 		return (T) getSession().get(modelClass, id);
 	}
 
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public T get(QueryBuilder qb) {
+		List<T> objs = find(qb);
+		return objs.size() == 1 ? objs.get(0) : null;
+	}
+
 	@Transactional(propagation = Propagation.REQUIRED)
 	public T save(T obj) {
 		getSession().save(obj);
@@ -127,10 +135,11 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 	@Transactional(propagation = Propagation.REQUIRED)
 	public Integer update(QueryBuilder qb) {
 		if (!qb.hasColumn() || !qb.hasWhere()) {
-			throw new RuntimeException("update must have column and where condition.");
+			throw new RuntimeException("No column or where condition.");
 		}
 
-		Query query = getSession().createQuery(Utilities.format(HQL_UPDATE, qb.getColumn(), qb.getWhere()));
+		String hql = Utilities.format(HQL_UPDATE, qb.getColumn(), qb.getWhere());
+		Query query = getSession().createQuery(hql);
 		setColumnParams(query, qb);
 		setWhereParams(query, qb);
 		return query.executeUpdate();
@@ -149,129 +158,117 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 	@Transactional(propagation = Propagation.REQUIRED)
 	public Integer delete(QueryBuilder qb) {
 		if (!qb.hasWhere()) {
-			throw new RuntimeException("delete must have where condition.");
+			throw new RuntimeException("No where condition.");
 		}
 
 		String hql = Utilities.format(HQL_DELETE, qb.getWhere());
-		return setWhereParams(getSession().createQuery(hql), qb).executeUpdate();
+		Query query = getSession().createQuery(hql);
+		setWhereParams(query, qb);
+		return query.executeUpdate();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<T> find(QueryBuilder qb) {
-		return hqlList(HQL_FIND, qb);
+		String hql = Utilities.format(HQL_FIND, qb.getWhere(), qb.getOrder(), qb.getJoin());
+		Query query = getSession().createQuery(hql);
+		setWhereParams(query, qb);
+		setFirstResult(query, qb);
+		setMaxResults(query, qb);
+		return query.list();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public List<Map<String, Object>> listMap(QueryBuilder qb) {
+		String hql = Utilities.format(HQL_LIST_MAP, qb.getColumn(), qb.getWhere(), qb.getOrder(), qb.getGroup(), qb.getHaving(), qb.getJoin());
+		Query query = getSession().createQuery(hql);
+		setColumnParams(query, qb);
+		setWhereParams(query, qb);
+		setFirstResult(query, qb);
+		setMaxResults(query, qb);
+		return query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public Integer count(QueryBuilder qb) {
-		return hqlUnique(HQL_COUNT, qb);
-	}
-
-	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-	public T get(QueryBuilder qb) {
-		List<T> models = find(qb);
-		return models.size() == 1 ? models.get(0) : null;
+		String hql = Utilities.format(HQL_COUNT, qb.getWhere(), qb.getJoin());
+		Query query = getSession().createQuery(hql);
+		setWhereParams(query, qb);
+		return (Integer) query.uniqueResult();
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public Datagrid datagrid(QueryBuilder qb) {
-		return datagrid(HQL_DATAGRID, HQL_COUNT, qb);
-	}
-
-	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-	protected Datagrid datagrid(String hqlFind, String hqlCount, QueryBuilder qb) {
-		Datagrid result = new Datagrid();
-		result.setRows(hqlListMap(hqlFind, qb));
+		Datagrid dg = new Datagrid();
+		dg.setRows(listMap(qb));
 
 		if (qb.getLength() > 0) {
-			result.setCount(this.<Integer> hqlUnique(hqlCount, qb));
+			dg.setCount(count(qb));
 		}
 
-		return result;
+		return dg;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-	public List<T> hqlList(String hql, QueryBuilder qb) {
-		Query query = getSession().createQuery(Utilities.format(hql, qb.getWhere(), qb.getOrder()));
-		setWhereParams(query, qb);
-		setFirstResult(query, qb);
-		setMaxResults(query, qb);
+	public List<T> hqlFind(String hql, Object... params) {
+		Query query = getSession().createQuery(hql);
+		setParams(query, Lists.newArrayList(params), PREFIX_PARAMS);
 		return query.list();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-	public List<Map<String, ?>> hqlListMap(String hql, QueryBuilder qb) {
-		Query query = getSession().createQuery(
-				Utilities.format(hql, (qb.hasColumn() ? "," : "") + qb.getColumn(), qb.getWhere(), qb.getOrder(),
-						qb.getGroup(), qb.getHaving(), qb.getJoin()));
-		setColumnParams(query, qb);
-		setWhereParams(query, qb);
-		setFirstResult(query, qb);
-		setMaxResults(query, qb);
+	public List<Map<String, Object>> hqlListMap(String hql, Object... params) {
+		Query query = getSession().createQuery(hql);
+		setParams(query, Lists.newArrayList(params), PREFIX_PARAMS);
 		return query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-	public <U> List<U> hqlListBean(String hql, QueryBuilder qb, Class<U> clazz) {
-		Query query = getSession().createQuery(
-				Utilities.format(hql, (qb.hasColumn() ? "," : "") + qb.getColumn(), qb.getWhere(), qb.getOrder(),
-						qb.getGroup(), qb.getHaving(), qb.getJoin()));
-		setWhereParams(query, qb);
-		setFirstResult(query, qb);
-		setMaxResults(query, qb);
-		return query.setResultTransformer(Transformers.aliasToBean(clazz)).list();
-	}
-
-	@SuppressWarnings("unchecked")
-	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-	public <U> U hqlUnique(String hql, QueryBuilder qb) {
-		Query query = getSession().createQuery(Utilities.format(hql, qb.getWhere()));
-		setWhereParams(query, qb);
+	public <U> U hqlUnique(String hql, Object... params) {
+		Query query = getSession().createQuery(hql);
+		setParams(query, Lists.newArrayList(params), PREFIX_PARAMS);
 		return (U) query.uniqueResult();
 	}
 
+	@Transactional(propagation = Propagation.REQUIRED)
+	public Integer hqlUpdate(String hql, Object... params) {
+		Query query = getSession().createQuery(hql);
+		setParams(query, Lists.newArrayList(params), PREFIX_PARAMS);
+		return query.executeUpdate();
+	}
+
 	@SuppressWarnings("unchecked")
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-	public List<T> sqlList(String sql, QueryBuilder qb) {
-		Query query = getSession().createSQLQuery(Utilities.format(sql, qb.getWhere(), qb.getOrder()));
-		setWhereParams(query, qb);
-		setFirstResult(query, qb);
-		setMaxResults(query, qb);
+	public List<T> sqlFind(String sql, Object... params) {
+		Query query = getSession().createSQLQuery(sql);
+		setParams(query, Lists.newArrayList(params), PREFIX_PARAMS);
 		return query.list();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-	public List<Map<String, ?>> sqlListMap(String sql, QueryBuilder qb) {
-		Query query = getSession().createSQLQuery(
-				Utilities.format(sql, (qb.hasColumn() ? "," : "") + qb.getColumn(), qb.getWhere(), qb.getOrder(),
-						qb.getGroup(), qb.getHaving(), qb.getJoin()));
-		setColumnParams(query, qb);
-		setWhereParams(query, qb);
-		setFirstResult(query, qb);
-		setMaxResults(query, qb);
+	public List<Map<String, Object>> sqlListMap(String sql, Object... params) {
+		Query query = getSession().createSQLQuery(sql);
+		setParams(query, Lists.newArrayList(params), PREFIX_PARAMS);
 		return query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-	public <U> List<U> sqlListBean(String sql, QueryBuilder qb, Class<U> clazz) {
-		Query query = getSession().createSQLQuery(
-				Utilities.format(sql, (qb.hasColumn() ? "," : "") + qb.getColumn(), qb.getWhere(), qb.getOrder(),
-						qb.getGroup(), qb.getHaving(), qb.getJoin()));
-		setWhereParams(query, qb);
-		setFirstResult(query, qb);
-		setMaxResults(query, qb);
-		return query.setResultTransformer(Transformers.aliasToBean(clazz)).list();
+	public <U> U sqlUnique(String sql, Object... params) {
+		Query query = getSession().createSQLQuery(sql);
+		setParams(query, Lists.newArrayList(params), PREFIX_PARAMS);
+		return (U) query.uniqueResult();
 	}
 
-	@SuppressWarnings("unchecked")
-	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-	public <U> U sqlUnique(String sql, QueryBuilder qb) {
-		Query query = getSession().createSQLQuery(Utilities.format(sql, qb.getWhere()));
-		setWhereParams(query, qb);
-		return (U) query.uniqueResult();
+	@Transactional(propagation = Propagation.REQUIRED)
+	public Integer sqlUpdate(String sql, Object... params) {
+		Query query = getSession().createSQLQuery(sql);
+		setParams(query, Lists.newArrayList(params), PREFIX_PARAMS);
+		return query.executeUpdate();
 	}
 }

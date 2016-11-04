@@ -4,8 +4,8 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import sample.info.UserInfo;
 import sample.service.SystemService;
+import sample.utils.UserInfo;
 
 @Namespace("/")
 public class Index extends BaseAction {

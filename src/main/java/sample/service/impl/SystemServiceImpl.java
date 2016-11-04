@@ -20,7 +20,6 @@ import sample.dao.SysMenuDao;
 import sample.dao.SysModuleDao;
 import sample.dao.SysRoleDao;
 import sample.dao.SysUserDao;
-import sample.info.UserInfo;
 import sample.model.SysArea;
 import sample.model.SysDict;
 import sample.model.SysFile;
@@ -34,6 +33,7 @@ import sample.utils.DictUtils;
 import sample.utils.ModelUtils;
 import sample.utils.QueryBuilder;
 import sample.utils.QueryUtils;
+import sample.utils.UserInfo;
 import sample.utils.Utilities;
 
 @Service
@@ -315,8 +315,9 @@ public class SystemServiceImpl implements SystemService {
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-	public List<Map<String, ?>> dictionaryDict(QueryBuilder qb) {
-		return sysDictDao.dictionary(qb);
+	public List<Map<String, Object>> dictionaryDict(QueryBuilder qb) {
+		//return sysDictDao.dictionary(qb);
+		return null;
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)

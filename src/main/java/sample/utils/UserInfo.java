@@ -1,11 +1,9 @@
-package sample.info;
+package sample.utils;
 
 import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-
-import sample.utils.DictUtils;
 
 public class UserInfo {
 	private Integer userId;

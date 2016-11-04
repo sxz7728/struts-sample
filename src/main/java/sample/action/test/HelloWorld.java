@@ -4,7 +4,6 @@ import org.apache.struts2.convention.annotation.Action;
 
 import sample.action.BaseAction;
 
-@Action("helloWorld")
 public class HelloWorld extends BaseAction {
 	private static final long serialVersionUID = 1L;
 
@@ -12,6 +11,7 @@ public class HelloWorld extends BaseAction {
 		super(false);
 	}
 
+	@Action("helloWorld")
 	public String execute() {
 		return INPUT;
 	}

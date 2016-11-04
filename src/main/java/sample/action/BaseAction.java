@@ -17,8 +17,7 @@ import org.apache.struts2.interceptor.ServletResponseAware;
 import org.apache.struts2.util.ServletContextAware;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import sample.exception.NotLoginException;
-import sample.info.UserInfo;
+import sample.exception.NotLoggedInException;
 import sample.service.SystemService;
 import sample.utils.DictUtils;
 import sample.utils.Globals;
@@ -26,6 +25,7 @@ import sample.utils.JsonResult;
 import sample.utils.JsonUtils;
 import sample.utils.QueryBuilder;
 import sample.utils.QueryUtils;
+import sample.utils.UserInfo;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -101,7 +101,7 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
 			userInfo = (UserInfo) getSession().getAttribute(SESSION_USER_INFO);
 
 			if (userInfo == null) {
-				throw new NotLoginException();
+				throw new NotLoggedInException();
 			}
 
 			userInfo.setOperateDate(new Date());
@@ -153,7 +153,7 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
 		return dictUtils;
 	}
 
-	public List<Map<String, ?>> findDict(String type) {
+	public List<Map<String, Object>> findDict(String type) {
 		QueryBuilder qb = new QueryBuilder();
 		QueryUtils.addWhere(qb, "and t.delFlag = {0}", DictUtils.NO);
 		QueryUtils.addWhere(qb, "and t.type = {0}", type);

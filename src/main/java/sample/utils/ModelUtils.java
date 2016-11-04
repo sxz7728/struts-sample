@@ -5,7 +5,6 @@ import java.util.UUID;
 
 import org.apache.commons.lang.StringUtils;
 
-import sample.info.UserInfo;
 import sample.model.BaseModel;
 
 public class ModelUtils {

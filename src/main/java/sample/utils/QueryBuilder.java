@@ -125,17 +125,67 @@ public class QueryBuilder {
 		return this;
 	}
 
-	public QueryBuilder addHaving(String str) {
+	public QueryBuilder addHaving(String str, Object... params) {
 		if (having.length() == 0) {
-			having.append(" having ");
+			having.append(" having 1 = 1 ");
 		}
 
-		having.append(" ").append(str);
+		if (params.length == 0) {
+			having.append(" ").append(str);
+		} else if (params.length == 1) {
+			whereParams.add(params[0]);
+
+			if (params[0] instanceof Collection) {
+				having.append(" ").append(Utilities.format(str, "(:" + PREFIX_WHERE_PARAMS + whereParams.size() + ")"));
+			} else {
+				having.append(" ").append(Utilities.format(str, ":" + PREFIX_WHERE_PARAMS + whereParams.size()));
+			}
+		} else {
+			List<String> args = Lists.newArrayList();
+
+			for (Object param : params) {
+				whereParams.add(param);
+
+				if (param instanceof Collection) {
+					args.add("(:" + PREFIX_WHERE_PARAMS + whereParams.size() + ")");
+				} else {
+					args.add(":" + PREFIX_WHERE_PARAMS + whereParams.size());
+				}
+			}
+
+			having.append(" ").append(Utilities.format(str, args.toArray()));
+		}
+
 		return this;
 	}
 
-	public QueryBuilder addJoin(String str) {
-		join.append(" ").append(str).append(" ");
+	public QueryBuilder addJoin(String str, Object... params) {
+		if (params.length == 0) {
+			join.append(" ").append(str).append(" ");
+		} else if (params.length == 1) {
+			whereParams.add(params[0]);
+
+			if (params[0] instanceof Collection) {
+				join.append(" ").append(Utilities.format(str, "(:" + PREFIX_WHERE_PARAMS + whereParams.size() + ")")).append(" ");
+			} else {
+				join.append(" ").append(Utilities.format(str, ":" + PREFIX_WHERE_PARAMS + whereParams.size())).append(" ");
+			}
+		} else {
+			List<String> args = Lists.newArrayList();
+
+			for (Object param : params) {
+				whereParams.add(param);
+
+				if (param instanceof Collection) {
+					args.add("(:" + PREFIX_WHERE_PARAMS + whereParams.size() + ")");
+				} else {
+					args.add(":" + PREFIX_WHERE_PARAMS + whereParams.size());
+				}
+			}
+
+			join.append(" ").append(Utilities.format(str, args.toArray())).append(" ");
+		}
+
 		return this;
 	}
 

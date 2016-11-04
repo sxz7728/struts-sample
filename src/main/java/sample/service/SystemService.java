@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import sample.info.UserInfo;
 import sample.model.SysArea;
 import sample.model.SysDict;
 import sample.model.SysFile;
@@ -14,6 +13,7 @@ import sample.model.SysRole;
 import sample.model.SysUser;
 import sample.utils.Datagrid;
 import sample.utils.QueryBuilder;
+import sample.utils.UserInfo;
 
 public interface SystemService {
 	// Module
@@ -44,11 +44,9 @@ public interface SystemService {
 
 	public SysMenu getMenu(QueryBuilder qb);
 
-	public SysMenu saveMenu(Integer moduleId, Integer parentId, String name, String url, Integer sequence,
-			String cssClass, UserInfo userInfo);
+	public SysMenu saveMenu(Integer moduleId, Integer parentId, String name, String url, Integer sequence, String cssClass, UserInfo userInfo);
 
-	public SysMenu updateMenu(Integer id, Integer parentId, String name, String url, Integer sequence, String cssClass,
-			UserInfo userInfo);
+	public SysMenu updateMenu(Integer id, Integer parentId, String name, String url, Integer sequence, String cssClass, UserInfo userInfo);
 
 	public void deleteMenu(Collection<Integer> ids, UserInfo userInfo);
 
@@ -89,13 +87,11 @@ public interface SystemService {
 
 	public SysDict getDict(QueryBuilder qb);
 
-	public List<Map<String, ?>> dictionaryDict(QueryBuilder qb);
+	public List<Map<String, Object>> dictionaryDict(QueryBuilder qb);
 
-	public SysDict saveDict(String type, String dictKey, String dictValue, String parentKey, Integer sequence,
-			UserInfo userInfo);
+	public SysDict saveDict(String type, String dictKey, String dictValue, String parentKey, Integer sequence, UserInfo userInfo);
 
-	public SysDict updateDict(Integer id, String dictKey, String dictValue, String parentKey, Integer sequence,
-			UserInfo userInfo);
+	public SysDict updateDict(Integer id, String dictKey, String dictValue, String parentKey, Integer sequence, UserInfo userInfo);
 
 	public void deleteDict(Collection<Integer> ids, UserInfo userInfo);
 
