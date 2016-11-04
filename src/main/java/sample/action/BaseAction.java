@@ -3,8 +3,6 @@ package sample.action;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -18,13 +16,12 @@ import org.apache.struts2.util.ServletContextAware;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import sample.exception.NotLoggedInException;
+import sample.exception.ValidateException;
 import sample.service.SystemService;
 import sample.utils.DictUtils;
 import sample.utils.Globals;
 import sample.utils.JsonResult;
 import sample.utils.JsonUtils;
-import sample.utils.QueryBuilder;
-import sample.utils.QueryUtils;
 import sample.utils.UserInfo;
 
 import com.opensymphony.xwork2.ActionSupport;
@@ -153,15 +150,6 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
 		return dictUtils;
 	}
 
-	public List<Map<String, Object>> findDict(String type) {
-		QueryBuilder qb = new QueryBuilder();
-		QueryUtils.addWhere(qb, "and t.delFlag = {0}", DictUtils.NO);
-		QueryUtils.addWhere(qb, "and t.type = {0}", type);
-		QueryUtils.addOrder(qb, "t.sequence");
-		QueryUtils.addOrder(qb, "t.id");
-		return systemService.dictionaryDict(qb);
-	}
-
 	public void writeJson(JsonResult result) {
 		PrintWriter writer = null;
 
@@ -191,7 +179,11 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
 		writeJson(result);
 	}
 
-	public void writeJson() {
-		writeJson(true);
+	public void writeJson(ValidateException error) {
+		JsonResult result = new JsonResult();
+		result.setSuccess(false);
+		result.setError(error.getMessage());
+		result.setMessages(error.getMessages());
+		writeJson(result);
 	}
 }

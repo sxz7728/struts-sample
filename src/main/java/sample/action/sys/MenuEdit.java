@@ -53,7 +53,6 @@ public class MenuEdit extends BaseAction {
 	@Action("menuDelete")
 	public void delete() {
 		systemService.deleteMenu(ids, getUserInfo());
-		writeJson();
 	}
 
 	public Integer getId() {

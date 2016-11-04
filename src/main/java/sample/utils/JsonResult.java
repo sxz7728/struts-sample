@@ -1,9 +1,11 @@
 package sample.utils;
 
+import java.util.List;
+
 public class JsonResult {
 	private boolean success;
 
-	private String message;
+	private List<String> messages;
 
 	private String error;
 
@@ -17,12 +19,12 @@ public class JsonResult {
 		this.success = success;
 	}
 
-	public String getMessage() {
-		return message;
+	public List<String> getMessages() {
+		return messages;
 	}
 
-	public void setMessage(String message) {
-		this.message = message;
+	public void setMessages(List<String> messages) {
+		this.messages = messages;
 	}
 
 	public String getError() {

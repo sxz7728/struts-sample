@@ -45,7 +45,6 @@ public class ModuleEdit extends BaseAction {
 	@Action("moduleDelete")
 	public void delete() {
 		systemService.deleteModule(ids, getUserInfo());
-		writeJson();
 	}
 
 	public Integer getId() {

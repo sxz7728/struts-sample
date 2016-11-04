@@ -2,7 +2,11 @@ package sample.utils;
 
 import java.lang.reflect.Method;
 
+import org.apache.commons.lang.StringUtils;
+
 import sample.action.BaseAction;
+import sample.exception.NotLoggedInException;
+import sample.exception.ValidateException;
 
 import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.interceptor.Interceptor;
@@ -25,18 +29,29 @@ public class CustomInterceptor implements Interceptor {
 
 			try {
 				baseAction.authenticate();
-				return invocation.invoke();
+				String result = invocation.invoke();
+
+				if (StringUtils.isEmpty(result) && StringUtils.isEmpty(baseAction.getServletResponse().getContentType())) {
+					baseAction.writeJson(true);
+				}
+
+				return result;
 			} catch (Exception e) {
 				String methodName = invocation.getProxy().getMethod();
+				Method method = baseAction.getClass().getMethod(methodName, new Class<?>[] {});
 
-				if (methodName != null) {
-					Method method = baseAction.getClass().getMethod(methodName, new Class<?>[] {});
+				if (method.getReturnType() == void.class) {
+					if (e instanceof ValidateException) {
+						baseAction.writeJson((ValidateException) e);
+					} else {
+						if (!(e instanceof NotLoggedInException)) {
+							e.printStackTrace();
+						}
 
-					if (method.getReturnType() == void.class) {
-						e.printStackTrace();
 						baseAction.writeJson(e);
-						return null;
 					}
+
+					return null;
 				}
 
 				throw e;

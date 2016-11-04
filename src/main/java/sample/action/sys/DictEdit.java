@@ -50,7 +50,6 @@ public class DictEdit extends BaseAction {
 	@Action("dictDelete")
 	public void delete() {
 		systemService.deleteDict(ids, getUserInfo());
-		writeJson();
 	}
 
 	public Integer getId() {
