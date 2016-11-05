@@ -57,12 +57,17 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 		return sessionFactory.getCurrentSession();
 	}
 
-	@SuppressWarnings("rawtypes")
 	protected Query setParams(Query query, List<Object> params, String prefix) {
 		if (params != null) {
 			for (int i = 0; i < params.size(); ++i) {
 				if (params.get(i) instanceof Collection) {
-					query.setParameterList(prefix + (i + 1), (Collection) params.get(i));
+					Collection<?> collection = (Collection<?>) params.get(i);
+
+					if (collection.size() == 0) {
+						collection.add(null);
+					}
+
+					query.setParameterList(prefix + (i + 1), collection);
 				} else {
 					query.setParameter(prefix + (i + 1), params.get(i));
 				}

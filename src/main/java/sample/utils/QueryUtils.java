@@ -5,34 +5,42 @@ import java.util.Collection;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 
-import com.google.common.collect.Lists;
-
 public class QueryUtils {
-	public static QueryBuilder addColumn(QueryBuilder qb, String str, Object... params) {
-		return qb.addColumn(str, params);
-	}
+	public static final String ADD_COLUMN = " {0} as {1} ";
+
+	public static final String ADD_DICT = " (select t1.dictValue from SysDict t1 where t1.dictKey = {0} and t1.type = '{1}') as {2} ";
+
+	public static final String ADD_USER = " (select t1.userName from SysUser t1 where t1.id = {0}) as {1} ";
 
 	public static QueryBuilder addColumn(QueryBuilder qb, String name) {
-		return qb.addColumn(ColumnUtils.column(name));
+		int index = StringUtils.indexOf(name, ".");
+		String alias = index != -1 ? StringUtils.substring(name, index + 1) : name;
+		return qb.addColumn(Utilities.format(ADD_COLUMN, name, alias));
 	}
 
-	public static QueryBuilder addColumn(QueryBuilder qb, String name, String alias) {
-		return qb.addColumn(ColumnUtils.column(name, alias));
+	public static QueryBuilder addColumn(QueryBuilder qb, String name, String alias, Object... params) {
+		return qb.addColumn(Utilities.format(ADD_COLUMN, name, alias), params);
 	}
 
-	public static QueryBuilder addColumnDict(QueryBuilder qb, String name, String type) {
-		return qb.addColumn(ColumnUtils.dictValue(name, type));
+	public static QueryBuilder addDict(QueryBuilder qb, String name, String type) {
+		int index = StringUtils.indexOf(name, ".");
+		String alias = (index != -1 ? StringUtils.substring(name, index + 1) : name) + "Name";
+		return qb.addColumn(Utilities.format(ADD_DICT, name, type, alias));
 	}
 
-	public static QueryBuilder addColumnDict(QueryBuilder qb, String name, String type, String alias) {
-		return qb.addColumn(ColumnUtils.dictValue(name, type, alias));
+	public static QueryBuilder addDict(QueryBuilder qb, String name, String type, String alias) {
+		return qb.addColumn(Utilities.format(ADD_DICT, name, type, alias));
+	}
+
+	public static QueryBuilder addUser(QueryBuilder qb, String name, String alias) {
+		return qb.addColumn(Utilities.format(ADD_USER, name, alias));
 	}
 
 	public static QueryBuilder addSetColumn(QueryBuilder qb, String name, Object param) {
 		return qb.addColumn(name + " = {0}", param);
 	}
 
-	public static QueryBuilder addSetColumn(QueryBuilder qb, UserInfo userInfo) {
+	public static QueryBuilder addSetUserInfo(QueryBuilder qb, UserInfo userInfo) {
 		qb.addColumn("t.operator = {0}", userInfo.getUserId());
 		qb.addColumn("t.operateDate = {0}", userInfo.getOperateDate());
 		return qb;
@@ -66,10 +74,6 @@ public class QueryUtils {
 		return qb;
 	}
 
-	public static QueryBuilder addWhereWithDefault(QueryBuilder qb, String str, Collection<?> param, Object obj) {
-		return qb.addWhere(str, CollectionUtils.isEmpty(param) ? Lists.newArrayList(obj) : param);
-	}
-
 	public static QueryBuilder addOrder(QueryBuilder qb, String str) {
 		return qb.addOrder(str);
 	}
@@ -78,11 +82,11 @@ public class QueryUtils {
 		return qb.addGroup(str);
 	}
 
-	public static QueryBuilder addHaving(QueryBuilder qb, String str) {
-		return qb.addHaving(str);
+	public static QueryBuilder addHaving(QueryBuilder qb, String str, Object... params) {
+		return qb.addHaving(str, params);
 	}
 
-	public static QueryBuilder addJoin(QueryBuilder qb, String str) {
-		return qb.addJoin(str);
+	public static QueryBuilder addJoin(QueryBuilder qb, String str, Object... params) {
+		return qb.addJoin(str, params);
 	}
 }

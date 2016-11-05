@@ -107,14 +107,14 @@ public class SystemServiceImpl implements SystemService {
 	public void deleteModule(Collection<Integer> ids, UserInfo userInfo) {
 		QueryBuilder qb = new QueryBuilder();
 		QueryUtils.addSetColumn(qb, "t.delFlag", DictUtils.YES);
-		QueryUtils.addSetColumn(qb, userInfo);
+		QueryUtils.addSetUserInfo(qb, userInfo);
 		QueryUtils.addWhere(qb, "and t.delFlag = {0}", DictUtils.NO);
 		QueryUtils.addWhere(qb, "and t.id in {0}", ids);
 		sysModuleDao.update(qb);
 
 		qb = new QueryBuilder();
 		QueryUtils.addSetColumn(qb, "t.delFlag", DictUtils.YES);
-		QueryUtils.addSetColumn(qb, userInfo);
+		QueryUtils.addSetUserInfo(qb, userInfo);
 		QueryUtils.addWhere(qb, "and t.delFlag = {0}", DictUtils.NO);
 		QueryUtils.addWhere(qb, "and t.moduleId in {0}", ids);
 		sysMenuDao.update(qb);
@@ -147,8 +147,7 @@ public class SystemServiceImpl implements SystemService {
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
-	public SysMenu saveMenu(Integer moduleId, Integer parentId, String name, String url, Integer sequence,
-			String cssClass, UserInfo userInfo) {
+	public SysMenu saveMenu(Integer moduleId, Integer parentId, String name, String url, Integer sequence, String cssClass, UserInfo userInfo) {
 		SysMenu sysMenu = new SysMenu();
 		sysMenu.setModuleId(moduleId);
 		sysMenu.setParentId(parentId);
@@ -161,8 +160,7 @@ public class SystemServiceImpl implements SystemService {
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
-	public SysMenu updateMenu(Integer id, Integer parentId, String name, String url, Integer sequence, String cssClass,
-			UserInfo userInfo) {
+	public SysMenu updateMenu(Integer id, Integer parentId, String name, String url, Integer sequence, String cssClass, UserInfo userInfo) {
 		SysMenu sysMenu = sysMenuDao.load(id);
 		sysMenu.setParentId(parentId);
 		sysMenu.setName(name);
@@ -200,7 +198,7 @@ public class SystemServiceImpl implements SystemService {
 
 		qb = new QueryBuilder();
 		QueryUtils.addSetColumn(qb, "t.delFlag", DictUtils.YES);
-		QueryUtils.addSetColumn(qb, userInfo);
+		QueryUtils.addSetUserInfo(qb, userInfo);
 		QueryUtils.addWhere(qb, "and t.id in {0}", deleteIds);
 		sysMenuDao.update(qb);
 	}
@@ -239,7 +237,7 @@ public class SystemServiceImpl implements SystemService {
 
 		QueryBuilder qb = new QueryBuilder();
 		QueryUtils.addWhere(qb, "and t.delFlag = {0}", DictUtils.NO);
-		QueryUtils.addWhereWithDefault(qb, "and t.id in {0}", menuIds, -1);
+		QueryUtils.addWhere(qb, "and t.id in {0}", menuIds);
 		List<SysMenu> sysMenus = sysMenuDao.find(qb);
 		sysRole.setSysMenus(sysMenus);
 		ModelUtils.setUserInfo(sysRole, userInfo);
@@ -254,7 +252,7 @@ public class SystemServiceImpl implements SystemService {
 
 		QueryBuilder qb = new QueryBuilder();
 		QueryUtils.addWhere(qb, "and t.delFlag = {0}", DictUtils.NO);
-		QueryUtils.addWhereWithDefault(qb, "and t.id in {0}", menuIds, -1);
+		QueryUtils.addWhere(qb, "and t.id in {0}", menuIds);
 		List<SysMenu> sysMenus = sysMenuDao.find(qb);
 		sysRole.setSysMenus(sysMenus);
 
@@ -316,13 +314,12 @@ public class SystemServiceImpl implements SystemService {
 
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<Map<String, Object>> dictionaryDict(QueryBuilder qb) {
-		//return sysDictDao.dictionary(qb);
+		// return sysDictDao.dictionary(qb);
 		return null;
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
-	public SysDict saveDict(String type, String dictKey, String dictValue, String parentKey, Integer sequence,
-			UserInfo userInfo) {
+	public SysDict saveDict(String type, String dictKey, String dictValue, String parentKey, Integer sequence, UserInfo userInfo) {
 		SysDict sysDict = new SysDict();
 		sysDict.setType(type);
 		sysDict.setDictKey(dictKey);
@@ -334,8 +331,7 @@ public class SystemServiceImpl implements SystemService {
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
-	public SysDict updateDict(Integer id, String dictKey, String dictValue, String parentKey, Integer sequence,
-			UserInfo userInfo) {
+	public SysDict updateDict(Integer id, String dictKey, String dictValue, String parentKey, Integer sequence, UserInfo userInfo) {
 		SysDict sysDict = sysDictDao.load(id);
 		sysDict.setDictKey(dictKey);
 		sysDict.setDictValue(dictValue);
@@ -350,7 +346,7 @@ public class SystemServiceImpl implements SystemService {
 	public void deleteDict(Collection<Integer> ids, UserInfo userInfo) {
 		QueryBuilder qb = new QueryBuilder();
 		QueryUtils.addSetColumn(qb, "t.delFlag", DictUtils.YES);
-		QueryUtils.addSetColumn(qb, userInfo);
+		QueryUtils.addSetUserInfo(qb, userInfo);
 		QueryUtils.addWhere(qb, "and t.id in {0}", ids);
 		sysDictDao.update(qb);
 	}
