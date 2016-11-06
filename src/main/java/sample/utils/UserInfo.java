@@ -1,7 +1,7 @@
 package sample.utils;
 
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -12,9 +12,9 @@ public class UserInfo {
 
 	private String userType;
 
-	private List<Integer> moduleIds;
+	private Set<Integer> moduleIds;
 
-	private List<Integer> menuIds;
+	private Set<Integer> menuIds;
 
 	private Date operateDate;
 
@@ -46,19 +46,19 @@ public class UserInfo {
 		this.userType = userType;
 	}
 
-	public List<Integer> getModuleIds() {
+	public Set<Integer> getModuleIds() {
 		return moduleIds;
 	}
 
-	public void setModuleIds(List<Integer> moduleIds) {
+	public void setModuleIds(Set<Integer> moduleIds) {
 		this.moduleIds = moduleIds;
 	}
 
-	public List<Integer> getMenuIds() {
+	public Set<Integer> getMenuIds() {
 		return menuIds;
 	}
 
-	public void setMenuIds(List<Integer> menuIds) {
+	public void setMenuIds(Set<Integer> menuIds) {
 		this.menuIds = menuIds;
 	}
 

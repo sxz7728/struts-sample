@@ -25,12 +25,12 @@ public class DictList extends BaseAction {
 
 	@Action("dictList")
 	public String execute() {
-		QueryBuilder qb = new QueryBuilder();
-		QueryUtils.addWhere(qb, "and t.delFlag = {0}", DictUtils.NO);
-		QueryUtils.addWhere(qb, "and t.type = {0}", DictUtils.DICT_TYPE);
-		QueryUtils.addWhere(qb, "and t.dictKey = {0}", type);
-		SysDict sysDict = systemService.getDict(qb);
-		typeName = sysDict.getDictValue();
+//		QueryBuilder qb = new QueryBuilder();
+//		QueryUtils.addWhere(qb, "and t.delFlag = {0}", DictUtils.NO);
+//		QueryUtils.addWhere(qb, "and t.type = {0}", DictUtils.DICT_TYPE);
+//		QueryUtils.addWhere(qb, "and t.dictKey = {0}", type);
+//		SysDict sysDict = systemService.getDict(qb);
+//		typeName = sysDict.getDictValue();
 		return INPUT;
 	}
 
@@ -54,13 +54,13 @@ public class DictList extends BaseAction {
 
 	@Action("dictDictionary")
 	public void dictionary() {
-		QueryBuilder qb = new QueryBuilder();
-		QueryUtils.addWhere(qb, "and t.delFlag = {0}", DictUtils.NO);
-		QueryUtils.addWhere(qb, "and t.type = {0}", type);
-		QueryUtils.addWhereIfNotEmpty(qb, "and t.parentKey = {0}", parentKey);
-		QueryUtils.addOrder(qb, "t.sequence");
-		QueryUtils.addOrder(qb, "t.id");
-		writeJson(systemService.dictionaryDict(qb));
+//		QueryBuilder qb = new QueryBuilder();
+//		QueryUtils.addWhere(qb, "and t.delFlag = {0}", DictUtils.NO);
+//		QueryUtils.addWhere(qb, "and t.type = {0}", type);
+//		QueryUtils.addWhereIfNotEmpty(qb, "and t.parentKey = {0}", parentKey);
+//		QueryUtils.addOrder(qb, "t.sequence");
+//		QueryUtils.addOrder(qb, "t.id");
+//		writeJson(systemService.dictionaryDict(qb));
 	}
 
 	public String getType() {

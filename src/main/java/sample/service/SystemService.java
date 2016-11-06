@@ -2,7 +2,6 @@ package sample.service;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 import sample.model.SysArea;
 import sample.model.SysDict;
@@ -21,11 +20,7 @@ public interface SystemService {
 
 	public List<SysModule> findModule(QueryBuilder qb);
 
-	public Integer countModule(QueryBuilder qb);
-
 	public Datagrid datagridModule(QueryBuilder qb);
-
-	public SysModule getModule(QueryBuilder qb);
 
 	public SysModule saveModule(String name, Integer sequence, UserInfo userInfo);
 
@@ -38,11 +33,7 @@ public interface SystemService {
 
 	public List<SysMenu> findMenu(QueryBuilder qb);
 
-	public Integer countMenu(QueryBuilder qb);
-
 	public Datagrid datagridMenu(QueryBuilder qb);
-
-	public SysMenu getMenu(QueryBuilder qb);
 
 	public SysMenu saveMenu(Integer moduleId, Integer parentId, String name, String url, Integer sequence, String cssClass, UserInfo userInfo);
 
@@ -55,39 +46,21 @@ public interface SystemService {
 
 	public List<SysRole> findRole(QueryBuilder qb);
 
-	public Integer countRole(QueryBuilder qb);
-
 	public Datagrid datagridRole(QueryBuilder qb);
-
-	public SysRole getRole(QueryBuilder qb);
-
-	public SysRole saveRole(String name, Integer sequence, List<Integer> menuIds, UserInfo userInfo);
-
-	public SysRole updateRole(Integer id, String name, Integer sequence, List<Integer> menuIds, UserInfo userInfo);
 
 	// User
 	public SysUser loadUser(Integer id);
 
 	public List<SysUser> findUser(QueryBuilder qb);
 
-	public Integer countUser(QueryBuilder qb);
-
 	public Datagrid datagridUser(QueryBuilder qb);
-
-	public SysUser getUser(QueryBuilder qb);
 
 	// Dict
 	public SysDict loadDict(Integer id);
 
 	public List<SysDict> findDict(QueryBuilder qb);
 
-	public Integer countDict(QueryBuilder qb);
-
 	public Datagrid datagridDict(QueryBuilder qb);
-
-	public SysDict getDict(QueryBuilder qb);
-
-	public List<Map<String, Object>> dictionaryDict(QueryBuilder qb);
 
 	public SysDict saveDict(String type, String dictKey, String dictValue, String parentKey, Integer sequence, UserInfo userInfo);
 
@@ -100,22 +73,14 @@ public interface SystemService {
 
 	public List<SysArea> findArea(QueryBuilder qb);
 
-	public Integer countArea(QueryBuilder qb);
-
 	public Datagrid datagridArea(QueryBuilder qb);
-
-	public SysArea getArea(QueryBuilder qb);
 
 	// File
 	public SysFile loadFile(Integer id);
 
 	public List<SysFile> findFile(QueryBuilder qb);
 
-	public Integer countFile(QueryBuilder qb);
-
 	public Datagrid datagridFile(QueryBuilder qb);
-
-	public SysFile getFile(QueryBuilder qb);
 
 	// Other
 	public UserInfo login(String username, String password);
