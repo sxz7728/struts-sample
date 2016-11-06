@@ -2,6 +2,7 @@ package sample.service.impl;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -254,6 +255,16 @@ public class SystemServiceImpl implements SystemService {
 		QueryUtils.addSetUserInfo(qb, userInfo);
 		QueryUtils.addWhere(qb, "and t.id in {0}", ids);
 		sysDictDao.update(qb);
+	}
+
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public SysDict getDict(QueryBuilder qb) {
+		return sysDictDao.get(qb);
+	}
+
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public List<Map<String, Object>> listMapDict(QueryBuilder qb) {
+		return sysDictDao.listMap(qb);
 	}
 
 	// Area

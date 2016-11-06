@@ -33,7 +33,6 @@ public class Index extends BaseAction {
 
 		if (userInfo != null) {
 			setUserInfo(userInfo);
-			writeJson(true);
 		} else {
 			writeJson(false);
 		}
@@ -42,7 +41,6 @@ public class Index extends BaseAction {
 	@Action("logout")
 	public void logout() {
 		setUserInfo(null);
-		writeJson(true);
 	}
 
 	public String getUsername() {

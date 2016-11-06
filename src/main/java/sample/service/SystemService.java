@@ -2,6 +2,7 @@ package sample.service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import sample.model.SysArea;
 import sample.model.SysDict;
@@ -67,6 +68,10 @@ public interface SystemService {
 	public SysDict updateDict(Integer id, String dictKey, String dictValue, String parentKey, Integer sequence, UserInfo userInfo);
 
 	public void deleteDict(Collection<Integer> ids, UserInfo userInfo);
+
+	public SysDict getDict(QueryBuilder qb);
+	
+	public List<Map<String, Object>> listMapDict(QueryBuilder qb);
 
 	// Area
 	public SysArea loadArea(Integer id);

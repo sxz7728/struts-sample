@@ -29,6 +29,7 @@ public class ModuleList extends BaseAction {
 		Map<String, Object> data = Maps.newHashMap();
 
 		QueryBuilder qb = new QueryBuilder();
+		QueryUtils.addColumn(qb, "t.id");
 		QueryUtils.addColumn(qb, "t.name");
 		QueryUtils.addWhere(qb, "and t.delFlag = {0}", DictUtils.NO);
 		QueryUtils.addOrder(qb, "t.sequence");
@@ -36,6 +37,7 @@ public class ModuleList extends BaseAction {
 		data.put("modules", systemService.datagridModule(qb));
 
 		qb = new QueryBuilder();
+		QueryUtils.addColumn(qb, "t.id");
 		QueryUtils.addColumn(qb, "t.moduleId");
 		QueryUtils.addColumn(qb, "t.name");
 		QueryUtils.addColumn(qb, "t.parentId");
