@@ -104,10 +104,10 @@ public class QueryBuilder {
 	}
 
 	public QueryBuilder addOrder(String str) {
-		if (order.length() > 0) {
-			order.append(",");
-		} else {
+		if (order.length() == 0) {
 			order.append(" order by ");
+		} else {
+			order.append(",");
 		}
 
 		order.append(str);
@@ -115,10 +115,10 @@ public class QueryBuilder {
 	}
 
 	public QueryBuilder addGroup(String str) {
-		if (group.length() > 0) {
-			group.append(",");
-		} else {
+		if (group.length() == 0) {
 			group.append(" group by ");
+		} else {
+			group.append(",");
 		}
 
 		group.append(str);
@@ -161,14 +161,14 @@ public class QueryBuilder {
 
 	public QueryBuilder addJoin(String str, Object... params) {
 		if (params.length == 0) {
-			join.append(" ").append(str).append(" ");
+			join.append(" ").append(str);
 		} else if (params.length == 1) {
 			whereParams.add(params[0]);
 
 			if (params[0] instanceof Collection) {
-				join.append(" ").append(Utilities.format(str, "(:" + PREFIX_WHERE_PARAMS + whereParams.size() + ")")).append(" ");
+				join.append(" ").append(Utilities.format(str, "(:" + PREFIX_WHERE_PARAMS + whereParams.size() + ")"));
 			} else {
-				join.append(" ").append(Utilities.format(str, ":" + PREFIX_WHERE_PARAMS + whereParams.size())).append(" ");
+				join.append(" ").append(Utilities.format(str, ":" + PREFIX_WHERE_PARAMS + whereParams.size()));
 			}
 		} else {
 			List<String> args = Lists.newArrayList();
@@ -183,7 +183,7 @@ public class QueryBuilder {
 				}
 			}
 
-			join.append(" ").append(Utilities.format(str, args.toArray())).append(" ");
+			join.append(" ").append(Utilities.format(str, args.toArray()));
 		}
 
 		return this;

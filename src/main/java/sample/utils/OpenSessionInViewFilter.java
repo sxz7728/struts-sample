@@ -22,8 +22,9 @@ public class OpenSessionInViewFilter extends org.springframework.orm.hibernate4.
 		}
 
 		for (String suffix : includeSuffixs) {
-			if (StringUtils.equals(suffix, extension))
+			if (StringUtils.equals(suffix, extension)) {
 				return false;
+			}
 		}
 
 		return true;

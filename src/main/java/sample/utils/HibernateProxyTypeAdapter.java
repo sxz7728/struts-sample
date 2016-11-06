@@ -21,10 +21,10 @@ public class HibernateProxyTypeAdapter extends TypeAdapter<HibernateProxy> {
 	public static final TypeAdapterFactory FACTORY = new TypeAdapterFactory() {
 		@SuppressWarnings("unchecked")
 		public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
-			return (HibernateProxy.class.isAssignableFrom(type.getRawType()) ? (TypeAdapter<T>) new HibernateProxyTypeAdapter(
-					gson) : null);
+			return (HibernateProxy.class.isAssignableFrom(type.getRawType()) ? (TypeAdapter<T>) new HibernateProxyTypeAdapter(gson) : null);
 		}
 	};
+
 	private final Gson context;
 
 	private HibernateProxyTypeAdapter(Gson context) {

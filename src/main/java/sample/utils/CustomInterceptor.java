@@ -31,7 +31,7 @@ public class CustomInterceptor implements Interceptor {
 				baseAction.authenticate();
 				String result = invocation.invoke();
 
-				if (StringUtils.isEmpty(result) && StringUtils.isEmpty(baseAction.getServletResponse().getContentType())) {
+				if (StringUtils.isEmpty(baseAction.getServletResponse().getContentType())) {
 					baseAction.writeJson(true);
 				}
 

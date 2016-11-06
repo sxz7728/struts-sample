@@ -1,5 +1,6 @@
 package sample.utils;
 
+import java.util.Date;
 import java.util.List;
 
 public class JsonResult {
@@ -10,6 +11,8 @@ public class JsonResult {
 	private String error;
 
 	private Object data;
+
+	private Long timestemp = new Date().getTime();
 
 	public boolean getSuccess() {
 		return success;
@@ -41,5 +44,13 @@ public class JsonResult {
 
 	public void setData(Object data) {
 		this.data = data;
+	}
+
+	public Long getTimestemp() {
+		return timestemp;
+	}
+
+	public void setTimestemp(Long timestemp) {
+		this.timestemp = timestemp;
 	}
 }
