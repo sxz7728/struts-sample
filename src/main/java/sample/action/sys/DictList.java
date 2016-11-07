@@ -47,14 +47,14 @@ public class DictList extends BaseAction {
 	@Action("dictDictionary")
 	public void dictionary() {
 		QueryBuilder qb = new QueryBuilder();
-		QueryUtils.addColumn(qb, "t.dictKey");
-		QueryUtils.addColumn(qb, "t.dictValue");
+		QueryUtils.addColumn(qb, "t.dictKey", "key");
+		QueryUtils.addColumn(qb, "t.dictValue", "value");
 		QueryUtils.addWhere(qb, "and t.delFlag = {0}", DictUtils.NO);
 		QueryUtils.addWhere(qb, "and t.type = {0}", type);
 		QueryUtils.addWhereIfNotEmpty(qb, "and t.parentKey = {0}", parentKey);
 		QueryUtils.addOrder(qb, "t.sequence");
 		QueryUtils.addOrder(qb, "t.id");
-		writeJson(systemService.listMapDict(qb));
+		writeJson(systemService.datagridDict(qb));
 	}
 
 	public String getType() {

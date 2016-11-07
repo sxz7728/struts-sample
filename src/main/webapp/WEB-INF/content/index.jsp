@@ -10,7 +10,7 @@
 <script type="text/javascript">
 	$(function() {
 		if (top != window) {
-			top.$._location("/index");
+			top.$._refresh("/index");
 		}
 
 		$("#login").click(function() {
@@ -18,7 +18,7 @@
 				url : "login",
 				success : function(result) {
 					if (result.data) {
-						$._location("main");
+						$._refresh("main");
 					} else {
 						$._notify({
 							message : "登陆失败!",

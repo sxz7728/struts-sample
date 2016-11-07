@@ -31,12 +31,10 @@ String.prototype.format = function(args) {
 (function($) {
 	$._url = function(url, params) {
 		if (url.charAt(0) == "/") {
-			url = globals.APP_NAME + url;
-		} else {
-			if (url.indexOf("http") != 0) {
-				var href = window.location.href;
-				url = href.substring(0, href.lastIndexOf("/") + 1) + url;
-			}
+			url = Globals.APP_NAME + url;
+		} else if (url.indexOf("http") != 0) {
+			var href = window.location.href;
+			url = href.substring(0, href.lastIndexOf("/") + 1) + url;
 		}
 
 		if (params != null) {
@@ -47,8 +45,12 @@ String.prototype.format = function(args) {
 		return url;
 	};
 
-	$._location = function(url, params) {
-		window.location.href = $._url(url, params);
+	$._refresh = function(url, params) {
+		if (url) {
+			window.location.href = $._url(url, params);
+		} else {
+			window.location.reload();
+		}
 	};
 
 	$._notify = function(options) {
@@ -112,7 +114,6 @@ String.prototype.format = function(args) {
 	};
 
 	$._autoHeight = function() {
-
 	};
 
 	$._tree = function(rows, options) {
@@ -152,20 +153,23 @@ String.prototype.format = function(args) {
 
 	$._dialog.defaults = {};
 
-	$.fn._refresh = function() {
+	$.fn._refresh = function(url, params) {
 		var $this = $(this);
-		var url = $this.attr("src");
-		$this.attr("src", url);
+
+		if (url) {
+			$this.attr("src", $._url(url, params));
+		} else {
+			$this.attr("src", $this.attr("src"));
+		}
 	};
 
 	$.fn._autoHeight = function() {
 		$(this).each(function() {
 			var $this = $(this);
-			var height = $this.height();
-			var $child = $(this);
+			var $current = $(this);
 
 			$this.parents().each(function(i, e) {
-				var bottom = $child.offset().top + $child.outerHeight(true);
+				var bottom = $current.offset().top + $current.outerHeight(true);
 
 				$(e).children().each(function(i, e) {
 					if ($(e).offset().top > bottom) {
@@ -173,14 +177,14 @@ String.prototype.format = function(args) {
 					}
 				});
 
-				bottom = $(e).offset().top + $(e).height() - bottom;
+				var height = $(e).offset().top + $(e).height() - bottom;
 
-				if (bottom > 10) {
-					$this.height(Math.floor($this.height() + bottom));
+				if (height > 10) {
+					$this.height(Math.floor($this.height() + height));
 					return false;
 				}
 
-				$child = $(e);
+				$current = $(e);
 			});
 		});
 	};
@@ -246,11 +250,6 @@ String.prototype.format = function(args) {
 	$.fn._ajaxSelect = function(options) {
 		var opts = $.extend(true, {}, $.fn._ajaxSelect.defaults, options);
 		var $this = $(this);
-
-		opts.success = function(result) {
-			opts.data = result;
-			$this._jsonSelect(opts);
-		};
 	};
 
 	$.fn._ajaxSelect.defaults = {};

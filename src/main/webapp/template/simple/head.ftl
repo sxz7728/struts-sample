@@ -1,4 +1,4 @@
-<#if globals.DEV_MODE>
+<#if Globals.DEV_MODE>
 
 <link href="${base}/css/bootstrap.css" rel="stylesheet" type="text/css"></link>
 <link href="${base}/css/bootstrap-theme.css" rel="stylesheet"
@@ -62,8 +62,8 @@
 </#if>
 
 <script type="text/javascript">
-	var globals = {
+	var Globals = {
 		APP_NAME : '${base}',
-		DEV_MODE : '${globals.DEV_MODE?string}'
+		DEV_MODE : '${Globals.DEV_MODE?string}'
 	};
 </script>

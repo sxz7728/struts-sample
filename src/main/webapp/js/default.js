@@ -58,6 +58,7 @@ jQuery.validator.setDefaults({
 
 	$._delete = function(options) {
 		var opts = $.extend(true, {}, $._delete.defaults, options);
+		opts.params.ids = opts.ids;
 
 		if (opts.ids.length == 0) {
 			$._notify({
@@ -73,8 +74,6 @@ jQuery.validator.setDefaults({
 			message : "是否要删除当前记录?",
 			callback : function(result) {
 				if (result) {
-					opts.params.ids = opts.ids;
-
 					$._ajax($.extend({}, opts, {
 						success : function(result) {
 							opts.success.apply(this, arguments);
@@ -137,7 +136,6 @@ jQuery.validator.setDefaults({
 	};
 
 	$._save.defaults = {
-		formId : null,
 		success : function() {
 		},
 		failed : function() {
@@ -160,6 +158,8 @@ jQuery.validator.setDefaults({
 		}
 	};
 
+	$.fn._save.defaults = {};
+
 	$.fn._valid = function() {
 		if (this[0].contentWindow.$ != null) {
 			return this[0].contentWindow.$._valid();
@@ -167,8 +167,6 @@ jQuery.validator.setDefaults({
 
 		return true;
 	};
-
-	$.fn._save.defaults = {};
 })(jQuery);
 
 $(function() {

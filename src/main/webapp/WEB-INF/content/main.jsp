@@ -27,12 +27,11 @@ body {
 				url : "logout",
 				success : function(result) {
 					if (result.data) {
-						$._location("index");
+						$._refresh("index");
 					}
 				}
 			});
 		});
-
 	});
 </script>
 </head>
