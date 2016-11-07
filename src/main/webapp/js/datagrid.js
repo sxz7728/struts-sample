@@ -2,30 +2,32 @@
 
 (function($) {
 	var namespace = "_datagrid";
+	var checkboxClass = "treegrid-checkbox";
 
 	function appendRows($this, rows, parentId, parentIndex) {
 		var opts = $this.data(namespace).opts;
 		var columns = $this.data(namespace).columns;
 		var $tbody = $this.data(namespace).$tbody;
 
-		$.each(rows, function(i, e) {
-			var id = e[opts.id];
+		for (var i = 0; i < rows.length; ++i) {
+			var row = rows[i];
+			var id = row[opts.id];
 			var index = parentIndex ? parentIndex + "-" + (i + 1) : (i + 1);
 
 			var $tr = $("<tr></tr>");
 			$tr.addClass("treegrid-" + id);
-			$tr.data(namespace, e);
+			$tr.data(namespace, row);
 
 			if (parentId != null) {
 				$tr.addClass("treegrid-parent-" + parentId);
 			}
 
-			if (e.trClass != null) {
-				$tr.addClass(e.trClass);
+			if (row.trClass != null) {
+				$tr.addClass(row.trClass);
 			}
 
-			if (e.trStyle != null) {
-				$tr.attr("style", e.trStyle);
+			if (row.trStyle != null) {
+				$tr.attr("style", row.trStyle);
 			}
 
 			for (var j = 0; j < columns.length; ++j) {
@@ -38,24 +40,24 @@
 
 				if (column.formatter != null) {
 					var formatter = opts.formatters[column.formatter];
-					$td.append(formatter(e, e[column.id], index));
-				} else if (e[column.id] != null) {
-					$td.append(e[column.id]);
+					$td.append(formatter(row, row[column.id], index));
+				} else if (row[column.id] != null) {
+					$td.append(row[column.id]);
 				}
 
 				$tr.append($td);
 			}
 
 			$tr.click(function() {
-				opts.clickRow.call($this, e, index);
+				opts.clickRow.call($this, row, index);
 			});
 
 			$tbody.append($tr);
 
-			if (e.children && e.children.length > 0) {
-				appendRows($this, e.children, id, index);
+			if (row.children && row.children.length > 0) {
+				appendRows($this, row.children, id, index);
 			}
-		});
+		}
 	}
 
 	var methods = {};
@@ -77,8 +79,8 @@
 
 		if (opts.formatters.checkbox == null) {
 			opts.formatters.checkbox = function(row, value, index) {
-				var $checkbox = $("<input type='checkbox' data-id='{0}' />".format(row[opts.idColumn]));
-				$checkbox.addClass("checkbox");
+				var $checkbox = $("<input type='checkbox' />");
+				$checkbox.addClass(checkboxClass);
 				return $checkbox;
 			};
 		}
@@ -95,26 +97,27 @@
 				var $checkbox = $("<input type='checkbox' />");
 
 				$checkbox.click(function() {
-					$tbody.find(".checkbox").prop("checked", $checkbox.prop("checked"));
+					$tbody.find("." + checkboxClass).prop("checked", $checkbox.prop("checked"));
 				});
 
-				$tbody.on("change", ".checkbox", function() {
-					$checkbox.prop("checked", $tbody.find(".checkbox").not(":checked").size() == 0);
+				$tbody.on("change", "." + checkboxClass, function() {
+					$checkbox.prop("checked", $tbody.find("." + checkboxClass).not(":checked").size() == 0);
 
 					var $current = $(this).closest("tr");
 					var $parent = $current.treegrid("getParentNode");
+
+					while ($parent != null) {
+						var $checkboxs = $parent.treegrid("getChildNodes").find("." + checkboxClass);
+						$parent.find("." + checkboxClass).prop("checked", $checkboxs.not(":checked").size() == 0);
+						$parent = $parent.treegrid("getParentNode");
+					}
+
 					var $next = $current.next();
 					var depth = $current.treegrid("getDepth");
 					var checked = $(this).prop("checked");
 
-					while ($parent != null) {
-						var $checkboxs = $parent.treegrid("getChildNodes").find(".checkbox");
-						$parent.find(".checkbox").prop("checked", $checkboxs.not(":checked").size() == 0);
-						$parent = $parent.treegrid("getParentNode");
-					}
-
 					while ($next.size() > 0 && depth < $next.treegrid("getDepth")) {
-						$next.find(".checkbox").prop("checked", checked);
+						$next.find("." + checkboxClass).prop("checked", checked);
 						$next = $next.next();
 					}
 				});
@@ -169,16 +172,12 @@
 		}));
 	};
 
-	methods.getChecked = function(callback) {
+	methods.getChecked = function() {
 		var $this = $(this);
 		var $tbody = $this.data(namespace).$tbody;
 
-		return $tbody.find(".checkbox:checked").map(function(i, e) {
-			if (callback) {
-				return callback($(e).closest("tr").data(namespace));
-			} else {
-				return $(e).closest("tr").data(namespace);
-			}
+		return $tbody.find("." + checkboxClass + ":checked").map(function(i, e) {
+			return $(e).closest("tr").data(namespace);
 		}).get();
 	};
 

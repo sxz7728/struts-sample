@@ -106,10 +106,8 @@
 				rows = $._tree(modules.concat(rows), {
 					parentId : "moduleId"
 				});
-
-				return {
-					rows : rows
-				};
+				
+				return { rows : rows };
 			},
 
 			formatters : {
@@ -196,8 +194,7 @@
 									<div class="col-sm-12 actionBar">
 										<div class="btn-group">
 											<button id="moduleAdd" type="button" class="btn btn-default">新增模块</button>
-											<button id="moduleDel" type="button"
-												class="btn btn-default">删除模块</button>
+											<button id="moduleDel" type="button" class="btn btn-default">删除模块</button>
 											<button id="menuDel" type="button" class="btn btn-default">删除菜单</button>
 											<button id="refresh" type="button" class="btn btn-default">刷新</button>
 										</div>
