@@ -9,11 +9,13 @@
 <s:head />
 <%@ include file="/include/sidebar.jsp"%>
 <script src="js/sb-admin-2.js" type="text/javascript"></script>
+
 <style type="text/css">
 body {
 	background-color: #f8f8f8;
 }
 </style>
+
 <script type="text/javascript">
 	$(function() {
 		$("#sidebar")._sidebar({
@@ -27,7 +29,7 @@ body {
 				url : "logout",
 				success : function(result) {
 					if (result.data) {
-						$._refresh("index");
+						top.$._refresh("index");
 					}
 				}
 			});

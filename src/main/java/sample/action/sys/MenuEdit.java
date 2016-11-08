@@ -18,6 +18,10 @@ public class MenuEdit extends BaseAction {
 
 	private Integer id;
 
+	private Integer moduleId;
+
+	private Integer parentId;
+
 	private SysMenu sysMenu;
 
 	private List<Integer> ids;
@@ -26,6 +30,8 @@ public class MenuEdit extends BaseAction {
 	public String execute() {
 		if (Utilities.isValidId(id)) {
 			sysMenu = systemService.loadMenu(id);
+			moduleId = sysMenu.getModuleId();
+			parentId = sysMenu.getParentId();
 		}
 
 		return INPUT;
@@ -34,11 +40,11 @@ public class MenuEdit extends BaseAction {
 	@Action("menuSave")
 	public void save() {
 		if (!Utilities.isValidId(id)) {
-			sysMenu = systemService.saveMenu(sysMenu.getModuleId(), sysMenu.getParentId(), sysMenu.getName(), sysMenu.getUrl(),
-					sysMenu.getSequence(), sysMenu.getCssClass(), getUserInfo());
+			sysMenu = systemService.saveMenu(moduleId, parentId, sysMenu.getName(), sysMenu.getUrl(), sysMenu.getSequence(), sysMenu.getCssClass(),
+					getUserInfo());
 		} else {
-			sysMenu = systemService.updateMenu(id, sysMenu.getParentId(), sysMenu.getName(), sysMenu.getUrl(), sysMenu.getSequence(),
-					sysMenu.getCssClass(), getUserInfo());
+			sysMenu = systemService.updateMenu(id, parentId, sysMenu.getName(), sysMenu.getUrl(), sysMenu.getSequence(), sysMenu.getCssClass(),
+					getUserInfo());
 		}
 
 		writeJson(sysMenu.getId());
@@ -55,6 +61,22 @@ public class MenuEdit extends BaseAction {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public Integer getModuleId() {
+		return moduleId;
+	}
+
+	public void setModuleId(Integer moduleId) {
+		this.moduleId = moduleId;
+	}
+
+	public Integer getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(Integer parentId) {
+		this.parentId = parentId;
 	}
 
 	public SysMenu getSysMenu() {

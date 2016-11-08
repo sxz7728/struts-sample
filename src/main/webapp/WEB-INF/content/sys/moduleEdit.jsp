@@ -17,8 +17,8 @@
 					<div class="form-group">
 						<label class="control-label col-xs-2 required" for="sysModule">名称</label>
 						<div class="col-xs-10">
-							<s:textfield name="sysModule.name" cssClass="form-control required"
-								maxlength="50" />
+							<s:textfield name="sysModule.name"
+								cssClass="form-control required" maxlength="50" />
 						</div>
 					</div>
 					<div class="form-group">

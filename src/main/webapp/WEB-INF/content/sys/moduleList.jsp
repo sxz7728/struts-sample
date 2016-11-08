@@ -12,72 +12,88 @@
 <script type="text/javascript">
 	"use strict";
 
-	function moduleEdit(id) {
+	function refresh() {
+		$("#datagrid")._datagrid("reload");
+	}
+
+	function moduleEdit(row) {
 		$._edit({
-			title : id == null ? "新增模块" : "编辑模块",
+			title : row ? "编辑模块" : "新增模块",
 			url : "moduleEdit",
 			params : {
-				id : id
+				id : row ? row.moduleId : null
 			},
 			saveUrl : "moduleSave",
 			height : 300,
 			success : function() {
-				if (id == null) {
+				if (row) {
+					refresh();
+					return true;
+				} else {
 					$(this).find("iframe")._refresh();
 					return false;
-				} else {
-					$("#datagrid")._datagrid("reload");
-					return true;
 				}
 			},
 			cancel : function() {
-				$("#datagrid")._datagrid("reload");
+				refresh();
 			}
 		});
 	}
 
-	function moduleDel(ids) {
+	function moduleDel(rows) {
+		var ids = $.map(rows, function(e, i) {
+			if (!(e.id > 0)) {
+				return e.moduleId;
+			}
+		});
+
 		$._delete({
 			url : "moduleDelete",
 			ids : ids,
 			success : function() {
-				$("#datagrid")._datagrid("reload");
+				refresh();
 			}
 		});
 	}
 
-	function menuEdit(id, moduleId, parentId) {
+	function menuEdit(row, moduleId, parentId) {
 		$._edit({
-			title : id == null ? "新增菜单" : "编辑菜单",
+			title : row ? "编辑菜单" : "新增菜单",
 			url : "menuEdit",
 			params : {
-				id : id,
+				id : row ? row.id : null,
 				moduleId : moduleId,
 				parentId : parentId,
 			},
 			saveUrl : "menuSave",
 			height : 300,
 			success : function() {
-				if (id == null) {
+				if (row) {
+					refresh();
+					return true;
+				} else {
 					$(this).find("iframe")._refresh();
 					return false;
-				} else {
-					$("#datagrid")._datagrid("reload");
-					return true;
 				}
 			},
 			cancel : function() {
-				$("#datagrid")._datagrid("reload");
+				refresh();
 			}
 		});
 	}
 
-	function menuDel(ids) {
+	function menuDel(rows) {
+		var ids = $.map(rows, function(e, i) {
+			if (e.id > 0) {
+				return e.menuId;
+			}
+		});
+
 		$._delete({
 			url : "menuDelete",
 			ids : ids,
 			success : function() {
-				$("#datagrid")._datagrid("reload");
+				refresh();
 			}
 		});
 	}
@@ -90,47 +106,41 @@
 				var modules = result.data.modules.rows;
 
 				$.each(modules, function(i, e) {
-					e._id = e.id;
+					e.moduleId = e.id;
 					e.id = "module-" + e.id;
 				});
 
 				var menus = result.data.menus.rows;
 
 				$.each(menus, function(i, e) {
-					e._moduleId = e.moduleId;
-					e.moduleId = "module-" + e.moduleId;
+					e.menuId = e.id;
 					e.trStyle = "color:#006699";
+
+					if (e.parentId == null) {
+						e.parentId = "module-" + e.moduleId;
+					}
 				});
 
-				var rows = $._tree(menus);
-				rows = $._tree(modules.concat(rows), {
-					parentId : "moduleId"
-				});
-				
-				return { rows : rows };
+				return {
+					rows : $._tree(modules.concat(menus))
+				};
 			},
 
 			formatters : {
 				commands : function(row, value, index) {
 					var $add = $("<button type='button' class='btn btn-default btn-xs'></button>");
 					$add.html("<span class='glyphicon glyphicon glyphicon-plus'></span>");
-
 					$add.click(function() {
-						if (row.id > 0) {
-							menuEdit(null, row._moduleId, row.id);
-						} else {
-							menuEdit(null, row._id);
-						}
+						menuEdit(null, row.moduleId, row.menuId);
 					});
 
 					var $edit = $("<button type='button' class='btn btn-default btn-xs'></button>");
 					$edit.html("<span class='glyphicon glyphicon glyphicon-edit'></span>");
-
 					$edit.click(function() {
 						if (row.id > 0) {
-							menuEdit(row.id);
+							menuEdit(row);
 						} else {
-							moduleEdit(row._id);
+							moduleEdit(row);
 						}
 					});
 
@@ -139,9 +149,9 @@
 
 					$del.click(function() {
 						if (row.id > 0) {
-							menuDel(row.id);
+							menuDel([ row ]);
 						} else {
-							moduleDel(row._id);
+							moduleDel([ row ]);
 						}
 					});
 
@@ -156,23 +166,15 @@
 		});
 
 		$("#moduleDel").click(function() {
-			var ids = $("#datagrid")._datagrid("getChecked", function(row) {
-				return !(row.id > 0) ? row._id : null;
-			});
-
-			moduleDel(ids);
+			moduleDel($("#datagrid")._datagrid("getChecked"));
 		});
 
 		$("#menuDel").click(function() {
-			var ids = $("#datagrid")._datagrid("getChecked", function(row) {
-				return row.id > 0 ? row.id : null;
-			});
-
-			menuDel(ids);
+			menuDel($("#datagrid")._datagrid("getChecked"));
 		});
 
 		$("#refresh").click(function() {
-			$("#datagrid")._datagrid("reload");
+			refresh();
 		});
 	});
 </script>

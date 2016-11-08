@@ -38,6 +38,13 @@
 				});
 			}
 		}));
+
+		$this.on("click", "a", function() {
+			if ($(this).attr("href") != "javascript:void(0);") {
+				$this.find("a").removeClass("active");
+				$(this).addClass("active");
+			}
+		});
 	};
 
 	$.fn._sidebar.defaults = {

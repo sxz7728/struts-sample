@@ -67,8 +67,9 @@ CREATE TABLE `sys_dict` (
   `create_date` datetime DEFAULT NULL,
   `operate_date` datetime DEFAULT NULL,
   `uuid` char(36) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `index2` (`type`,`dict_key`)
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -77,7 +78,7 @@ CREATE TABLE `sys_dict` (
 
 LOCK TABLES `sys_dict` WRITE;
 /*!40000 ALTER TABLE `sys_dict` DISABLE KEYS */;
-INSERT INTO `sys_dict` VALUES (21,'dict_type','user_type','用户类型',NULL,NULL,'0',NULL,NULL,NULL,NULL,NULL),(22,'user_type','01','管理员',NULL,NULL,'0',NULL,NULL,NULL,NULL,NULL),(23,'user_type','02','普通用户',NULL,NULL,'0',NULL,NULL,NULL,NULL,NULL),(24,'sex','01','男',NULL,10,'0',NULL,1,NULL,'2016-01-27 16:09:37',NULL),(25,'sex','02','女',NULL,20,'0',NULL,1,NULL,'2016-11-03 18:27:29','ead90788-b406-4a1b-ae76-cfbcfc770445'),(26,'dict_type','sex','性别',NULL,NULL,'0',NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `sys_dict` VALUES (21,'dict_type','user_type','用户类型',NULL,NULL,'0',NULL,NULL,NULL,NULL,NULL),(22,'user_type','01','管理员',NULL,NULL,'0',NULL,NULL,NULL,NULL,NULL),(23,'user_type','02','普通用户',NULL,NULL,'0',NULL,NULL,NULL,NULL,NULL),(24,'sex','01','男',NULL,10,'0',NULL,1,NULL,'2016-11-08 11:19:09','15a14acd-74ac-4405-ad75-e75c28e685c8'),(25,'sex','02','女',NULL,20,'0',NULL,1,NULL,'2016-11-08 10:18:30','ead90788-b406-4a1b-ae76-cfbcfc770445'),(26,'dict_type','sex','性别',NULL,NULL,'0',NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `sys_dict` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -141,7 +142,7 @@ CREATE TABLE `sys_menu` (
   PRIMARY KEY (`id`),
   KEY `fk_sys_menu1_idx` (`module_id`),
   CONSTRAINT `fk_sys_menu1` FOREIGN KEY (`module_id`) REFERENCES `sys_module` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -150,7 +151,7 @@ CREATE TABLE `sys_menu` (
 
 LOCK TABLES `sys_menu` WRITE;
 /*!40000 ALTER TABLE `sys_menu` DISABLE KEYS */;
-INSERT INTO `sys_menu` VALUES (6,1,NULL,'字典维护',NULL,10,'','0',NULL,1,NULL,'2016-01-27 10:14:48',NULL),(7,1,NULL,'模块维护','sys/moduleList',20,NULL,'0',NULL,1,NULL,'2016-01-27 10:14:48',NULL),(10,1,6,'性别维护','sys/dictList?type=sex',NULL,'','0',NULL,1,NULL,'2016-01-27 14:16:49',NULL);
+INSERT INTO `sys_menu` VALUES (6,1,NULL,'字典维护',NULL,10,'','0',NULL,1,NULL,'2016-01-27 10:14:48',NULL),(7,1,NULL,'模块维护','sys/moduleList',20,NULL,'0',NULL,1,NULL,'2016-01-27 10:14:48',NULL),(10,1,6,'性别维护','sys/dictList?type=sex',10,'','0',NULL,1,NULL,'2016-11-08 14:07:00','21f6e1e5-c0fc-4ff2-ade6-e1f1fc83a7e5');
 /*!40000 ALTER TABLE `sys_menu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -172,7 +173,7 @@ CREATE TABLE `sys_module` (
   `operate_date` datetime DEFAULT NULL,
   `uuid` char(36) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -314,4 +315,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-11-03 18:30:57
+-- Dump completed on 2016-11-08 14:35:52

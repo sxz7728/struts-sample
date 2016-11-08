@@ -257,8 +257,12 @@ public class SystemServiceImpl implements SystemService {
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-	public SysDict getDict(QueryBuilder qb) {
-		return sysDictDao.get(qb);
+	public String getDictValue(String type, String key) {
+		QueryBuilder qb = new QueryBuilder();
+		QueryUtils.addWhere(qb, "and t.type = {0}", type);
+		QueryUtils.addWhere(qb, "and t.dictKey = {0}", key);
+		SysDict sysDict = sysDictDao.get(qb);
+		return sysDict != null ? sysDict.getDictValue() : "";
 	}
 
 	// Area

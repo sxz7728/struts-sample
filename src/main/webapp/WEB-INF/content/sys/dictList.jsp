@@ -18,37 +18,45 @@
 		});
 	}
 
-	function edit(id) {
+	function refresh() {
+		$("#datagrid")._datagrid("reload");
+	}
+
+	function edit(row) {
 		$._edit({
-			title : id == null ? "新增${typeName}" : "编辑${typeName}",
+			title : row ? "编辑${typeName}" : "新增${typeName}",
 			url : "dictEdit",
 			params : {
-				id : id,
+				id : row ? row.id : null,
 				type : "${type}"
 			},
 			saveUrl : "dictSave",
 			height : 300,
 			success : function() {
-				if (id == null) {
+				if (row) {
+					refresh();
+					return true;
+				} else {
 					$(this).find("iframe")._refresh();
 					return false;
-				} else {
-					$("#datagrid")._datagrid("reload");
-					return true;
 				}
 			},
 			cancel : function() {
-				$("#datagrid")._datagrid("reload");
+				refresh();
 			}
 		});
 	}
 
-	function del(ids) {
+	function del(rows) {
+		var ids = $.map(rows, function(e, i) {
+			return e.id;
+		});
+
 		$._delete({
 			url : "dictDelete",
 			ids : ids,
 			success : function() {
-				$("#datagrid")._datagrid("reload");
+				refresh();
 			}
 		});
 	}
@@ -63,16 +71,14 @@
 				commands : function(row, value, index) {
 					var $edit = $("<button type='button' class='btn btn-default btn-xs'></button>");
 					$edit.html("<span class='glyphicon glyphicon glyphicon-edit'></span>");
-
 					$edit.click(function() {
-						edit(row.id);
+						edit(row);
 					});
 
 					var $del = $("<button type='button' class='btn btn-default btn-xs'></button>");
 					$del.html("<span class='glyphicon glyphicon glyphicon-trash'></span>");
-
 					$del.click(function() {
-						del(row.id);
+						del([ row ]);
 					});
 
 					return [ $edit, "&nbsp;", $del ];
@@ -85,11 +91,7 @@
 		});
 
 		$("#del").click(function() {
-			var ids = $("#datagrid")._datagrid("getChecked", function(row) {
-				return row.id;
-			});
-
-			del(ids);
+			del($("#datagrid")._datagrid("getChecked"));
 		});
 
 		$("#search").click(function() {
@@ -97,7 +99,7 @@
 		});
 
 		$("#refresh").click(function() {
-			$("#datagrid")._datagrid("reload");
+			refresh();
 		});
 	});
 </script>
@@ -136,7 +138,6 @@
 									</div>
 								</div>
 							</div>
-
 							<table id="datagrid" class="table table-hover table-striped">
 								<thead>
 									<tr>

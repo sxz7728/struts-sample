@@ -7,6 +7,7 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <s:head />
+
 <script type="text/javascript">
 	$(function() {
 		if (top != window) {
@@ -18,7 +19,7 @@
 				url : "login",
 				success : function(result) {
 					if (result.data) {
-						$._refresh("main");
+						top.$._refresh("main");
 					} else {
 						$._notify({
 							message : "登陆失败!",

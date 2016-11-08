@@ -31,11 +31,10 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-xs-2"
-							for="sysMenu.cssClass">样式</label>
+						<label class="control-label col-xs-2" for="sysMenu.cssClass">样式</label>
 						<div class="col-xs-10">
-							<s:textfield name="sysMenu.cssClass"
-								cssClass=" form-control" maxlength="50" />
+							<s:textfield name="sysMenu.cssClass" cssClass=" form-control"
+								maxlength="50" />
 						</div>
 					</div>
 					<div class="form-group">

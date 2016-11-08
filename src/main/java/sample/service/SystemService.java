@@ -68,8 +68,8 @@ public interface SystemService {
 
 	public void deleteDict(Collection<Integer> ids, UserInfo userInfo);
 
-	public SysDict getDict(QueryBuilder qb);
-	
+	public String getDictValue(String type, String key);
+
 	// Area
 	public SysArea loadArea(Integer id);
 

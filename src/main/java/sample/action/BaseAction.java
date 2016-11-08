@@ -17,14 +17,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import sample.exception.NotLoggedInException;
 import sample.exception.ValidateException;
-import sample.model.SysDict;
 import sample.service.SystemService;
 import sample.utils.DictUtils;
 import sample.utils.Globals;
 import sample.utils.JsonResult;
 import sample.utils.JsonUtils;
-import sample.utils.QueryBuilder;
-import sample.utils.QueryUtils;
 import sample.utils.UserInfo;
 
 import com.opensymphony.xwork2.ActionSupport;
@@ -183,13 +180,5 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
 		result.setError(error.getMessage());
 		result.setMessages(error.getMessages());
 		writeJson(result);
-	}
-
-	public String getDictValue(String type, String key) {
-		QueryBuilder qb = new QueryBuilder();
-		QueryUtils.addWhere(qb, "and t.type = {0}", type);
-		QueryUtils.addWhere(qb, "and t.dictKey = {0}", key);
-		SysDict sysDict = systemService.getDict(qb);
-		return sysDict != null ? sysDict.getDictValue() : "";
 	}
 }
