@@ -181,7 +181,6 @@ String.prototype.format = function(args) {
 
 				if (height > 10) {
 					$this.height(Math.floor($this.height() + height));
-					return false;
 				}
 
 				$current = $(e);
