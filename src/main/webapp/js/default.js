@@ -11,6 +11,8 @@ jQuery.validator.setDefaults({
 		var url = $._url(opts.url, opts.params);
 		opts.message = "<iframe src='{0}' style='height:{1}px'/>".format(url, opts.height);
 
+		var timestep = 0;
+
 		opts.buttons = {
 			OK : {
 				label : "保存",
@@ -19,16 +21,22 @@ jQuery.validator.setDefaults({
 					var $this = $(this);
 					var close = false;
 
-					$this.find("iframe")._save({
-						url : opts.saveUrl,
-						async : false,
-						success : function(result) {
-							close = opts.success.apply($this, arguments);
-						},
-						failed : function(result) {
-							close = opts.failed.apply($this, arguments);
-						}
-					});
+					if (timestep < new Date().getTime() - 5000) {
+						timestep = new Date().getTime();
+
+						$this.find("iframe")._save({
+							url : opts.saveUrl,
+							async : false,
+							success : function(result) {
+								close = opts.success.apply($this, arguments);
+							},
+							failed : function(result) {
+								close = opts.failed.apply($this, arguments);
+							}
+						});
+
+						timestep = 0;
+					}
 
 					return close;
 				}
@@ -153,7 +161,7 @@ jQuery.validator.setDefaults({
 	$.fn._save = function(options) {
 		var opts = $.extend(true, {}, $.fn._save.defaults, options);
 
-		if (this[0].contentWindow.$ != null) {
+		if (this[0].contentWindow.$ && this[0].contentWindow.$._save) {
 			this[0].contentWindow.$._save(opts);
 		}
 	};
@@ -161,11 +169,11 @@ jQuery.validator.setDefaults({
 	$.fn._save.defaults = {};
 
 	$.fn._valid = function() {
-		if (this[0].contentWindow.$ != null) {
+		if (this[0].contentWindow.$ && this[0].contentWindow.$._valid) {
 			return this[0].contentWindow.$._valid();
 		}
 
-		return true;
+		return false;
 	};
 })(jQuery);
 

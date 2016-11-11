@@ -37,7 +37,7 @@ String.prototype.format = function(args) {
 			url = href.substring(0, href.lastIndexOf("/") + 1) + url;
 		}
 
-		if (params != null) {
+		if (params) {
 			url += url.indexOf("?") < 0 ? "?" : "&";
 			url += $.param(params);
 		}
@@ -130,7 +130,7 @@ String.prototype.format = function(args) {
 		});
 
 		$.each(rows, function(i, e) {
-			if (e[opts.parentId] != null && map[e[opts.parentId]] != null) {
+			if (e[opts.parentId] && map[e[opts.parentId]]) {
 				map[e[opts.parentId]][opts.children].push(e);
 			} else {
 				tree.push(e);
