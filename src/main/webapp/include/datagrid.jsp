@@ -10,6 +10,8 @@
 	<script
 		src="<%=request.getContextPath()%>/js/jquery.treegrid.bootstrap3.js"
 		type="text/javascript"></script>
+	<script src="<%=request.getContextPath()%>/js/jquery.bootpag.js"
+		type="text/javascript"></script>
 	<script src="<%=request.getContextPath()%>/js/datagrid.js"
 		type="text/javascript"></script>
 </s:if>
@@ -20,6 +22,8 @@
 		type="text/javascript"></script>
 	<script
 		src="<%=request.getContextPath()%>/js/jquery.treegrid.bootstrap3.js"
+		type="text/javascript"></script>
+	<script src="<%=request.getContextPath()%>/js/jquery.bootpag.min.js"
 		type="text/javascript"></script>
 	<script src="<%=request.getContextPath()%>/js/datagrid.js"
 		type="text/javascript"></script>

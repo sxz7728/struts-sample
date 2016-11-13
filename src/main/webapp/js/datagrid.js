@@ -70,6 +70,7 @@
 		var $div = $("<div></div>");
 		var $table = $("<table></table>");
 		var $tbody = $("<tbody></tbody>");
+		var $pagination = $("<div></div>");
 
 		if (opts.formatters.index == null) {
 			opts.formatters.index = function(row, value, index) {
@@ -136,11 +137,24 @@
 
 		$this.after($div);
 		$this.css("margin-bottom", "-1px");
+		$div.after($pagination);
+
 		$this.data(namespace, {
 			opts : opts,
 			columns : columns,
-			$tbody : $tbody
+			$tbody : $tbody,
+			$pagination : $pagination
 		});
+
+		if (opts.pagination && !opts.tree) {
+			$pagination.bootpag({
+				total : 1,
+				page : 1,
+				maxVisible : 1
+			}).on('page', function(event, num) {
+				methods.reload.apply($this, [ null, num ]);
+			});
+		}
 
 		if (opts.height != null) {
 			$div.css("height", opts.height);
@@ -151,12 +165,27 @@
 		methods.reload.apply(this);
 	};
 
-	methods.reload = function(params) {
+	methods.reload = function(params, pageStart, pageSize) {
 		var $this = $(this);
 		var opts = $this.data(namespace).opts;
+		var columns = $this.data(namespace).columns;
 		var $tbody = $this.data(namespace).$tbody;
+		var $pagination = $this.data(namespace).$pagination;
 
 		$.extend(opts.params, params);
+
+		if (pageStart) {
+			opts.pageStart = pageStart;
+		}
+
+		if (pageSize) {
+			opts.pageSize = pageSize;
+		}
+
+		if (opts.pagination && !opts.tree) {
+			opts.params.start = (opts.pageStart - 1) * opts.pageSize;
+			opts.params.length = opts.pageSize;
+		}
 
 		$._ajax($.extend({}, opts, {
 			success : function(result) {
@@ -165,8 +194,20 @@
 				$tbody.empty();
 				appendRows($this, data.rows);
 
+				if ($tbody.html() == "") {
+					$tbody.append($("<tr><td colspan=" + (columns.length - 1) + ">&nbsp;<td/></tr>"));
+				}
+
 				if (opts.tree) {
 					$tbody.parent().treegrid(opts);
+				} else if (opts.pagination) {
+					var total = parseInt(data.count / opts.pageSize) + 1;
+
+					$pagination.bootpag({
+						total : total,
+						page : opts.pageStart,
+						maxVisible : 10
+					});
 				}
 			}
 		}));
@@ -197,6 +238,9 @@
 		saveState : true,
 		treeColumn : 1,
 		formatters : {},
+		pagination : true,
+		pageStart : 1,
+		pageSize : 10,
 		load : function(result) {
 			return result.data;
 		},

@@ -15,7 +15,7 @@
 	function search() {
 		$("#datagrid")._datagrid("reload", {
 			queryName : $("#queryName").val()
-		});
+		}, 1);
 	}
 
 	function refresh() {
@@ -96,6 +96,12 @@
 
 		$("#search").click(function() {
 			search();
+		});
+
+		$("#queryName").keyup(function(e) {
+			if (e.keyCode == 13) {
+				search();
+			}
 		});
 
 		$("#refresh").click(function() {
