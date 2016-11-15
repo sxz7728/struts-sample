@@ -1,11 +1,16 @@
 package sample.action;
 
+import java.util.List;
+
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import sample.model.SysModule;
 import sample.service.SystemService;
-import sample.utils.UserInfo;
+import sample.utils.DictUtils;
+import sample.utils.QueryBuilder;
+import sample.utils.QueryUtils;
 
 @Namespace("/")
 public class Index extends BaseAction {
@@ -14,48 +19,50 @@ public class Index extends BaseAction {
 	@Autowired
 	private SystemService systemService;
 
-	private String username;
+	private List<SysModule> sysModules;
 
-	private String password;
-
-	public Index() {
-		super(false);
-	}
+	private Integer moduleId;
 
 	@Action("index")
 	public String execute() {
+		QueryBuilder qb = new QueryBuilder();
+		QueryUtils.addWhere(qb, "and t.delFlag = {0}", DictUtils.NO);
+		QueryUtils.addWhere(qb, "and t.id in {0}", getUserInfo().getModuleIds());
+		QueryUtils.addOrder(qb, "t.sequence");
+		QueryUtils.addOrder(qb, "t.id");
+		sysModules = systemService.findModule(qb);
 		return INPUT;
 	}
 
-	@Action("login")
-	public void login() {
-		UserInfo userInfo = systemService.login(username, password);
-
-		if (userInfo != null) {
-			setUserInfo(userInfo);
-		} else {
-			writeJson(false);
-		}
+	@Action("sidebar")
+	public void sidebar() {
+		QueryBuilder qb = new QueryBuilder();
+		QueryUtils.addColumn(qb, "t.id");
+		QueryUtils.addColumn(qb, "t.parentId");
+		QueryUtils.addColumn(qb, "t.name");
+		QueryUtils.addColumn(qb, "t.url");
+		QueryUtils.addColumn(qb, "t.cssClass");
+		QueryUtils.addWhere(qb, "and t.delFlag = {0}", DictUtils.NO);
+		QueryUtils.addWhere(qb, "and t.sysModule.id = {0}", moduleId);
+		QueryUtils.addWhere(qb, "and t.id in {0}", getUserInfo().getMenuIds());
+		QueryUtils.addOrder(qb, "t.sequence");
+		QueryUtils.addOrder(qb, "t.id");
+		writeJson(systemService.datagridMenu(qb));
 	}
 
-	@Action("logout")
-	public void logout() {
-		setUserInfo(null);
+	public List<SysModule> getSysModules() {
+		return sysModules;
 	}
 
-	public String getUsername() {
-		return username;
+	public void setSysModules(List<SysModule> sysModules) {
+		this.sysModules = sysModules;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public Integer getModuleId() {
+		return moduleId;
 	}
 
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
+	public void setModuleId(Integer moduleId) {
+		this.moduleId = moduleId;
 	}
 }

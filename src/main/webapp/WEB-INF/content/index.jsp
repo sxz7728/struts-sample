@@ -7,24 +7,29 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <s:head />
+<%@ include file="/include/sidebar.jsp"%>
+<script src="js/sb-admin-2.js" type="text/javascript"></script>
+
+<style type="text/css">
+body {
+	background-color: #f8f8f8;
+}
+</style>
 
 <script type="text/javascript">
 	$(function() {
-		if (top != window) {
-			top.$._refresh("/index");
-		}
+		$("#sidebar")._sidebar({
+			params : {
+				moduleId : 1
+			}
+		});
 
-		$("#login").click(function() {
-			$("form")._ajaxSubmit({
-				url : "login",
+		$("#logout").click(function() {
+			$._ajax({
+				url : "doLogout",
 				success : function(result) {
 					if (result.data) {
-						top.$._refresh("main");
-					} else {
-						$._notify({
-							message : "登陆失败!",
-							className : "error"
-						});
+						top.$._refresh("/login");
 					}
 				}
 			});
@@ -33,36 +38,78 @@
 </script>
 </head>
 <body>
-	<form role="form" autocomplete="off">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-4 col-md-offset-4">
-					<div class="login-panel panel panel-default">
-						<div class="panel-heading">
-							<h3 class="panel-title">请登录</h3>
-						</div>
-						<div class="panel-body">
-							<fieldset>
-								<div class="form-group">
-									<input class="form-control required" placeholder="用户名"
-										name="username" autofocus maxlength="50" value="admin">
-								</div>
-								<div class="form-group">
-									<input class="form-control required" placeholder="密码"
-										name="password" type="password" maxlength="50" value="123456">
-								</div>
-								<div class="checkbox">
-									<label><input name="remember" type="checkbox"
-										value="true">记住我 </label>
-								</div>
-								<a id="login" href="javascript:void(0);"
-									class="btn btn-lg btn-success btn-block">登录</a>
-							</fieldset>
-						</div>
-					</div>
-				</div>
+	<div id="wrapper">
+		<!-- Navigation -->
+		<nav class="navbar navbar-default navbar-static-top" role="navigation"
+			style="margin-bottom: 0">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target=".navbar-collapse">
+					<span class="sr-only"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">struts-sample</a>
 			</div>
+			<!-- /.navbar-header -->
+
+			<ul class="nav navbar-top-links navbar-right">
+				<li class="dropdown"><a class="dropdown-toggle"
+					data-toggle="dropdown" href="#"> <i
+						class="fa fa-envelope fa-fw"></i> <i class="fa fa-caret-down"></i>
+				</a>
+					<ul class="dropdown-menu dropdown-messages">
+						<li>&nbsp;</li>
+						<li class="divider"></li>
+						<li><a class="text-center" href="#"> <strong>所有消息</strong>
+								<i class="fa fa-angle-right"></i>
+						</a></li>
+
+					</ul> <!-- /.dropdown-messages --></li>
+				<!-- /.dropdown -->
+				<li class="dropdown"><a class="dropdown-toggle"
+					data-toggle="dropdown" href="#"> <i class="fa fa-tasks fa-fw"></i>
+						<i class="fa fa-caret-down"></i>
+				</a>
+					<ul class="dropdown-menu dropdown-tasks">
+						<li>&nbsp;</li>
+						<li class="divider"></li>
+						<li><a class="text-center" href="#"> <strong>所有任务</strong>
+								<i class="fa fa-angle-right"></i>
+						</a></li>
+					</ul> <!-- /.dropdown-tasks --></li>
+				<!-- /.dropdown -->
+				<li class="dropdown"><a class="dropdown-toggle"
+					data-toggle="dropdown" href="#"> <i class="fa fa-bell fa-fw"></i>
+						<i class="fa fa-caret-down"></i>
+				</a>
+					<ul class="dropdown-menu dropdown-alerts">
+						<li>&nbsp;</li>
+						<li class="divider"></li>
+						<li><a class="text-center" href="#"> <strong>所有通知</strong>
+								<i class="fa fa-angle-right"></i>
+						</a></li>
+					</ul> <!-- /.dropdown-alerts --></li>
+				<!-- /.dropdown -->
+				<li class="dropdown"><a class="dropdown-toggle"
+					data-toggle="dropdown" href="#"> <i class="fa fa-user fa-fw"></i>
+						<i class="fa fa-caret-down"></i>
+				</a>
+					<ul class="dropdown-menu dropdown-user">
+						<li><a href="#"><i class="fa fa-user fa-fw"></i>用户信息</a></li>
+						<li><a href="#"><i class="fa fa-gear fa-fw"></i>设置</a></li>
+						<li class="divider"></li>
+						<li><a id="logout" href="javascript:void(0);"><i
+								class="fa fa-sign-out fa-fw"></i> 退出</a></li>
+					</ul> <!-- /.dropdown-user --></li>
+				<!-- /.dropdown -->
+			</ul>
+			<!-- /.navbar-top-links -->
+			<div id="sidebar"></div>
+		</nav>
+		<div id="page-wrapper">
+			<iframe id="mainFrame" name="mainFrame"></iframe>
 		</div>
-	</form>
+		<!-- /#page-wrapper -->
+	</div>
 </body>
 </html>

@@ -50,11 +50,11 @@
 		</interceptors>
 
 		<global-results>
-			<result name="index" type="redirect">/index</result>
+			<result name="login" type="redirect">/login</result>
 		</global-results>
 
 		<global-exception-mappings>
-			<exception-mapping result="index"
+			<exception-mapping result="login"
 				exception="sample.exception.NotLoggedInException" />
 			<!-- <exception-mapping result="error" exception="java.lang.Exception" 
 				/> -->
