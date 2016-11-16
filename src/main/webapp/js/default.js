@@ -175,6 +175,39 @@ jQuery.validator.setDefaults({
 
 		return false;
 	};
+
+	$.fn._dictSelect = function(options) {
+		$(this).each(function() {
+			var opts = $.extend(true, {}, $.fn._dictSelect.defaults, options);
+			var $this = $(this);
+			opts.params.type = opts.type;
+			opts.params.parentKey = opts.parentKey;
+			$this._ajaxSelect(opts);
+		});
+	};
+
+	$.fn._dictSelect.defaults = {
+		url : "/sys/dictDictionary",
+		parentParam : "parentKey",
+		params : {}
+	};
+
+	$.fn._dictCheckbox = function(options) {
+		$(this).each(function() {
+			var opts = $.extend(true, {}, $.fn._dictCheckbox.defaults, options);
+			var $this = $(this);
+			opts.params.type = opts.type;
+			opts.params.parentKey = opts.parentKey;
+			$this._ajaxCheckbox(opts);
+		});
+	};
+
+	$.fn._dictCheckbox.defaults = {
+		url : "/sys/dictDictionary",
+		parentParam : "parentKey",
+		params : {}
+	};
+
 })(jQuery);
 
 $(function() {

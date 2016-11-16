@@ -8,6 +8,12 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <s:head />
 </head>
+
+<script type="text/javascript">
+	$(function() {
+	});
+</script>
+
 <body>
 	<div id="wrapper">
 		<div class="row">

@@ -29,6 +29,16 @@ String.prototype.format = function(args) {
 };
 
 (function($) {
+	function containsEmpty(obj) {
+		for ( var i in obj) {
+			if (!(obj[i])) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	$._url = function(url, params) {
 		if (url.charAt(0) == "/") {
 			url = Globals.APP_NAME + url;
@@ -154,13 +164,15 @@ String.prototype.format = function(args) {
 	$._dialog.defaults = {};
 
 	$.fn._refresh = function(url, params) {
-		var $this = $(this);
+		$(this).each(function() {
+			var $this = $(this);
 
-		if (url) {
-			$this.attr("src", $._url(url, params));
-		} else {
-			$this.attr("src", $this.attr("src"));
-		}
+			if (url) {
+				$this.attr("src", $._url(url, params));
+			} else {
+				$this.attr("src", $this.attr("src"));
+			}
+		});
 	};
 
 	$.fn._autoHeight = function() {
@@ -225,20 +237,22 @@ String.prototype.format = function(args) {
 	};
 
 	$.fn._jsonSelect = function(options) {
-		var opts = $.extend(true, {}, $.fn._jsonSelect.defaults, options);
-		var $this = $(this);
+		$(this).each(function() {
+			var opts = $.extend(true, {}, $.fn._jsonSelect.defaults, options);
+			var $this = $(this);
 
-		$this.find("option[value != '']").remove();
+			$this.find("option[value != '']").remove();
 
-		$.each(opts.data, function(i, e) {
-			$this.append("<option value='" + e.key + "'>" + e.value + "</option>");
+			$.each(opts.data, function(i, e) {
+				$this.append("<option value='" + e.key + "'>" + e.value + "</option>");
+			});
+
+			$this.val(opts.value);
+
+			if ($this.find("option:selected").size() == 0) {
+				$this.find("option:first").prop("selected", "selected");
+			}
 		});
-
-		$this.val(opts.value);
-
-		if ($this.find("option:selected").size() == 0) {
-			$this.find("option:first").prop("selected", "selected");
-		}
 	};
 
 	$.fn._jsonSelect.defaults = {
@@ -247,9 +261,148 @@ String.prototype.format = function(args) {
 	};
 
 	$.fn._ajaxSelect = function(options) {
-		var opts = $.extend(true, {}, $.fn._ajaxSelect.defaults, options);
-		var $this = $(this);
+		$(this).each(function() {
+			var opts = $.extend(true, {}, $.fn._ajaxSelect.defaults, options);
+			var $this = $(this);
+
+			$this.data("_value", opts.value);
+
+			if (opts.parentId) {
+				var parentIds = opts.parentId.split(",");
+				var parentParams = opts.parentParam.split(",");
+
+				for (var i = 0; i < parentIds.length; ++i) {
+					var parentId = parentIds[i];
+					var parentParam = parentParams[i];
+					var $parent = $("#" + parentId);
+
+					opts.params[parentParam] = $parent.data("_value") || $parent.val();
+
+					$parent.change(function() {
+						opts.params[parentParam] = $parent.val();
+
+						if (containsEmpty(opts.params)) {
+							opts.data = [];
+							$this._jsonSelect(opts);
+							$this.trigger("change");
+						} else {
+							$._ajax($.extend({}, opts, {
+								success : function(result) {
+									opts.data = opts.load(result);
+									$this._jsonSelect(opts);
+									$this.trigger("change");
+								}
+							}));
+						}
+					});
+				}
+			}
+
+			if (containsEmpty(opts.params)) {
+				opts.data = [];
+				$this._jsonSelect(opts);
+			} else {
+				$._ajax($.extend({}, opts, {
+					success : function(result) {
+						opts.data = opts.load(result);
+						$this._jsonSelect(opts);
+					}
+				}));
+			}
+		});
 	};
 
-	$.fn._ajaxSelect.defaults = {};
+	$.fn._ajaxSelect.defaults = {
+		params : {},
+		load : function(result) {
+			return result.data.rows;
+		}
+	};
+
+	$.fn._jsonCheckbox = function(options) {
+		$(this).each(function() {
+			var opts = $.extend(true, {}, $.fn._jsonCheckbox.defaults, options);
+			var $this = $(this);
+			var values = opts.value.split(",");
+
+			$this.html("");
+
+			$.each(opts.data, function(i, e) {
+				$checkbox = $("<input type='" + opts.inputType + "' name='" + opts.name + "' value='" + e.key + "'/>");
+
+				if ($.inArray(e.value, values) != -1) {
+					$checkbox.prop("checked", true);
+				} else if (i == 0 && opts.inputType == "radio") {
+					$checkbox.prop("checked", true);
+				}
+
+				$this.append($checkbox);
+				$this.append(e.value);
+				$this.append("&nbsp;");
+			});
+		});
+	};
+
+	$.fn._jsonCheckbox.defaults = {
+		data : [],
+		value : "",
+		inputType : "checkbox"
+	};
+
+	$.fn._ajaxCheckbox = function(options) {
+		$(this).each(function() {
+			var opts = $.extend(true, {}, $.fn._ajaxCheckbox.defaults, options);
+			var $this = $(this);
+
+			$this.data("_value", opts.value);
+
+			if (opts.parentId) {
+				var parentIds = opts.parentId.split(",");
+				var parentParams = opts.parentParam.split(",");
+
+				for (var i = 0; i < parentIds.length; ++i) {
+					var parentId = parentIds[i];
+					var parentParam = parentParams[i];
+					var $parent = $("#" + parentId);
+
+					opts.params[parentParam] = $parent.data("_value") || $parent.val();
+
+					$parent.change(function() {
+						opts.params[parentParam] = $parent.val();
+
+						if (containsEmpty(opts.params)) {
+							opts.data = [];
+							$this._jsonCheckbox(opts);
+						} else {
+							$._ajax($.extend({}, opts, {
+								success : function(result) {
+									opts.data = opts.load(result);
+									$this._jsonCheckbox(opts);
+								}
+							}));
+						}
+					});
+				}
+			}
+
+			if (containsEmpty(opts.params)) {
+				opts.data = [];
+				$this._jsonCheckbox(opts);
+			} else {
+				$._ajax($.extend({}, opts, {
+					success : function(result) {
+						opts.data = opts.load(result);
+						$this._jsonCheckbox(opts);
+					}
+				}));
+			}
+		});
+	};
+
+	$.fn._ajaxCheckbox.defaults = {
+		params : {},
+		load : function(result) {
+			return result.data.rows;
+		}
+	};
 })(jQuery);

@@ -1,5 +1,7 @@
 package sample.utils;
 
+import java.lang.reflect.Type;
+
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
@@ -37,5 +39,13 @@ public class JsonUtils {
 
 	public static String toJson(Object obj) {
 		return gson.get().toJson(obj);
+	}
+
+	public static <T> T fromJson(String str, Class<T> classOfT) {
+		return gson.get().fromJson(str, classOfT);
+	}
+
+	public static <T> T fromJson(String str, Type typeOfT) {
+		return gson.get().fromJson(str, typeOfT);
 	}
 }
